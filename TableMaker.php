@@ -14,5 +14,22 @@ public class TableMaker {
     {
 
     }
+
+    public function getTableFromXMLFile($filename) {
+        $reader = new XMLConfigFileReader();
+        $elemData = $reader->readConfigFile($filename);
+        $table = ""; //won't be a string.
+        //TODO: use composer along with the array to generate a table
+
+        return $table;
+    }
+
+    public function getTableFromXMLString($str) {
+        $reader = new XMLConfigFileReader();
+        $elemData = $reader->readConfigString($str);
+        $table = ""; //temp until I get composer
+
+        return $table;
+    }
     
 }
