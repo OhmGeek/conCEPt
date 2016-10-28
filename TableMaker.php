@@ -6,6 +6,10 @@
  * Time: 16:17
  */
 public class TableMaker {
+    //todo use composer
+    /**
+     * TableMaker constructor.
+     */
     public function __construct()
     {
 
