@@ -28,7 +28,7 @@ class XMLConfigFileReader implements FileReader
      */
     private static function parseXML($xml) {
         $xmldata = simplexml_load_string($xml) or die("Error: cannot parse XML");
-
+	//todo look into associative arrays
         //convert the XMLElementObject to an Array.
         $arr = json_decode(json_encode($xmldata),1);
 
