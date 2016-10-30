@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ryan
@@ -6,8 +7,8 @@
  * Time: 16:17
  */
 
-public class TableMaker {
-    private $twig;
+class TableMaker {
+    public $twig;
     //todo use composer
     /**
      * TableMaker constructor.
@@ -15,6 +16,7 @@ public class TableMaker {
     public function __construct()
     {
         //create a twig instance to use to render the page
+        global $twig;
         require_once '../vendor/autoload.php';
         $loader = new Twig_Loader_Filesystem('.views/');
         $twig = new Twig_Environment($loader);
@@ -22,19 +24,20 @@ public class TableMaker {
 
     public function getTableFromXMLFile($filename) {
         global $twig;
-        $reader = new XMLConfigFileReader();
-        $elemData = $reader->readConfigFile($filename);
+        echo "from file";
 
-        $table = $twig->render('table.html',elemData);
+        $elemData = XMLConfigFileReader::readConfigFile($filename);
+
+        $table = $twig->render('table.twig',elemData);
 
         return $table;
     }
 
     public function getTableFromXMLString($str) {
-        $reader = new XMLConfigFileReader();
-        $elemData = $reader->readConfigString($str);
-        $table = ""; //temp until I get composer
+        global $twig;
 
+        $elemData = XMLConfigFileReader::readConfigString($str);
+        $table = $twig->render('table.twig',elemData);
         return $table;
     }
     
