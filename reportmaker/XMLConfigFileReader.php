@@ -14,29 +14,28 @@ class XMLConfigFileReader implements FileReader
      */
     public static function readConfigFile($filename)
     {
-        //TODO: Read file.
-        $xmlStr = "";
+        $xmlData = simplexml_load_file($filename) or die("Error: file cannot be read.");
+        echo $xmlData;
+        return parseXML($xmlData);
 
-        return parseXML($xmlStr);
     }
 
 
     /**
      * Parse the XML string and return the XML data
      * @param String
-     * @return ArrayObject
+     * @return AssociativeArray
      */
-    private static function parseXML($xml) {
-        $xmldata = simplexml_load_string($xml) or die("Error: cannot parse XML");
-	//todo look into associative arrays
+    private static function parseXML($xmlData) {
         //convert the XMLElementObject to an Array.
-        $arr = json_decode(json_encode($xmldata),1);
-
+        $arr = json_decode(json_encode($xmlData),true);
         return $arr;
     }
 
     public static function readConfigString($str)
     {
-        return parseXML($str);
+        $xmlData = simplexml_load_string($str) or die("Error: cannot parse XML String");
+        //todo look into associative arrays
+        return parseXML($xmlData);
     }
 }
