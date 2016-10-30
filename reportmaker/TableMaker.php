@@ -8,37 +8,32 @@
  */
 
 class TableMaker {
-    public $twig;
-    //todo use composer
+
+    private $twig;
     /**
      * TableMaker constructor.
      */
     public function __construct()
     {
         //create a twig instance to use to render the page
-        global $twig;
         require_once '../vendor/autoload.php';
-        $loader = new Twig_Loader_Filesystem('.views/');
-        $twig = new Twig_Environment($loader);
+        $loader = new Twig_Loader_Filesystem('../reportmaker/views/');
+        $this->twig = new Twig_Environment($loader);
+
     }
 
     public function getTableFromXMLFile($filename) {
-        global $twig;
-        echo "from file";
-
         $elemData = XMLConfigFileReader::readConfigFile($filename);
-
-        $table = $twig->render('table.twig',elemData);
-
+        $table = $this->twig->render('table.twig', $elemData);
         return $table;
     }
+
 
     public function getTableFromXMLString($str) {
         global $twig;
-
         $elemData = XMLConfigFileReader::readConfigString($str);
-        $table = $twig->render('table.twig',elemData);
+        $table = $this->$twig->render('table.twig', array($elemData));
         return $table;
     }
-    
+
 }

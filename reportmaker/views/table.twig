@@ -5,30 +5,31 @@
     <title>Example Menu</title>
 </head>
 <body>
-<h2>{{ report.intro.assess }}</h2><br>
+<h2>{{ report.intro.assess }}</h2>
 <h1>{{ report.intro.docname }}</h1>
 <p>{{ report.intro.introtext }}</p>
 
-<table>
+<table border=1>
     <tr>
         <td></td>
         <td>Mark</td>
         <td>Rationale for Mark</td>
     </tr>
-{% for rowdetails in report.specifictbl %}
-    <tr>
-        <td>
-            <h3>{{ rowdetails.section }}</h3>
-            { rowdetails.perweight } % <br>
-            <ul>
-                {% for specitem in rowdetails.specitem %}
-                    <li>{{ specitem }}</li>
-                {% endfor %}
-            </ul>
-        </td>
-        <td></td>
-        <td></td>
-    </tr>
+    {% for i in report.specifictbl.rowdetails %}
+        <tr>
+            <td>
+                <h3>{{ i.section }}</h3>
+                {{ i.perweight }}% <br>
+                <ul>
+                    {% for specitem in i.specitem %}
+                        <li>{{ specitem }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    {% endfor %}
 </table>
 <br>
 </body>
