@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example Menu</title>
+</head>
+<body>
+<h2>{{ report.intro.assess }}</h2>
+<h1>{{ report.intro.docname }}</h1>
+<p>{{ report.intro.introtext }}</p>
+
+<table border=1>
+    <tr>
+        <td></td>
+        <td>Mark</td>
+        <td>Rationale for Mark</td>
+    </tr>
+    {% for i in report.specifictbl.rowdetails %}
+        <tr>
+            <td>
+                <h3>{{ i.section }}</h3>
+                {{ i.perweight }}% <br>
+                <ul>
+                    {% for specitem in i.specitem %}
+                        <li>{{ specitem }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    {% endfor %}
+</table>
+<br>
+</body>
+</html>

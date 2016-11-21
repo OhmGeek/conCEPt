@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ryan
@@ -6,9 +7,9 @@
  * Time: 16:17
  */
 
-public class TableMaker {
+class TableMaker {
+
     private $twig;
-    //todo use composer
     /**
      * TableMaker constructor.
      */
@@ -16,26 +17,29 @@ public class TableMaker {
     {
         //create a twig instance to use to render the page
         require_once '../vendor/autoload.php';
-        $loader = new Twig_Loader_Filesystem('.views/');
-        $twig = new Twig_Environment($loader);
+        $loader = new Twig_Loader_Filesystem('../reportmaker/views/');
+        $this->twig = new Twig_Environment($loader);
+
     }
 
     public function getTableFromXMLFile($filename) {
-        global $twig;
-        $reader = new XMLConfigFileReader();
-        $elemData = $reader->readConfigFile($filename);
-
-        $table = $twig->render('table.html',elemData);
-
+        $elemData = XMLConfigFileReader::readConfigFile($filename);
+        $table = $this->twig->render('table.twig', $elemData);
         return $table;
     }
+
 
     public function getTableFromXMLString($str) {
-        $reader = new XMLConfigFileReader();
-        $elemData = $reader->readConfigString($str);
-        $table = ""; //temp until I get composer
-
+        global $twig;
+        $elemData = XMLConfigFileReader::readConfigString($str);
+        $table = $this->$twig->render('table.twig', array($elemData));
         return $table;
     }
-    
+
+    public function getTableFromAssociatedArray($assoc_array)
+    {
+        global $twig;
+        return $this->$twig->render('table.twig', $assoc_array);
+    }
+
 }

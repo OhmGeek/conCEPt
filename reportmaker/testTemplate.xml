@@ -1,0 +1,28 @@
+<data>
+<report>
+    <intro>
+        <assess>Design Report</assess>
+        <docname>Individual Examiners Report</docname>
+        <introtext>
+            The sections in the assessment tables refer to the sections in the Design Report and the assessment items are from the Design Report Template used by the students.
+        </introtext>
+    </intro>
+    <specifictbl>
+        <rowdetails>
+            <section>Structured Abstract</section>
+            <perweight>10</perweight>
+            <specitem>Adequacy of summary of project</specitem>
+            <specitem>Uses required headings of
+                Background/Context, Aims,
+                Method, Proposed Solution
+            </specitem>
+        </rowdetails>
+        <rowdetails>
+            <section>Introduction</section>
+            <perweight>15</perweight>
+            <specitem>Description of purpose of project</specitem>
+            <specitem>Specification of deliverables and aims</specitem>
+        </rowdetails>
+    </specifictbl>
+</report>
+</data>
