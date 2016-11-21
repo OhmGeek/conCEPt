@@ -36,4 +36,10 @@ class TableMaker {
         return $table;
     }
 
+    public function getTableFromAssociatedArray($assoc_array)
+    {
+        global $twig;
+        return $this->$twig->render('table.twig', $assoc_array);
+    }
+
 }
