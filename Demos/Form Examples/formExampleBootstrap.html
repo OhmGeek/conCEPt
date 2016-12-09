@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<style>
+			body { padding-top: 40px; }
+		</style>
+		
+		<?php
+			$number = $_GET["number"];
+		?>
+	</head>
+	
+	<body>
+		<div class = "container">
+			<nav class = "navbar navbar-inverse navbar-fixed-top">
+				<div class = "container-fluid">
+					<div class = "navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#myNavbar">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">ODR</a>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+						<ul class="nav navbar-nav navbar-right">
+							<li class = "active"><a href="#">Students</a></li>
+							<li><a href = "#">Documents</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div class = "page-header">
+				<h1> Document name <?php echo $number ?> </h1>
+			</div>
+			<div class = "panel-group">
+				<div class = "panel panel-default">
+					<div class = "panel-heading">
+						<h4 class = "panel-title">
+							<strong>Structured Abstract (10%)</strong>
+						</h4>
+					</div>
+					<div class = "panel panel-body">
+						<h4>Criteria: </h4>
+						<ul>
+							<li>Adequacy of summary of project</li>
+							<li>Uses required headings of Background/Context, Aims, Method, Proposed Solution</li>
+						</ul>
+						<div class="form-group">
+							<label for="mark1">Mark: </label>
+							<input type = "text" class = "form-control" form="documentID" name = "mark1"/>
+						</div>
+						<div class="form-group">
+							<label for ="rationale1">Rationale for mark:</label>
+							<textarea class = "form-control" form = "documentID" name="rationale1"></textarea>
+						</div>
+					</div>
+				</div>
+				
+				<div class = "panel panel-default">
+					<div class = "panel-heading">
+						<h4 class = "panel-title">
+							<strong>Introduction (15%)</strong>
+						</h4>
+					</div>
+					<div class = "panel panel-body">
+						<h4>Criteria: </h4>
+						<ul>
+							<li>Description of purpose</li>
+							<li>Specification of deliverables and aims</li>
+						</ul>
+						<div class="form-group">
+							<label for="mark2">Mark: </label>
+							<input type = "text" class = "form-control" form="documentID" name = "mark2"/>
+						</div>
+						<div class="form-group">
+							<label for ="rationale2">Rationale for mark:</label>
+							<textarea class = "form-control" form = "documentID" name="rationale2"></textarea>
+						</div>
+					</div>
+				</div>
+				
+				<div class = "panel panel-default">
+					<div class = "panel-heading">
+						<h4 class = "panel-title">
+							<strong>Design (65%)</strong>
+						</h4>
+					</div>
+					<div class = "panel panel-body">
+						<h4>Criteria: </h4>
+						<ul>
+							<li>Adequacy of the proposed solution</li>
+							<li>Specification and design</li>
+							<li>Identification of requirements</li>
+							<li>Description of tools used</li>
+							<li>Overview of architecture</li>
+							<li>Description of life cycle</li>
+						</ul>
+						<div class="form-group">
+							<label for="mark3">Mark: </label>
+							<input type = "text" class = "form-control" form="documentID" name = "mark3"/>
+						</div>
+						<div class="form-group">
+							<label for ="rationale3">Rationale for mark:</label>
+							<textarea class = "form-control" form = "documentID" name="rationale3"></textarea>
+						</div>
+					</div>
+				</div>
+				
+				<div class = "panel panel-default">
+					<div class = "panel-heading">
+						<h4 class = "panel-title">
+							<strong>Writing skills(10%)</strong>
+						</h4>
+					</div>
+					<div class = "panel panel-body">
+						<h4>Criteria: </h4>
+						<ul>
+							<li>Clarity of presentation of ideas</li>
+							<li>Conformance to paper format standards as specified in Paper Template</li>
+							<li>Quality of writing (readability, grammar)</li>
+							<li>References</li>
+						</ul>
+						<div class="form-group">
+							<label for="mark4">Mark: </label>
+							<input type = "text" class = "form-control" form="documentID" name = "mark4"/>
+						</div>
+						<div class="form-group">
+							<label for ="rationale4">Rationale for mark:</label>
+							<textarea class = "form-control" form = "documentID" name="rationale4"></textarea>
+						</div>
+					</div>
+				</div>
+				
+				<div class = "panel panel-default">
+					<div class = "panel-heading">
+						<h4 class = "panel-title">
+							<strong>General Comments</strong>
+						</h4>
+					</div>
+					<div class = "panel panel-body">
+						<div class="form-group">
+							<textarea class = "form-control" form = "documentID" name="comments"></textarea>
+						</div>
+					</div>
+				</div>
+				
+				<form id="documentID" action="#">
+					<input type="submit" value="Submit">
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

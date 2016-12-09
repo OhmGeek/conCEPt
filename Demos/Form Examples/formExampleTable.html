@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--Design report: Individual Examiners Report-->
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		<style>
+			body{width:80%;
+			padding:auto;
+			margin:auto;}
+			h1, h2{text-align:center;}
+			
+			table{width:100%;}
+			table, th,td{border: 1px solid black; border-collapse:collapse;}
+			td, th{padding: 15px;}
+			
+			textarea{height:95%;
+				  width:95%;
+				  padding:0px;
+				  margin: 2px;
+				  resize: none;
+				  border: none;
+				  }
+
+			form{padding:10px 0px;}
+			
+			DIV.header-details{padding-bottom: 10px;}
+			DIV.header-input{display: inline;}
+			DIV.header-input label{font-size:1.2em;}
+			DIV.header-input input{border: none; width:25%;}
+			
+			DIV.general-comments{font-weight: bold; width: 100%; padding-top: 25px;}
+			DIV.comments{border: solid 1px; height: 300px;}
+			DIV.general-comments textarea{width: 95%; height: 95%;
+										margin: 5px; resize:none; border: none;}
+		
+		</style>
+	</head>
+	<body>
+		<h1>Design Report</h1> 
+		<h2>Individual Examiners Report</h2>
+			<div class = "header-details">
+				<div class = "header-input">
+					<label>Student Name: </label>
+					<input type = "text" name="studentName" form = "documentID"/>
+				</div> 
+				<div class="header-input">
+					<label>Examiner Name: </label>
+					<input type = "text" name="examinerName"form = "documentID"/>
+				</div>
+			</div>
+			<table>
+				<col width="35%">
+				<col width="5%">
+				<col width="45%">
+				<tr>
+					<th>Criteria</th>
+					<th>Mark</th>
+					<th>Rationale</th>
+				</tr>
+				<tr>
+					<td>
+						<strong>Structured Abstract (10%)</strong>
+						<ul>
+							<li>Adequacy of summary of project</li>
+							<li>Uses required headings of Background/Context, Aims, Method, Proposed Solution</li>
+						</ul>
+					</td>
+					<td><textarea form="documentID" name="mark1"></textarea></td>
+					<td><textarea form="documentID" name="rationale1"></textarea></td>
+				</tr>
+					<td>
+						<strong>Introduction (15%)</strong>
+						<ul>
+							<li>Description of purpose of project</li>
+							<li>Specification of deliverables and aims</li>
+						</ul>
+					</td>
+					<td><textarea form="documentID" name="mark2"></textarea></td>
+					<td><textarea form="documentID" name="rationale2"></textarea></td>
+				<tr>
+					<td>
+						<strong>Design (65%)</strong>
+						<ul>
+							<li>Adequacy of the proposed solution</li>
+							<li>Specification and design</li>
+							<li>Identification of requirements</li>
+							<li>Description of tools used</li>
+							<li>Overview of architecture</li>
+							<li>Description of life cycle</li>
+						</ul>
+					</td>
+					<td><textarea form="documentID" name="mark3"></textarea></td>
+					<td><textarea form="documentID" name="rationale3"></textarea></td>
+				</tr>
+					<td>
+						<strong>Writing skills (10%)</strong>
+						<ul>
+							<li>Clarity of presentation of ideas</li>
+							<li>Conformance to paper format standards as specified in Paper Template</li>
+							<li>Quality of writing (readability, grammar)</li>
+							<li>References</li>
+						</ul>
+					</td>
+					<td><textarea form="documentID" name="mark4"></textarea></td>
+					<td><textarea form="documentID" name="rationale4"></textarea></td>
+			</table>
+
+			<div class = "general-comments">
+				General comments on the paper<br>
+				<div class = "comments"><textarea form="documentID" name="comments"></textarea></div>
+			</div>
+			
+			<form class = "table" method="post" action="#" id ="documentID">
+				<input type="submit" value="Submit"/>
+			</form>
+	</body>
+</html>
