@@ -1,5 +1,8 @@
 # conCEPt
 This is the CEP project for Steve McGough. It's an Online Document repository for marking group project work.
+## Important details about hosting
+Due to the unique login system, this must be hosted using the Durham University Community Hosting.
+Ensure the project itself is placed inside the 'password' directory of the 'public_html' folder, so that the server will work correctly!
 ## Components of the System
 ### TableMaker
 This is a class that actually generates the blank printable tables that are to be filled in by the user.
