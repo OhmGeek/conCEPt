@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Stylesheet for printing -->
+		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		
+		<!--Own styling-->
+		<link rel="stylesheet" type="text/css" href="forms.css">
+	</head>
+	
+	<body>
+	<!-- Navigation bar -->
+		<div class = "container">
+			<nav class = "navbar navbar-inverse navbar-fixed-top">
+				<div class = "container-fluid">
+					<div class = "navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#myNavbar">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">ODR</a>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+						<ul class="nav navbar-nav">
+							<li><a href="#">Students</a></li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li class = "dropdown-header">Examiner</li>
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+									<li class = "divider"></li>
+									<li class = "dropdown-header">Supervisor</li>
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Examiner Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Supervisor Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+						</ul>
+						<ul class = "nav navbar-nav navbar-right">
+							<li><a href="#">
+								<span class="glyphicon glyphicon-log-out"></span>
+								Sign out</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			
+<!-- 
+			<ul class = "nav nav-tabs nav-justified" style = "padding-top:200px; ">
+				<li><a data-toggle = "tab" href = "#">Document 1</a></li>
+				<li><a data-toggle = "tab"  href = "#">Document 2</a></li>
+				<li><a data-toggle = "tab"  href = "#">Document 3</a></li>
+				<li><a data-toggle = "tab"  href = "#">Document 4</a></li>
+				<li><a data-toggle = "tab" href = "#">Document 5</a></li>
+			</ul>
+		 -->
+		
+		<!-- Main document on page starts here -->
+			<div class="document-container">
+				<h1>Project Presentation</h1> 
+				<h2>Individual Examiners Report</h2>
+				<div class = "header-details">
+					<div class = "header-input">
+						<label>Student Name: </label>
+						<input type = "text" name="studentName" form = "documentID"/>
+					</div> 
+					<div class="header-input">
+						<label>Examiner Name: </label>
+						<input type = "text" name="examinerName"form = "documentID"/>
+					</div>
+				</div>
+				<table>
+					<col width="35%">
+					<col width="5%">
+					<col width="45%">
+					<tr>
+						<th>Criteria</th>
+						<th>Mark</th>
+						<th>Rationale</th>
+					</tr>
+					<tr>
+						<td>
+							<strong>Introduction (20%)</strong>
+							<ul>
+								<li>Title and name on first slide</li>
+								<li>Student introduce self</li>
+								<li>Level of detail appropriate</li>
+								<li>Good coverage of background isues</li>
+								<li>Project's goals explained</li>
+								<li>Problem being solved</li>
+								<li>Work placed in context</li>
+							</ul>
+						</td>
+						<td><textarea form="documentID" name="mark1"></textarea></td>
+						<td><textarea form="documentID" name="rationale1"></textarea></td>
+					</tr>
+					<tr>
+						<td>
+							<strong>Achievements (20%)</strong>
+							<ul>
+								<li>Adequate discussion of planning</li>
+								<li>Clarity of explanation of the deliverables and what has been achieved</li>
+								<li>How will the project be evaluated?</li>
+							</ul>
+							<strong>Note:</strong> It is the presentation that is being assessed, not the progress of the project itself.
+						</td>
+						<td><textarea form="documentID" name="mark2"></textarea></td>
+						<td><textarea form="documentID" name="rationale2"></textarea></td>
+					</tr>
+					<tr>
+						<td>
+							<strong>Presentation quality (20%)</strong>
+							<ul>
+								<li>Clear speaking</li>
+								<li>Did the student make eye contact with the audience?</li>
+								<li>Was the student familiar with the presentation? (no excessive use of notes)</li>
+								<li>Purpose is stated clearly near the beginning</li>
+								<li>Organization throughout the presentation is made clear with slides and language cues</li>
+							</ul>
+						</td>
+						<td><textarea form="documentID" name="mark3"></textarea></td>
+						<td><textarea form="documentID" name="rationale3"></textarea></td>
+					</tr>
+					<tr>
+						<td>
+							<strong>Timing (10%)</strong>
+							<ul>
+								<li>Was the presentaiton well-paced and did it finish on time?</li>
+							</ul>
+						</td>
+						<td><textarea form="documentID" name="mark4"></textarea></td>
+						<td><textarea form="documentID" name="rationale4"></textarea></td>
+					</tr>
+					<tr>
+						<td>
+							<strong>Questions (10%)</strong>
+							<ul>
+								<li>Questions anticipated</li>
+								<li>Clarification sought for ambiguous or unclear questions</li>
+								<li>Clear answers; good suggestions even if answers unknown</li>
+							</ul>
+						</td>
+						<td><textarea form="documentID" name="mark5"></textarea></td>
+						<td><textarea form="documentID" name="rationale5"></textarea></td>
+					</tr>
+					<tr>
+						<td>
+							<strong>Visual aids (20%)</strong>
+							<ul>
+								<li>Well-prepared, interesting, easy-to-read slides that support the content of the presentation and enhance the audience's understanding of the key points.</li>
+								<li>Appropriate text size and formatting, good visual appeal with varied representations</li>
+								<li>Number of slides appropriate for time limit</li>
+								<li>No unfamiliar acronyms, errors in grammar, spelling etc. that distract the audience
+							</ul>
+						</td>
+						<td><textarea form="documentID" name="mark6"></textarea></td>
+						<td><textarea form="documentID" name="rationale6"></textarea></td>
+					</tr>
+				</table>
+
+				<div class = "general-comments">
+					General comments on the paper<br>
+					<div class = "comments"><textarea form="documentID" name="comments"></textarea></div>
+				</div>
+				
+				<form class = "table no-print" method="post" action="#" id ="documentID">
+					<input type="submit" value="Submit"/>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
