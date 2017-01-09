@@ -1,6 +1,6 @@
-$(document).ready(
-	$("input").on("keyup", allowSubmit());
-	$("textarea").on("keyup"), allowSubmit());
+$(document).ready(function(){
+	$("input").keyup(allowSubmit());
+	$("textarea").keyup(allowSubmit());
 	
 	//If all inputs and textareas are filled, enable submit button
 	function allowSubmit(){
@@ -21,4 +21,14 @@ $(document).ready(
 		}
 	}
 	
-);
+	$('textarea').each(function () {
+		console.log("Iterating through textareas");
+		//var height = Math.max(this.scrollHeight, $(this).parent().height())
+		  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+		}).on('keyup', function () {
+		  this.style.height = 'auto';
+		  this.style.height = (this.scrollHeight) + 'px';
+		  console.log(this.style.height);
+		});
+	
+});
