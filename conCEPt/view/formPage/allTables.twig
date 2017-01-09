@@ -1,3 +1,4 @@
+<!--AIM IS FOR THIS TO GENERATE ALL POSSIBLE TABLES FOR FORMS -->
 <table>
 	<col width="35%">
 	<col width="5%">
@@ -10,8 +11,8 @@
 	{% for row in rows %}
 		<tr>
 			<td>{{row.criteria}}</td>
-			<td><textarea form="documentID" name= {{row.markName}} {{markReadOnly}}> {{row.mark}} </td>
-			<td><textarea form="documentID" name = {{row.rationaleName}} {{rationaleReadOnly}}> {{row.rationale}} </td>
+			<td><textarea form="documentID" name= {{row.markID}} {{markReadOnly}}> {{row.mark}} </td>
+			<td><textarea form="documentID" name = {{row.rationaleID}} {{rationaleReadOnly}}> {{row.rationale}} </td>
 		</tr>
 	{% endfor %}
 </table>
@@ -21,9 +22,9 @@
 rationaleReadOnly => "",
 rows => 
 	(criteria => "criteria",
-	markName=> "mark1",
+	markID=> "mark1",
 	mark=> "67"
-	rationaleName=>"rationale1",
+	rationaleID=>"rationale1",
 	rationaleReadOnly => "",
 	rationale => "rationale")
 
