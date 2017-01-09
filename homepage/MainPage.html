@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Stylesheet for printing -->
+		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		
+		<style>
+			body { padding-top: 60px;}
+		</style>
+	</head>
+	
+	<body>
+	<!-- Navigation bar -->
+		<div class = "container">
+			<nav class = "navbar navbar-inverse navbar-fixed-top">
+				<div class = "container-fluid">
+					<div class = "navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#myNavbar">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">ODR</a>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+						<ul class="nav navbar-nav">
+							<li><a href="#">Students</a></li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li class = "dropdown-header">Examiner</li>
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+									<li class = "divider"></li>
+									<li class = "dropdown-header">Supervisor</li>
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Examiner Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Supervisor Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+						</ul>
+						<ul class = "nav navbar-nav navbar-right">
+							<li><a href="#">
+								<span class="glyphicon glyphicon-log-out"></span>
+								Sign out</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			
+		<!-- Main tab section here -->
+		<ul class ="nav nav-tabs">
+			<li class = "active"><a data-toggle="tab" href="#Students">Students</a></li>
+			<li><a data-toggle="tab" href="#Pending">Pending</a></li>
+			<li><a data-toggle="tab" href="#Submitted">Submitted</a></li>
+			<li><a data-toggle="tab" href="#Clashes">Clashes</a></li>
+		</ul>
+		<div class = "tab-content">
+			<div id="Students" class = "tab-pane fade in active">
+				<h3 class = "page-header">Students</h3>
+				<div class = "panel-group">
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+							<h4 class = "panel-title">
+								<a class = "btn-block" data-toggle="collapse" href="#collapse1">Student 1</a>
+							</h4>
+						</div>
+						<div id="collapse1" class = "panel-collapse collapse">
+							<div class = "panel-body">
+								<table class ="table text-center">
+									<thead>
+										<tr>
+											<th class="text-center">Document</th>
+											<th class="text-center">Submitted</th>
+											<th class="text-center">Other person's</th>
+											<th class="text-center">Merged</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class = "success">
+											<td>Document 1</td>
+											<td> Yes (link)</td>
+											<td> Yes (link)</td>
+											<td> Link to merged </td>
+										</tr>
+										<tr class = "warning">
+											<td>Document 2</td>
+											<td> Yes (link)</td>
+											<td> No </td>
+											<td> No link </td>
+										</tr>
+										<tr class = "warning">
+											<td>Document 3</td>
+											<td> No (link to blank form)</td>
+											<td> Yes (no link)</td>
+											<td> No link </td>
+										</tr>
+										<tr class = "danger">
+											<td>Document 4</td>
+											<td> Yes </td>
+											<td> Yes </td>
+											<td> Conflict </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+							<h4 class = "panel-title">
+								<a class = "btn-block" data-toggle="collapse" href="#collapse2">Student 2</a>
+							</h4>
+						</div>
+						<div id="collapse2" class = "panel-collapse collapse">
+							<div class = "panel-body">Info goes here</div>
+						</div>
+					</div>
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+								<h4 class = "panel-title">
+							<a class = "btn-block" data-toggle="collapse" href="#collapse3">Student 3</a>
+							</h4>
+						</div>
+						<div id="collapse3" class = "panel-collapse collapse">
+							<div class = "panel-body">Info goes here</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- PENDING -->
+			<div id="Pending" class = "tab-pane fade">
+				<h3 class = "page-header">Pending</h3>
+					<div class = "panel-group">
+						<div class = "panel panel-default">
+							<div class = "panel-heading">
+								<h4 class = "panel-title">
+									<a class = "btn-block" data-toggle="collapse" href="#pending-collapse1">Student 1</a>
+								</h4>
+							</div>
+							<div id="pending-collapse1" class = "panel-collapse collapse">
+								<div class = "panel-body">
+									<table class ="table text-center">
+										<thead>
+											<tr>
+												<th class="text-center">Document</th>
+												<th class="text-center">Submitted</th>
+												<th class="text-center">Other person's</th>
+												<th class="text-center">Merged</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class = "warning">
+												<td>Document 2</td>
+												<td> Yes (link)</td>
+												<td> No </td>
+												<td> No link </td>
+											</tr>
+											<tr class = "warning">
+												<td>Document 3</td>
+												<td> No (link to blank form)</td>
+												<td> Yes (no link)</td>
+												<td> No link </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class = "panel panel-default">
+							<div class = "panel-heading">
+								<h4 class = "panel-title">
+									<a class = "btn-block" data-toggle="collapse" href="#pending-collapse2">Student 2</a>
+								</h4>
+							</div>
+							<div id="pending-collapse2" class = "panel-collapse collapse">
+								<div class = "panel-body">Info goes here</div>
+							</div>
+						</div>
+						<div class = "panel panel-default">
+							<div class = "panel-heading">
+									<h4 class = "panel-title">
+								<a class = "btn-block" data-toggle="collapse" href="#pending-collapse3">Student 3</a>
+								</h4>
+							</div>
+							<div id="pending-collapse3" class = "panel-collapse collapse">
+								<div class = "panel-body">Info goes here</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<!--SUBMITTED-->
+			<div id="Submitted" class = "tab-pane fade">
+				<h3 class = "page-header">Submitted</h3>
+				<div class = "panel-group">
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+							<h4 class = "panel-title">
+								<a class = "btn-block" data-toggle="collapse" href="#submitted-collapse1">Student 1</a>
+							</h4>
+						</div>
+						<div id="submitted-collapse1" class = "panel-collapse collapse">
+							<div class = "panel-body">
+								<table class ="table text-center">
+									<thead>
+										<tr>
+											<th class="text-center">Document</th>
+											<th class="text-center">Submitted</th>
+											<th class="text-center">Other person's</th>
+											<th class="text-center">Merged</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class = "success">
+											<td>Document 1</td>
+											<td> Yes (link)</td>
+											<td> Yes (link)</td>
+											<td> Link to merged </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+							<h4 class = "panel-title">
+								<a class = "btn-block" data-toggle="collapse" href="#submitted-collapse2">Student 2</a>
+							</h4>
+						</div>
+						<div id="submitted-collapse2" class = "panel-collapse collapse">
+							<div class = "panel-body">Info goes here</div>
+						</div>
+					</div>
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+								<h4 class = "panel-title">
+							<a class = "btn-block" data-toggle="collapse" href="#submitted-collapse3">Student 3</a>
+							</h4>
+						</div>
+						<div id="submitted-collapse3" class = "panel-collapse collapse">
+							<div class = "panel-body">Info goes here</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="Clashes" class = "tab-pane fade">
+				<h3 class = "page-header">Clashes</h3>
+				<div class = "panel-group">
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+							<h4 class = "panel-title">
+								<a class = "btn-block" data-toggle="collapse" href="#clashes-collapse1">Student 1</a>
+							</h4>
+						</div>
+						<div id="clashes-collapse1" class = "panel-collapse collapse">
+							<div class = "panel-body">
+								<table class ="table text-center">
+									<thead>
+										<tr>
+											<th class="text-center">Document</th>
+											<th class="text-center">Submitted</th>
+											<th class="text-center">Other person's</th>
+											<th class="text-center">Merged</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class = "danger">
+											<td>Document 4</td>
+											<td> Yes </td>
+											<td> Yes </td>
+											<td> Conflict </td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+							<h4 class = "panel-title">
+								<a class = "btn-block" data-toggle="collapse" href="#clashes-collapse2">Student 2</a>
+							</h4>
+						</div>
+						<div id="clashes-collapse2" class = "panel-collapse collapse">
+							<div class = "panel-body">Info goes here</div>
+						</div>
+					</div>
+					<div class = "panel panel-default">
+						<div class = "panel-heading">
+								<h4 class = "panel-title">
+							<a class = "btn-block" data-toggle="collapse" href="#clashes-collapse3">Student 3</a>
+							</h4>
+						</div>
+						<div id="clashes-collapse3" class = "panel-collapse collapse">
+							<div class = "panel-body">Info goes here</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>
