@@ -19,7 +19,7 @@ $router->respond('GET', '/test', function() {
 $router->onHttpError(function ($code, $router) {
     if ($code >= 400 && $code < 500) {
         $router->response()->body(
-            'Oh no, a bad error happened that caused a '. $code
+            'Oh no, a bad error happened that caused a '. $code . $_SERVER['REQUEST_URI']
         );
     } elseif ($code >= 500 && $code <= 599) {
         error_log('uhhh, something bad happened');
