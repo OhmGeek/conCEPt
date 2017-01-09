@@ -1,0 +1,18 @@
+<!--CREATES A TABLE WITH EDITABLE TEXTAREAS-->
+<table>
+	<col width="35%">
+	<col width="5%">
+	<col width="45%">
+	<tr>
+		<th>Criteria</th>
+		<th>Mark</th>
+		<th>Rationale</th>
+	</tr>
+	{% for row in rows %}
+		<tr>
+			<td>{{row.criteria}}</td>
+			<td><textarea form="documentID" name= {{row.markName}}> {{row.mark}} </td>
+			<td><textarea form="documentID" name = {{row.rationaleName}}> {{row.rationale}} </td>
+		</tr>
+	{% endfor %}
+</table>

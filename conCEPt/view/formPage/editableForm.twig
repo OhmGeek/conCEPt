@@ -1,0 +1,27 @@
+<!--EDITABLE FORM FOR EXAMINER AND SUPERVISOR REPORTS-->
+
+<h1>{{title}} e.g Design Report</h1> 
+<h2>Individual {{markerType}}'s Report e.g Individual Examiner's Report</h2>
+<div class = "header-details">
+	<div class = "header-input">
+		<label>Student Name: </label>
+		<input type = "text" name="studentName" form = "documentID"/>
+	</div> 
+	<div class="header-input">
+		<label>{{markerType}} name: e.g Examiner name: or Supervisor name: </label>
+		<input type = "text" name="markerName"form = "documentID"/>
+	</div>
+</div>
+
+{{table|raw}}
+
+<div class = "general-comments">
+	General comments on the paper<br>
+	<div class = "comments"><textarea form="documentID" name="comments"> {{comments}} </textarea></div>
+</div>
+
+<!-- Change these to buttons instead? -->
+<form class = "table" method="" action="#" id ="documentID">
+	<input type="submit" name = "submit" value="Submit" disabled/>
+	<input type="submit" name = "save" value="Save"/>
+</form>
