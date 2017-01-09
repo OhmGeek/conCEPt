@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../vendor/autoload.php');
-
+require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
 // deal with the odd installation we have going on
 $base = dirname($_SERVER['PHP_SELF']);
 
@@ -12,8 +12,9 @@ if(ltrim($base,'/')) {
 // main routing
 $router = new \Klein\Klein();
 
-$router->respond('GET', '/test', function() {
-    echo 'Hello World';
+$router->respond('GET', '/', function() {
+    $controller = new Auth_Controller();
+    return $controller::auth_page($_SERVER['REMOTE_USER']);
 });
 
 $router->onHttpError(function ($code, $router) {
