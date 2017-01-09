@@ -12,7 +12,7 @@ class UserAuthModel
 
     public function __construct($username)
     {
-        $this->db = new DB();
+        $this->db = DB::getDB();
         $this->username = $username;
     }
     public function isAdmin() {
