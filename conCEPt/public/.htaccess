@@ -2,5 +2,6 @@
     RewriteEngine On
     RewriteBase /password/conCEPt/conCEPt/public/
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule . /index.php [L]
+    RewriteCond %(REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
