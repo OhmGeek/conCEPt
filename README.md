@@ -1,25 +1,17 @@
 # conCEPt
 This is the CEP project for Steve McGough. It's an Online Document repository for marking group project work.
-## Important details about hosting
+
+## Project Structure
+The actual live system shall be found inside the 'conCEPt' folder.
+
+Inside this, there are further folders to put information. Model should contain any code that accesses the database, Controller should contain code that renders the views/contains any logic, and the view contains the twig files that we render. The public folder contains any static resources (such as CSS, JS or images), as well as the index.php file, that deals with running the controller methods when a request is received.
+
+## Dependencies:
++ Twig for view rendering
++ Klein for routing
+
+Rewrite access on the server MUST be enabled to allow the index.php to work. The .htaccess file contains the Apache server configuration.
+
 Due to the unique login system, this must be hosted using the Durham University Community Hosting.
 Ensure the project itself is placed inside the 'password' directory of the 'public_html' folder, so that the server will work correctly!
-## Components of the System
-### TableMaker
-This is a class that actually generates the blank printable tables that are to be filled in by the user.
-To use this, include the required php files:
 
-```php
-  require_once "../vendor/autoload.php";
-  include "../reportmaker/TableMaker.php";
-  include "../reportmaker/FileReader.php";
-  include "../reportmaker/XMLConfigFileReader.php";
-```
-Then create a new TableMaker using the code:
-```php
-  $tm = new TableMaker();
-  ```
- One can then use this instance to generate an HTML document (as a string), by reading from either an XML Config file directly, or from an XML String (useful if we end up storing data in a non-file based way):
-
-```php
-  $tm->getTableFromXMLFile("testTemplate.xml");
-```
