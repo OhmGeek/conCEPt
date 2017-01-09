@@ -17,6 +17,28 @@ $router->respond('GET', '/', function() {
     return $controller::auth_page($_SERVER['REMOTE_USER']);
 });
 
+// routing just for the admin namespace
+$router->with('/admin', function() use ($klein) {
+    $klein->respond('GET', '/', function($request,$response) {
+       return "Admin Area";
+    });
+});
+
+// this is just the routing for the marker namespace
+$router->with('/marker', function() use ($klein) {
+    $klein->respond('GET', '/', function($request,$response) {
+       return "Marker Area";
+    });
+});
+
+
+
+
+
+
+// PUT NOTHING AFTER THIS LINE!!!
+// ---------------------------------------------------------------
+
 $router->onHttpError(function ($code, $router) {
     if ($code >= 400 && $code < 500) {
         $router->response()->body(
