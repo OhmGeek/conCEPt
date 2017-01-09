@@ -12,7 +12,7 @@ class Auth_Controller
 {
     public static function auth_page($username) {
         // create a user model
-        $user_model = new UserAuthModel();
+        $user_model = new UserAuthModel($username);
 
         // create a twig loader
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../view/auth');
@@ -20,7 +20,7 @@ class Auth_Controller
 
         if($user_model->isAdmin()) {
             // render admin page
-            return "Marker";
+            return "Admin";
         }
         elseif($user_model->isMarker()) {
             return "Marker";
