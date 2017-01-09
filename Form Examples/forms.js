@@ -1,35 +1,24 @@
-$("submit").click(sendData("submit"));
-$("save").click(sendData("save"));
-
-function sendData(type){
-	var n = $('tr').length - 1; //Number of criteria
+$(document).ready(
+	$("input").on("keyup", allowSubmit());
+	$("textarea").on("keyup"), allowSubmit());
 	
-	var params = '{ "type": ' + type + ', "name": '+documentName;
-	
-	//Get information from input and textareas using id's
-	for (var i = 0; i < n; i++){
-		var sectionName = "section"+toString(i+1); 
+	//If all inputs and textareas are filled, enable submit button
+	function allowSubmit(){
+		//Boolean value - true if no input fields are empty
+		var inputsFilled = $("input").filter(function(){
+			return $.trim($(this).val()).length == 0;
+		}).length==0;
 		
-		// get the mark and rationale for the current section
-		var m = $("#mark"+toString(i+1)).val; // mark
-		var r = $("#rationale"+toString(i+1)).val; //rationale
+		//Boolean value - true if no textarea fields are empty
+		var textareasFilled = $("textarea").each(function(){
+			return $.trim($(this).val()).length == 0;
+		}).length==0;
 		
-		if (mark !== "" || rationale !== ""){
-			// Add non-empty sections to the params
-			var section = {mark: m, rationale: m}}
-			params += ', '+sectionName+': '+section; 
+		//If inputsFilled and textareasFilled,
+		//remove disabled attribute from Submit input
+		if (inputsFilled && textareasFilled){
+			$("input[name='submit']").removeAttr("disabled");
 		}
 	}
 	
-	params += '}'
-	
-	// Turn params into a JSON object
-	params = JSON.parse(text);
-	
-	
-	// ParamsExample = {type: "save", name: "examiner-design", section1: {mark: 57, rationale: textHere},
-	//					section4: {mark: 73, rationale: textHere}}
-	$.post("sendToDatabase.php", params, function(jsonData){
-		// Process respone here (check for errors)
-	});
-}
+);
