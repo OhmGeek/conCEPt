@@ -45,3 +45,7 @@ form{padding:10px 0px;}
 	resize:none; 
 	border: none;
 	}
+	
+textarea[readonly]{
+	background-color:grey;
+}
