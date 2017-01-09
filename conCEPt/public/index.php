@@ -18,15 +18,15 @@ $router->respond('GET', '/', function() {
 });
 
 // routing just for the admin namespace
-$router->with('/admin', function() use ($klein) {
-    $klein->respond('GET', '/', function($request,$response) {
+$router->with('/admin', function() use ($router) {
+    $router->respond('GET', '/', function($request,$response) {
        return "Admin Area";
     });
 });
 
 // this is just the routing for the marker namespace
-$router->with('/marker', function() use ($klein) {
-    $klein->respond('GET', '/', function($request,$response) {
+$router->with('/marker', function() use ($router) {
+    $router->respond('GET', '/', function($request,$response) {
        return "Marker Area";
     });
 });
