@@ -106,15 +106,15 @@
 		<!-- Main document on page starts here -->
 			<div class="document-container">
 				<h1>Project Paper</h1>
-				<h2>Individual Examiners Report-Supervisor</h2>
+				<h2>Individual Supervisor's Report</h2>
 				<div class = "header-details">
 					<div class = "header-input">
 						<label>Student Name: </label>
 						<input type = "text" name="studentName" form = "documentID"/>
 					</div>
 					<div class="header-input">
-						<label>Examiner Name: </label>
-						<input type = "text" name="examinerName"form = "documentID"/>
+						<label>Supervisor Name: </label>
+						<input type = "text" name="markerName"form = "documentID"/>
 					</div>
 				</div>
 				<table>
@@ -223,8 +223,8 @@
 								<li>Demonstration of problem solving ability</li>
 							</ul>
 						</td>
-						<td><textarea form="documentID" name="mark7"></textarea></td>
-						<td><textarea form="documentID" name="rationale7"></textarea></td>
+						<td><textarea form="documentID" name="mark8"></textarea></td>
+						<td><textarea form="documentID" name="rationale8"></textarea></td>
 					</tr>
 				</table>
 
@@ -233,8 +233,9 @@
 					<div class = "comments"><textarea form="documentID" name="comments"></textarea></div>
 				</div>
 
-				<form class = "table no-print" method="post" action="#" id ="documentID">
-					<input type="submit" value="Submit"/>
+				<form class = "table no-print" method="" action="#" id ="documentID">
+					<input type="submit" name = "submit" value="Submit"/>
+					<input type="submit" name = "save" value="Save"/>
 				</form>
 			</div>
 		</div>
