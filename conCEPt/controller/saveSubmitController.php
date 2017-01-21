@@ -35,25 +35,25 @@ class SaveSubmitController
 		// Iterate through all sections in the form
 		for($n=1; $n <= $numberOfSections; $n++)
 		{
-			if (isset($postVariables["mark".$n]) || isset($postVariables["rationale".$n])){
-				$sectionNumber = $n; //Section number in ordering on form
-				if (isset($postVariables["mark".$n])){
-					$mark = $postVariables["mark".$n]; //Mark for this section
-				}else{
-					$mark = 0;
-				}
-				if (isset($postVariables["rationale".$n])){
-					$rationale = $postVariables["rationale".$n]; //Rationale for this section
-				}else{
-					$rationale = "";
-				}	
-
-				$section = array("sectionNumber"=>$n,"mark"=>$mark,
-				"rationale"=>$rationale);
-				
-				array_push($sections, $section);
-				
+			
+			$sectionNumber = $n; //Section number in ordering on form
+			if (!(empty($postVariables["mark".$n]))){
+				$mark = $postVariables["mark".$n]; //Mark for this section
+			}else{
+				$mark = 0;
 			}
+			if (!(empty($postVariables["rationale".$n]))){
+				$rationale = $postVariables["rationale".$n]; //Rationale for this section
+			}else{
+				$rationale = "";
+			}	
+
+			$section = array("sectionNumber"=>$n,"mark"=>$mark,
+			"rationale"=>$rationale);
+			
+			array_push($sections, $section);
+			
+			
 		}
 		
 		// Deal with the comments
