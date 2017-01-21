@@ -16,7 +16,7 @@ switch ($path) {
 	case "/?":
 	case "/":
 	case "":
-		echo "Root";
+		echo Auth_Controller::auth_page($_SERVER['REMOTE_USER']);
 		break;
 
 	case "/?admin/":
