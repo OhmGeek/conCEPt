@@ -64,21 +64,28 @@ class SaveSubmitController
 		}
 		
 		// Create array of results
-		$response = array();
+/* 		$response = array();
 		$response["sections"] = $sections;
 		$response["documentID"] = $documentID;
 		$response["storeType"] = $storeType;
 		$response = json_encode($response);
 
-		echo $response;
-/* 		SEND BACK DATA TO MODEL:
-			-$markerID
-			-$studentID
-			-$documentType/$documentID
-			-$sections 
-			-$storeType (save or submit)
+		//echo $response; */
+
+		$Model = new saveSubmitModel();
 		
-		If successful, send back JSON for success
+		foreach($sections as $section)
+		{
+			$Model->sendSection($documentID, $section["sectionNumber"], $section["mark"], $section["rationale"]);
+		}
+
+		if ($storeType = "submit")
+		{
+			//Need to change the flag isSubmitted
+			//$Model->
+		}
+
+
 		
 		//Send back confirmation or error message as  JSON to original page
 		if (successful){

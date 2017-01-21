@@ -101,9 +101,14 @@ Class FormController
                                         'markerName' => $markerName,
                                         'studentName' => $studentName));
 
+
+		//GENERATE NAVBAR
+		$template = $twig->loadTemplate("navbar.twig");
+		$navbar = $template->render();
+
 		//GENERATE MAIN FORM PAGE FROM mainFormPage.twig
         $template = $twig->loadTemplate("mainFormPage.twig");
-        print($template->render(array('form'=> $form)));
+        print($template->render(array('navbar'=>$navbar,'form'=> $form)));
     }
 
 /*       //Generate the criteria for each section
