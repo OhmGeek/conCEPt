@@ -11,8 +11,8 @@
 	{% for row in rows %}
 		<tr>
 			<td>{{row.criteria}}</td>
-			<td><textarea form="documentID" name= {{row.markID}} {{markReadOnly}}> {{row.mark}} </td>
-			<td><textarea form="documentID" name = {{row.rationaleID}} {{rationaleReadOnly}}> {{row.rationale}} </td>
+			<td><textarea form="{{formID}}" name= {{row.markID}} {{markReadOnly}}> {{row.mark}} </td>
+			<td><textarea form="{{formID}}" name = {{row.rationaleID}} {{rationaleReadOnly}}> {{row.rationale}} </td>
 		</tr>
 	{% endfor %}
 </table>
