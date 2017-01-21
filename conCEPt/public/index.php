@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
-
+require_once(__DIR__ . '/../model/pdf/pdf_model.php');
 // deal with the odd installation we have going on
 
 $base = __DIR__;
@@ -26,6 +26,10 @@ switch ($path) {
 	case "/?marker/":
 		echo "Marker";
 		break;
+	case "/?pdf_test/":
+		$html = "<!DOCTYPE html><html><body><h1>This is a test PDF</h1></body></html>";
+		$pdf = new PDF_Model($html).get_PDF();
+		return $pdf;
 	default:
 		echo "404 Error\n";
 		echo $path;
