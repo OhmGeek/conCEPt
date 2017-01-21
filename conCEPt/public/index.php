@@ -20,5 +20,6 @@ switch ($path) {
 		echo "Marker";
 		break;
 	default:
-		echo "404 Error";
+		echo "404 Error\n";
+		echo $path;
 }
