@@ -1,22 +1,29 @@
 <?php
 
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
+
 // deal with the odd installation we have going on
 
-$path = $_SERVER['REQUEST_URI'];
+$base = __DIR__;
+$path = preg_replace("/cs.seg04\/password\/conCEPt\/conCEPt\/public\//", "", $_SERVER['REQUEST_URI']);
 $request_type = $_SERVER['REQUEST_METHOD'];
 
 
+// strip the base path
+
+
 switch ($path) {
+	case "/?":
+	case "/":
 	case "":
 		echo "Root";
 		break;
 
-	case "admin/":
+	case "/?admin/":
 		echo "Admin";
 		break;
 
-	case "marker/":
+	case "/?marker/":
 		echo "Marker";
 		break;
 	default:
