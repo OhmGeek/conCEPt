@@ -12,11 +12,11 @@ switch ($path) {
 		echo "Root";
 		break;
 
-	case "/admin":
+	case "admin/":
 		echo "Admin";
 		break;
 
-	case "/marker":
+	case "marker/":
 		echo "Marker";
 		break;
 }
