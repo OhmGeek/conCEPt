@@ -3,12 +3,12 @@
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
 // deal with the odd installation we have going on
 
-$path = $_GET['page'];
+$path = $_SERVER['REQUEST_URI'];
 $request_type = $_SERVER['REQUEST_METHOD'];
 
 
 switch ($path) {
-	case "/":
+	case "":
 		echo "Root";
 		break;
 
@@ -19,4 +19,6 @@ switch ($path) {
 	case "marker/":
 		echo "Marker";
 		break;
+	default:
+		echo "404 Error";
 }
