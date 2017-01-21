@@ -106,7 +106,7 @@ WHERE  `Marker`.`Marker_ID` = 'hkd4hdk' AND `BaseForm`.`BForm_ID` = 1
 
 /*** for adding data ***/
 
-/* inserting a comment and mark of a specific section based on it's order */
+/* inserting a comment and mark of a specific section - based on its order and the form ID */
 
 INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`, `Comment`, `Mark`) 
 SELECT `Section`.`Sec_ID`, 1 , 'bad', 50.0
@@ -126,4 +126,11 @@ SELECT `Section`.`Sec_ID`, 2 , 'GOOD', 60.0
 FROM `Section`
 JOIN `Form` ON `Form`.`BForm_ID` = `Section`.`BForm_ID`
 WHERE `Form`.`Form_ID` = 2 AND `Section`.`Sec_Order` = 2
+
+/* update a section - based on the section order and form ID */
+
+UPDATE `SectionMarking` 
+JOIN `Section` ON `Section`.`Sec_ID` = `SectionMarking`.`Sec_ID`
+SET `SectionMarking`.`Comment` = 'Good job!',`SectionMarking`.`Mark`= 80 
+WHERE `SectionMarking`.`Form_ID` = 1 AND `Section`.`Sec_Order` = 1
 
