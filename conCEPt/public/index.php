@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
 require_once(__DIR__ . '/../model/pdf/pdf_model.php');
+require_once(__DIR__ . '/../model/forms/FormModel.php');
 // deal with the odd installation we have going on
 
 $base = __DIR__;
@@ -32,6 +33,11 @@ switch ($path) {
 		header("Content-type:application/pdf");
 		header("Content-Disposition:attachment;filename='downloaded.pdf'");
 		echo $pdf->get_PDF();
+		break;
+	case "/?form/":
+		$formModel = new FormModel();
+		print_r($formModel->getFormByID(1));
+		
 		break;
 	default:
 		echo "404 Error\n";

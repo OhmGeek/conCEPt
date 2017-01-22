@@ -24,13 +24,13 @@ class FormModel {
 				// now go through and change formatting
 				foreach($data as $row) {
 					$rowArray = array(
-							'criteria' => row['Sec_Criteria'],
+							'criteria' => $row['Sec_Criteria'],
 							'markID' => "1111",
 							'markReadOnly' => "readonly",
-							'mark' => row['Mark'],
+							'mark' => $row['Mark'],
 							'rationaleID' => "1",
 							'rationaleReadOnly' => "readonly",
-							'rationale' => row['Comment']
+							'rationale' => $row['Comment']
 					);
 					array_push($output,$rowArray);
 				}	
@@ -55,9 +55,7 @@ class FormModel {
 
 
 
-				return $data
-
-
+				return $data;
 		}
 
 
