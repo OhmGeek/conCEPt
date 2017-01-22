@@ -38,6 +38,23 @@ class FormModel {
 				return $output;
 		}
 
+		public function getNamesOfParticipants($formID) {
+			$statement = $this->db->prepare(
+					"SELECT Student.Fname, Student.Lname, Marker.Fname, Marker.Lname
+					 FROM Student, Marker, MS, MS_Form
+					 WHERE MS_Form.Form_ID = :formID
+					 	AND MS_Form.MS_ID = MS.MS_ID
+						AND MS.Marker_ID = Marker.Marker_ID
+						AND MS.Student_ID = Student.Student_ID");
+			$statement->bindValue(":formID",$formID,PDO::PARAM_STR);
+			$statement->execute();
+			$data = $statement->fetchAll(PDO::FETCH_ASSOC);
+			return array(
+			'student' => $data[0]['Student.Fname'] . " " . $data[0]['Student.Lname'],
+			'marker' => $data[0]['Marker.Fname'] . " " . $data[0]['Marker.Lname']
+			);
+		}
+
 		public function getBlankFormByBaseID($bFormID) {
 				$statement = $this->db->prepare(
 						"SELECT Sec_Name, Sec_Criteria, Sec_Percent
