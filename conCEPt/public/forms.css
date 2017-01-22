@@ -12,41 +12,43 @@ h1, h2{text-align:center;}
 table{width:100%;}
 
 table,th,td{
-	border: 1px solid black; 
+	border: 1px solid black;
 	border-collapse:collapse;
 	}
 	
 th{text-align:center; padding: 5px;}
 
-td{padding: 3px 5px 0px;
-vertical-align:top;}
+td{vertical-align:top;}
+
+.padding{padding:10px;}
+.no-edit{padding:10px; background-color: #D3D3D3;}
 
 textarea{height:100%;
 	  width:100%;
-	  padding:0px;
+	  padding:0px 3px;
+	  box-sizing: border-box;
 	  margin: 0px;
 	  resize:none;
 	  overflow:auto;
 	  border: none;
 	  }
+textarea[readonly]{
+	background-color:#D3D3D3;
+}
 
 form{padding:10px 0px;}
 
 .header-details{padding-bottom: 10px;}
-.header-input{display: inline;}
-.header-input label{font-size:1.2em;}
-.header-input input{border: none; width:25%;}
 
 .general-comments{width: 100%; padding-top: 25px;}
-.comments{border: solid 1px; height: 300px; padding: 2px;}
+.comments{border: solid 1px; height: 300px;}
 
 .general-comments textarea{
 	width: 100%;
 	height: 100%;
 	margin: 0px; 
+	padding: 0px;
 	border: none;
 	}
 	
-textarea[readonly]{
-	background-color:grey;
-}
+

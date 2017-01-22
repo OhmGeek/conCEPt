@@ -1,30 +1,23 @@
 <?php
+	require_once '../vendor/autoload.php';
+	
+	include '../model/db.php';
+	include '../control/saveSubmitController.php';
+	include '../control/formSelectionController.php';
+	include '../control/FormController.php';
+	
+	$route = $_GET["route"];
 
-require_once(__DIR__ . '/../vendor/autoload.php');
-
-// deal with the odd installation we have going on
-$base = dirname($_SERVER['PHP_SELF']);
-
-if(ltrim($base,'/')) {
-    $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'],strlen($base));
-}
-
-// main routing
-$router = new \Klein\Klein();
-
-$router->respond('GET', '/test', function() {
-    echo 'Hello World';
-});
-
-$router->onHttpError(function ($code, $router) {
-    if ($code >= 400 && $code < 500) {
-        $router->response()->body(
-            'Oh no, a bad error happened that caused a '. $code . $_SERVER['REQUEST_URI']
-        );
-    } elseif ($code >= 500 && $code <= 599) {
-        error_log('uhhh, something bad happened');
-    }
-});
-
-$router->dispatch();
-
+	
+	if ($route == "send"){
+		$test = new SaveSubmitController($_POST);
+	}elseif ($route == "receive"){
+		$formID = $_GET["id"];
+		$test = new FormController($formID);
+	}elseif ($route == "select"){
+		$formTypeID = $_GET["typeId"];
+		$test = new formSelectionController();
+		$test->generateSelectionPage($formTypeID);
+	}
+	
+?>
