@@ -6,8 +6,11 @@
  * Date: 09/01/17
  * Time: 12:22
  */
+require_once(__DIR__ . '/../../vendor/autoload.php');
 require_once(__DIR__ . '/../../model/auth/UserAuthModel.php');
 require_once(__DIR__ . '/../../model/route/Route.php');
+
+// todo move 403 code to route (and redirect)
 class Auth_Controller
 {
     public static function auth_page($username) {
