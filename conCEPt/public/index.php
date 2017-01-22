@@ -1,53 +1,39 @@
 <?php
 
-require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
+require_once(__DIR__ . '/../model/pdf/pdf_model.php');
 // deal with the odd installation we have going on
-$base = dirname($_SERVER['PHP_SELF']);
 
-if(ltrim($base,'/')) {
-    $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'],strlen($base));
+$base = __DIR__;
+$path = preg_replace("/cs.seg04\/password\/conCEPt\/conCEPt\/public\//", "", $_SERVER['REQUEST_URI']);
+$request_type = $_SERVER['REQUEST_METHOD'];
+
+
+// strip the base path
+
+
+switch ($path) {
+	case "/?":
+	case "/":
+	case "":
+		echo Auth_Controller::auth_page($_SERVER['REMOTE_USER']);
+		break;
+
+	case "/?admin/":
+		echo "Admin";
+		break;
+
+	case "/?marker/":
+		echo "Marker";
+		break;
+	case "/?pdf_test/":
+		$html = "<!DOCTYPE html><html><body><h1>This is a test PDF</h1></body></html>";
+		$pdf = new PDF_Model($html);
+		header("Content-type:application/pdf");
+		header("Content-Disposition:attachment;filename='downloaded.pdf'");
+		echo $pdf->get_PDF();
+		break;
+	default:
+		echo "404 Error\n";
+		echo $path;
 }
-
-// main routing
-$router = new \Klein\Klein();
-
-$router->respond('GET', '/', function() {
-    $controller = new Auth_Controller();
-    return $controller::auth_page($_SERVER['REMOTE_USER']);
-});
-
-// routing just for the admin namespace
-$router->with('/admin', function() use ($router) {
-    $router->respond('GET', '/', function($request,$response) {
-       return "Admin Area";
-    });
-});
-
-// this is just the routing for the marker namespace
-$router->with('/marker', function() use ($router) {
-    $router->respond('GET', '/', function($request,$response) {
-       return "Marker Area";
-    });
-});
-
-
-
-
-
-
-// PUT NOTHING AFTER THIS LINE!!!
-// ---------------------------------------------------------------
-
-$router->onHttpError(function ($code, $router) {
-    if ($code >= 400 && $code < 500) {
-        $router->response()->body(
-            'Oh no, a bad error happened that caused a '. $code . $_SERVER['REQUEST_URI']
-        );
-    } elseif ($code >= 500 && $code <= 599) {
-        error_log('uhhh, something bad happened');
-    }
-});
-
-$router->dispatch();
-
