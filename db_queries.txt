@@ -30,7 +30,7 @@ WHERE  `SectionMarking`.`Form_ID` =  1
 
 /* get total mark for a form - based on form ID */
 
-SELECT SUM(`Section`.`Sec_Percent`*`SectionMarking`.`Mark` / 100)
+SELECT SUM(`Section`.`Sec_Percent`*`SectionMarking`.`Mark` / 100) AS `Total`
 FROM  `SectionMarking` 
 JOIN `Section` ON `Section`.`Sec_ID` = `SectionMarking`.`Sec_ID`
 WHERE  `SectionMarking`.`Form_ID` =  1
@@ -101,8 +101,14 @@ WHERE  `Marker`.`Marker_ID` = 'hkd4hdk' AND `BaseForm`.`BForm_ID` = 1
 /* get submitted forms */
 
 
-/* get merged forms */
+/* get markers for a merged form - based on merged from id */
 
+SELECT `Marker`.`Fname`, `Marker`.`Lname`
+FROM `MergedForm`
+JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID` OR `MS_Form`.`Form_ID` = `MergedForm`.`SForm_ID`
+JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+JOIN `Marker` ON `Marker`.`Marker_ID` = `MS`.`Marker_ID`
+WHERE `MergedForm`.`MForm_ID` = 8
 
 /*** for adding data ***/
 
@@ -114,7 +120,7 @@ FROM `Section`
 JOIN `Form` ON `Form`.`BForm_ID` = `Section`.`BForm_ID`
 WHERE `Form`.`Form_ID` = 1 AND `Section`.`Sec_Order` = 1
 
---> for inseting multiple values at once
+--> for inserting multiple values at once
 
 INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`, `Comment`, `Mark`) 
 SELECT `Section`.`Sec_ID`, 2 , 'bad', 50.0
@@ -127,6 +133,7 @@ FROM `Section`
 JOIN `Form` ON `Form`.`BForm_ID` = `Section`.`BForm_ID`
 WHERE `Form`.`Form_ID` = 2 AND `Section`.`Sec_Order` = 2
 
+
 /* update a section - based on the section order and form ID */
 
 UPDATE `SectionMarking` 
@@ -134,3 +141,9 @@ JOIN `Section` ON `Section`.`Sec_ID` = `SectionMarking`.`Sec_ID`
 SET `SectionMarking`.`Comment` = 'Good job!',`SectionMarking`.`Mark`= 80 
 WHERE `SectionMarking`.`Form_ID` = 1 AND `Section`.`Sec_Order` = 1
 
+
+/* update submit form flag - based on form id */
+
+UPDATE `Form` 
+SET `IsSubmitted`= 1, `Time_Stamp` = NOW()
+WHERE `Form_ID` = 1
