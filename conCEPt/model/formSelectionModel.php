@@ -10,20 +10,42 @@ class formSelectionModel{
 	function getMarkerID()
 	{
 		//Returns the id of the marker currently logged in
+		return "hkd4hdk";
 	}
 	
 	//Return an array of student names, along with form ID's for each student 
 	function getStudentOptions($formTypeID)
 	{
+		$db = DB::getDB();
 		$markerID = $this->getMarkerID();
 		
 		//$db = DB::getDB();
-		$statement = $db->prepare("");
+		$statement = $db->prepare("SELECT `Form`.`Form_ID`, `Student`.`Fname` , `Student`.`Lname` , `Student`.`Year_Level`
+									FROM  `MS_Form`
+									JOIN  `MS` ON  `MS`.`MS_ID` =  `MS_Form`.`MS_ID` 
+									JOIN  `Marker` ON  `Marker`.`Marker_ID` =  `MS`.`Marker_ID` 
+									JOIN  `Student` ON  `Student`.`Student_ID` =  `MS`.`Student_ID`
+									JOIN `Form` ON `Form`.`Form_ID` = `MS_Form`.`Form_ID`
+									JOIN `BaseForm` ON `BaseForm`.`BForm_ID` = `Form`.`BForm_ID`
+									WHERE  `Marker`.`Marker_ID` = :markerID AND `BaseForm`.`BForm_ID` = :formTypeID");
 								
-		$statement->bindValue(':markerID',$markerID, PDO::PARAM_INT);
+		$statement->bindValue(':markerID',$markerID, PDO::PARAM_STR);
 		$statement->bindValue(':formTypeID',$formTypeID, PDO::PARAM_INT);
 
 		$statement->execute();
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	function getFormName($formTypeID)
+	{
+		$db = DB::getDB();
+
+		$statement = $db->prepare("SELECT `BaseForm`.`Form_Title`
+									FROM `BaseForm`
+									WHERE `BForm_ID` = :formTypeID");
+		$statement->bindValue(':formTypeID',$formTypeID, PDO::PARAM_INT);
+		$statement->execute();
+		
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
