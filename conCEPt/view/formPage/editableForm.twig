@@ -1,25 +1,42 @@
 <!--EDITABLE FORM FOR EXAMINER AND SUPERVISOR REPORTS-->
-
-<h1>{{title}} e.g Design Report</h1> 
-<h2>Individual {{markerType}}'s Report e.g Individual Examiner's Report</h2>
+<!DOCTYPE html>
+<h1>{{title}}</h1> 
+<h2>{{subtitle}}</h2>
 <div class = "header-details">
 	<div class = "header-input">
-		<label>Student Name: {{studentName}} </label>
+		<h4><strong>Student name:</strong> {{studentName}}</h4>
 	</div> 
-	<div class="header-input">
-		<label>{{markerType}} name: {{markerName}} </label>
-	</div>
+	{% if supervisorName %}
+		<div class="header-input">
+			<h4><strong>Supervisor name:</strong> {{supervisorName}}</h4>
+		</div>
+	{% endif %}
+	{% if examinerName %}
+		<div class="header-input">
+			<h4><strong>Examiner name:</strong> {{examinerName}}</h4>
+		</div>
+	{% endif %}
+	{% if totalMark != -1 %}
+		<div class="header-input">
+			<h4><strong>Total mark: </strong> {{totalMark}}</h4>
+		</div<
+	{% endif %}
 </div>
 
 {{table|raw}}
 
 <div class = "general-comments">
-	General comments on the paper<br>
-	<div class = "comments"><textarea form="{{formID}}" name="comments"> {{comments}} </textarea></div>
+	General comments<br>
+	<!--<div class = "comments"><textarea form="{{formID}}" name="comments" {% if commentsReadOnly %} readonly {% endif %}> {{comments}} </textarea></div>-->
+	{% if commentsReadOnly %}
+		<div class = "comments no-edit"> {{comments}} </div>
+	{% else %}
+		<div class = "comments"><textarea form="{{formID}}" name="comments"{% if commentsReadOnly %} readonly {% endif %}> {{comments}} </textarea></div>
+	{% endif %}
 </div>
 
 <!-- Change these to buttons instead? -->
-<form class = "table" method="" action="#" id ="{{formID}}">
-	<input type="submit" name = "submit" value="Submit" disabled/>
-	<input type="submit" name = "save" value="Save"/>
+<form  id ="{{formID}}" >
+	<input type="submit" name = "action" value="Submit" disabled  />
+	<input type="submit" name = "action" value="Save"  />
 </form>

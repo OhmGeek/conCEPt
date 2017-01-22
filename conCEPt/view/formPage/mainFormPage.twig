@@ -12,10 +12,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<!-- Stylesheet for printing -->
-		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		<link rel="stylesheet" type="text/css" href="../public/print.css" media="print">
 		
 		<!--Own styling-->
-		<link rel="stylesheet" type="text/css" href="forms.css">
+		<link rel="stylesheet" type="text/css" href="../public/forms.css">
+
+		<!--Own JavaScript-->
+		<script src="forms.js"></script>
 	</head>
 	
 	<body>
@@ -27,9 +30,8 @@
 
 		
 		<!-- MAIN DOCUMENT STARTS HERE -->
-		<!-- the form in {{form|raw}} will be the html from completedForm.twig -->
 			<div class="document-container">
-				{{form|raw}}}
+				{{form|raw}}
 			</div>
 		</div>
 	</body>

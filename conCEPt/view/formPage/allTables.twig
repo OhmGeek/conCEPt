@@ -10,25 +10,19 @@
 	</tr>
 	{% for row in rows %}
 		<tr>
-			<td>{{row.criteria}}</td>
-			<td><textarea form="{{formID}}" name= {{row.markID}} {{markReadOnly}}> {{row.mark}} </td>
-			<td><textarea form="{{formID}}" name = {{row.rationaleID}} {{rationaleReadOnly}}> {{row.rationale}} </td>
+			<td class = "padding">{{row.criteria|raw}}</td>
+			{% if row.markReadOnly %}
+				<td class = "no-edit">{{row.mark}}</td>
+			{% else %}
+			<td><textarea form="{{formID}}" name= "mark-{{row.markID}}">{{row.mark}}</textarea></td>
+			{% endif %}
+
+			{% if row.rationaleReadOnly  %}
+			<td class="no-edit">{{row.rationale}}</td>
+			{% else %}
+			<td><textarea form="{{formID}}" name = "rationale-{{row.rationaleID}}"> {{row.rationale}} </textarea></td>
+			{% endif %}
 		</tr>
 	{% endfor %}
 </table>
 
-/*Example Input
-(markReadOnly=>"readonly",
-rationaleReadOnly => "",
-rows => 
-	(criteria => "criteria",
-	markID=> "mark1",
-	mark=> "67"
-	rationaleID=>"rationale1",
-	rationaleReadOnly => "",
-	rationale => "rationale")
-
-readonly attribute = "" means textarea can be edited
-readonly attribute = "readonly" means textarea can't be changed
-Allows this one twig file to generate all possible tables
-*/
