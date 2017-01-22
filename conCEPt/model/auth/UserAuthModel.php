@@ -38,6 +38,7 @@ class UserAuthModel
         return $this->statementHasResults($statement);
     }
 
+
     private function statementHasResults($statement) {
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 

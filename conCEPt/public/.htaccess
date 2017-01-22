@@ -1,7 +1,11 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /password/conCEPt/conCEPt/public/
+    RewriteBase /cs.seg04/password/conCEPt/conCEPt/public/
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %(REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
+    RewriteRule ^(.*)$ index.php?$1 [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+	ErrorDocument 404 /cs.seg04/password/conCEPt/conCEPt/public/index.php
 </IfModule>

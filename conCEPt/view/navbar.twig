@@ -1,0 +1,17 @@
+<a class="mobile">MENU</a>
+
+
+<div id="container">
+
+    <div class="sidebar">
+        <ul id="nav">
+            {% for navitem in navobjects %}
+            <li>
+                {% if navitem.selected == true %}
+                    <a class="selected" href={{ navitem.href }}>{{ navitem.text }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
