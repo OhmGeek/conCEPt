@@ -10,22 +10,23 @@ class SaveSubmitController
 		$this->retrieveInformation($postVariables);
 	}
 	
-	function getCurrentUser()
+	function getMarkerID()
 	{
-		//Get user from cookies
+		return "hkd4hdk";
 	}
 
 
 	//Retrieve data from the POST request variables from the form (sent in an array by index.php)
 	function retrieveInformation($postVariables)
 	{
-		//$currentUser = $this->getCurrentUser();
+		
+		//$currentUser = $this->getMarkerID();
 
 		//Get the following from POST variables or from parameters into this function
  		
 		$documentID = $postVariables["documentID"];
 		
-		$storeType = $postVariables["storeType"];
+		$storeType = $postVariables["action"]; //Save or Submit
 
 		$sections = array();
 		
@@ -33,7 +34,7 @@ class SaveSubmitController
 		$numberOfSections = $postVariables["numberOfSections"];
 		
 		// Iterate through all sections in the form
-		for($n=1; $n <= $numberOfSections; $n++)
+		for($n=1; $n < $numberOfSections; $n++)
 		{
 			
 			$sectionNumber = $n; //Section number in ordering on form
@@ -43,7 +44,8 @@ class SaveSubmitController
 				$mark = 0;
 			}
 			if (!(empty($postVariables["rationale".$n]))){
-				$rationale = $postVariables["rationale".$n]; //Rationale for this section
+				$rationale = trim($postVariables["rationale".$n]); //Rationale for this section
+				$rationale = stripslashes($rationale);
 			}else{
 				$rationale = "";
 			}	
@@ -58,8 +60,8 @@ class SaveSubmitController
 		
 		// Deal with the comments
 		if (isset($postVariables["comments"])){
-			$comments = $postVariables["comments"];
-			$section = array("sectionNumber"=>($numberOfSections+1),"mark"=>0, "rationale"=>$comments);
+			$comments = stripslashes(trim($postVariables["comments"]));
+			$section = array("sectionNumber"=>($numberOfSections),"mark"=>0, "rationale"=>$comments);
 			array_push($sections, $section);
 		}
 		
@@ -74,28 +76,35 @@ class SaveSubmitController
 
 		$Model = new saveSubmitModel();
 		
+		
 		foreach($sections as $section)
 		{
-			$Model->sendSection($documentID, $section["sectionNumber"], $section["mark"], $section["rationale"]);
+			$result = $Model->sendSection($documentID, $section["sectionNumber"], $section["mark"], $section["rationale"]);
+			if (!($result)){
+				echo($this->sendErrorMessage("Couldn't send a section"));
+				exit;
+			}
 		}
 
 		if ($storeType = "submit")
 		{
+			echo "submitted";
 			//Need to change the flag isSubmitted
-			//$Model->
+			echo($Model->submitForm($formID));
 		}
 
 
 		
 		//Send back confirmation or error message as  JSON to original page
 		if (successful){
-			sendSuccessMessage("Succeded at ".$storeType."ing");
+			echo($this->sendSuccessMessage("Succeded at ".$storeType."ing"));
 			exit;
 		}else{
-			sendErrorMessage("Failed to ".$storeType);
+			echo("Error");
+			echo($this->sendErrorMessage("Failed to ".$storeType));
 			exit;
 		}
-		*/		
+			
 	}
 	
 	function sendErrorMessage($e)

@@ -1,8 +1,8 @@
 <?php
 
-	class formSelectionController
-	{
-	}
+include '../model/formSelectionModel.php';
+class formSelectionController{
+	
 	
 	function __construct()
 	{
@@ -12,13 +12,16 @@
 	{
 		$Model = new formSelectionModel();
 		
-		//Generate navbar
-		$template = $twig->loadTemplate("navbar.twig");
-		$navbar = $template->render();
+		
+		//Generate navbar (Will be done by a separate file because of changes to forms in navbar)
+		//$template = $twig->loadTemplate("navbar.twig");
+		//$navbar = $template->render();
+		$navbar = "<h1>Navbar will be generated here</h1>";
+		
 		
 		//Get name of form
-		$formDetails = $Model->getFormDetails();
-		$documentName = //?????
+		$formDetails = $Model->getFormName($formTypeID);
+		$documentName = $formDetails[0]["Form_Title"];
 		
 		//Get list of students
 		$results = $Model->getStudentOptions($formTypeID);
@@ -26,21 +29,25 @@
 		$students = array();
 		foreach($results as $row)
 		{
-			$studentFName = $row["FName"];
-			$studentLName = $row["LName"];
-			$formID = $row["formID"];
+			
+			$studentFName = $row["Fname"];
+			$studentLName = $row["Lname"];
+			$studentLevel = $row["Year_Level"];
+			$formID = $row["Form_ID"];
 
 			$student = array();
 			$student["name"] = $studentFName." ".$studentLName;
+			$student["level"] = $studentLevel;
 			$student["formID"] = $formID;
 
 			array_push($students, $student);
 		}
 		
-		$loader = new Twig_Loader_Filesystem('../view/'/*Not sure where it will be*/);
+		$loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
 		$template = $twig->loadTemplate("formSelection.twig");
 		print($template->render(array("navbar"=>$navbar,"documentName"=>$documentName,"students"=>$students)));
 	}
+}
 ?>

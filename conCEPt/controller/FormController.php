@@ -4,9 +4,9 @@ include '../model/FormModel.php';
 
 Class FormController
 {
-    function __construct()
+    function __construct($formID)
     {
-        $this->generateEditableForm();
+        $this->generateEditableForm($formID);
     }
 
 /* 	TODO:
@@ -15,10 +15,10 @@ Class FormController
 		- Generate merged form
 		- Generate editable merged form */
 
-    function generateEditableForm()
+    function generateEditableForm($formID)
     {
 		$Model = new FormModel();
-		$loader = new Twig_Loader_Filesystem('../view/formPage/');
+		$loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
 		//GET THE DATA FROM SQL using form ID
@@ -31,30 +31,59 @@ Class FormController
 		
 		//Get student's name
 		$studentInfo = $Model->getStudentInformation($formID);
-		$studentName = $studentInfo["Fname"]." ".$studentInfor["Lname"];
-
-		//Get marker's details (if it returns 2 rows, form is merged
-		//For now, assume only one returned
-		$markerInfo = $Model->getMarkerInformation($formID);
-		$markerType = "Examiner";
-		if ($markerInfo["isSupervisor"]){
-			$markerType = "Supervisor";
-		}
-		$markerName = $markerInfo["Fname"]." ".$markerInfo["Lname"];
+		$studentInfo = $studentInfo[0];
+		$studentName = $studentInfo["Fname"]." ".$studentInfo["Lname"];
 
 		//Get general form information
 		$formInformation = $Model->getFormInformation($formID);
-		$formTitle = $formInformation["Form_Title"];
-		$isSubmitted = $formInformation["isSubmitted"];
+		$formInformation = $formInformation[0];
+		$formTitle = $formInformation["Form_title"];
+		$isSubmitted = $formInformation["IsSubmitted"];
+		
 		//$isMerged = $formInformation["isMerged"];
+
+
+		//Get marker's details (if not a merged form)
+		$examinerName = "";
+		$supervisorName = "";
+	
+		$markerInformation = $Model->getMarkerInformation($formID);
+		$markerInfo = $markerInformation[0];
+
+		$isSupervisor = $markerInfo["IsSupervisor"];
+		$markerName = $markerInfo["Fname"]." ".$markerInfo["Lname"];
+
+		if ($isSupervisor){
+			$supervisorName = $markerName;
+		}else{
+			$examinerName = $markerName;
+		}
+/* 		print_r($markerInformation);
+		print_r("Supervisor - ".$supervisorName);
+		print_r("Examiner - ".$examinerName); */
+		//If there is a second marker, get this marker
+/* 		if (count($markerInformation) > 1){
+			$markerInfo = $markerInfo[0];
+			$markerType = "Examiner";
+			if ($markerInfo["isSupervisor"]){
+				$markerType = "Supervisor";
+			}
+			$markerName = $markerInfo["Fname"]." ".$markerInfo["Lname"];
+		} */
+
 		
 		//Get the form details (title and sections)
 		$formDetails = $Model->getFormSections($formID);
 
-		$id = 1;
+		
+		//Need to add comments separately
+		//$id = 1;
 		$sections = array();
-		foreach($formDetails as $row)
+		//foreach($formDetails as $row)
+
+		for ($id = 0; $id < count($formDetails)-1; $id++)
 		{
+			$row = $formDetails[$id];
 			$sectionName = $row["Sec_Name"];
 			$sectionWeight = $row["Sec_Percent"];
 			$sectionCriteria = $row["Sec_Criteria"];
@@ -68,44 +97,81 @@ Class FormController
 			$template = $twig->loadTemplate("criteria.twig");
 			$criteria = $template->render(array('criteriaName'=>$sectionName,
 												'criteriaWeighting'=>$sectionWeight,
-												'criteriaList'=>$criteria);
+												'criteriaList'=>$criteria));
 			
 			$section["criteria"] = $criteria;
-			$section["markID"] = $id;
-			$section["markReadOnly"] = "";
+			$section["markID"] = $id+1;
+			$section["markReadOnly"] =  false;
 			if($isSubmitted){
-				$section["markReadOnly"] = "readonly";
+				$section["markReadOnly"] = true;
 			}
 			$section["mark"] = $sectionMark;
-			$section["rationaleID"] = $id;
-			$section["rationaleReadOnly"] = "";
+			$section["rationaleID"] = $id+1;
+			$section["rationaleReadOnly"] = false;
 			if ($isSubmitted){
-				$section["rationaleReeadOnly"] = "readonly";
+				$section["rationaleReadOnly"] = true;
 			}
+			
 			$section["rationale"] = $sectionRationale;
 
 			array_push($sections, $section);
+			
 		}
+		$commentsRow = $formDetails[count($formDetails)-1];
+		$comments = $commentsRow["Comment"];
+		$commentID = count($formDetails);
+		$commentsReadOnly = false;
+		if ($isSubmitted){
+			$commentsReadOnly = true;
+		}
+		
 		
 		$markingSections = array('formID'=>$formID, 'rows'=>$sections);
 	
 		//GENERATE HTML TABLE FROM allTables.twig
-        $template = $twig->loadTemplate("allTables.twig");
+		//$template = $twig->loadTemplate("allTables.twig");
+        $template = $twig->loadTemplate("editableTable.twig");
         $table = $template->render($markingSections);
 
+		
 		//GENERATE HTML FORM FROM editableForm.twig
+		$totalMark = -1; //Will be -1 if not a submitted form
+		
+		if ($isSubmitted){
+			$totalMark = $Model->getTotalMark($formID);
+			$totalMark = $totalMark[0];
+			$totalMark = $totalMark["Total"];
+		}
+		
+		$subtitle = "";
+		if ($examinerName == "" && $supervisorName != ""){
+			$subtitle = "Individual Supervisor's Report";
+		}elseif($examinerName != "" && $supervisorName == ""){
+			$subtitle = "Individual Examiner's Report";
+		}else{
+			$subtitle = "Final Report";
+		}
         $template = $twig->loadTemplate("editableForm.twig");
         $form = $template->render(array('table'=> $table,
                                         'title'=> $formTitle,
-                                        'markerType' => $markerType,
-                                        'markerName' => $markerName,
-                                        'studentName' => $studentName));
+										'subtitle' => $subtitle,
+                                        'examinerName' => $examinerName,
+                                        'supervisorName' => $supervisorName,
+                                        'studentName' => $studentName,
+										'totalMark' => $totalMark,
+										'formID' => $formID,
+										'comments'=>$comments,
+										'commentID'=>$commentID,
+										'commentsReadOnly'=>$commentsReadOnly));
 
-
-		//GENERATE NAVBAR
-		$template = $twig->loadTemplate("navbar.twig");
-		$navbar = $template->render();
-
+		
+		
+		//GENERATE NAVBAR (Will be done by a separate file because of changes to forms in navbar)
+		//$template = $twig->loadTemplate("navbar.twig");
+		//$navbar = $template->render();
+		$navbar = "<h1> Navbar will be generated here </h1>";
+		
+		
 		//GENERATE MAIN FORM PAGE FROM mainFormPage.twig
         $template = $twig->loadTemplate("mainFormPage.twig");
         print($template->render(array('navbar'=>$navbar,'form'=> $form)));
