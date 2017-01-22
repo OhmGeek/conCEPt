@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
 require_once(__DIR__ . '/../model/pdf/pdf_model.php');
-require_once(__DIR__ . '/../model/forms/FormModel.php');
+require_once(__DIR__ . '/../controller/forms/FormController.php');
 // deal with the odd installation we have going on
 
 $base = __DIR__;
@@ -35,8 +35,8 @@ switch ($path) {
 		echo $pdf->get_PDF();
 		break;
 	case "/?form/":
-		$formModel = new FormModel();
-		print_r($formModel->getFormByID(1));
+		$form = new FormController(2);
+		echo $form->generateEditableForm(2);
 		
 		break;
 	default:

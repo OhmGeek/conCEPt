@@ -38,23 +38,46 @@ class FormModel {
 				return $output;
 		}
 
-		public function getNamesOfParticipants($formID) {
+		public function getStudentName($formID) {
 			$statement = $this->db->prepare(
-					"SELECT Student.Fname, Student.Lname, Marker.Fname, Marker.Lname
-					 FROM Student, Marker, MS, MS_Form
-					 WHERE MS_Form.Form_ID = :formID
-					 	AND MS_Form.MS_ID = MS.MS_ID
-						AND MS.Marker_ID = Marker.Marker_ID
-						AND MS.Student_ID = Student.Student_ID");
+					"SELECT Student.Fname, Student.Lname
+					FROM MS_Form
+					JOIN MS ON MS.MS_ID = MS_Form.MS_ID
+					JOIN Student ON Student.Student_ID = MS.Student_ID
+					WHERE MS_Form.Form_ID = :formID");
 			$statement->bindValue(":formID",$formID,PDO::PARAM_STR);
 			$statement->execute();
-			$data = $statement->fetchAll(PDO::FETCH_ASSOC);
-			return array(
-			'student' => $data[0]['Student.Fname'] . " " . $data[0]['Student.Lname'],
-			'marker' => $data[0]['Marker.Fname'] . " " . $data[0]['Marker.Lname']
-			);
+			$output = $statement->fetchAll(PDO::FETCH_ASSOC);
+			return $output[0];
 		}
 
+		public function getMarkerName($formID) {
+			$statement = $this->db->prepare(
+					"SELECT Marker.Fname, Marker.Lname, MS.IsSupervisor
+					 FROM MS_Form
+					 JOIN MS ON MS.MS_ID = MS_Form.MS_ID
+					 JOIN Marker ON Marker.Marker_ID = MS.Marker_ID
+					 WHERE MS_Form.Form_ID = :formID");
+			$statement->bindValue(":formID",$formID,PDO::PARAM_STR);
+			$statement->execute();
+			$output = $statement->fetchAll(PDO::FETCH_ASSOC);
+			return $output[0];
+
+		}
+
+		public function getFormTitle($formID) {
+			$statement = $this->db->prepare(
+					"SELECT BaseForm.Form_title
+					 FROM Form
+					 JOIN BaseForm ON BaseForm.BForm_ID = Form.BForm_ID
+					 WHERE Form.Form_ID = :formID");
+			$statement->bindValue(":formID", $formID, PDO::PARAM_STR);
+			$statement->execute();
+			$output = $statement->fetchAll(PDO::FETCH_ASSOC);
+			return $output[0]['Form_title'];
+			
+
+		}
 		public function getBlankFormByBaseID($bFormID) {
 				$statement = $this->db->prepare(
 						"SELECT Sec_Name, Sec_Criteria, Sec_Percent
