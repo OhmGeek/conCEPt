@@ -28,8 +28,11 @@ switch ($path) {
 		break;
 	case "/?pdf_test/":
 		$html = "<!DOCTYPE html><html><body><h1>This is a test PDF</h1></body></html>";
-		$pdf = new PDF_Model($html).get_PDF();
-		return $pdf;
+		$pdf = new PDF_Model($html);
+		header("Content-type:application/pdf");
+		header("Content-Disposition:attachment;filename='downloaded.pdf'");
+		echo $pdf->get_PDF();
+		break;
 	default:
 		echo "404 Error\n";
 		echo $path;
