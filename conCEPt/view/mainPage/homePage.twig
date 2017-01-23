@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Stylesheet for printing -->
+		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		
+		<style>
+			body { padding-top: 60px;}
+		</style>
+	</head>
+	
+	<body>
+	<!-- Navigation bar -->
+		<div class = "container">
+			<!--Comes from navbar.twig-->
+			{{navbar|raw}}
+			
+			<!-- Main tab section here -->
+			<ul class ="nav nav-tabs">
+				<li class = "active"><a data-toggle="tab" href="#Students">Students</a></li>
+				<li><a data-toggle="tab" href="#Pending">Pending</a></li>
+				<li><a data-toggle="tab" href="#Submitted">Submitted</a></li>
+				<li><a data-toggle="tab" href="#Clashes">Clashes</a></li>
+			</ul>
+			<div class = "tab-content">
+			
+			<!--comes from tab.twig-->
+				{studentTab|raw}
+				{pendingTab|raw}
+				{submittedTab|raw}
+				{clashesTab|raw}
+			</div>
+		</div>
+	</body>
+</html>

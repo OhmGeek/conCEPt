@@ -37,3 +37,4 @@ switch ($path) {
 		echo "404 Error\n";
 		echo $path;
 }
+
