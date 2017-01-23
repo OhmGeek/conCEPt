@@ -4,10 +4,10 @@ require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
 require_once(__DIR__ . '/../model/pdf/pdf_model.php');
 // deal with the odd installation we have going on
 
-$base = __DIR__;
-$path = preg_replace("/cs.seg04\/password\/conCEPt\/conCEPt\/public\//", "", $_SERVER['REQUEST_URI']);
 $request_type = $_SERVER['REQUEST_METHOD'];
-
+$parts = explode("&",$_SERVER['QUERY_STRING']);
+// this gets only the path part, no get variables
+$path = $parts[0];
 
 // strip the base path
 
