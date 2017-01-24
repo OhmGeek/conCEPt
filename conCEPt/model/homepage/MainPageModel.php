@@ -17,7 +17,7 @@ class MainPageModel
 	public function getStudentForms() {
 		$marker = $this->getMarkerID();
 		$statement = $this->db->prepare(
-				"SELECT Student.Student_ID, Form.Form_ID, BaseForm.Form_title
+				"SELECT Student.Student_ID, Form.Form_ID, BaseForm.Form_Title
 				 FROM MS_Form
 				 JOIN MS ON MS.MS_ID = MS_Form.MS_ID
 				 JOIN Marker ON Marker.Marker_ID = MS.Marker_ID

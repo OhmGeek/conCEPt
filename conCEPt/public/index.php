@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
 require_once(__DIR__ . '/../model/pdf/pdf_model.php');
+require_once(__DIR__ . '/../controller/homepage/Home_Controller.php');
 // deal with the odd installation we have going on
 
 $base = __DIR__;
@@ -16,7 +17,9 @@ switch ($path) {
 	case "/?":
 	case "/":
 	case "":
-		echo Auth_Controller::auth_page($_SERVER['REMOTE_USER']);
+		//echo Auth_Controller::auth_page($_SERVER['REMOTE_USER']);
+		$cont = new MainPageController();
+		echo $cont->generatePage();
 		break;
 
 	case "/?admin/":
