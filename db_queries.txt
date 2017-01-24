@@ -110,6 +110,29 @@ JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
 JOIN `Marker` ON `Marker`.`Marker_ID` = `MS`.`Marker_ID`
 WHERE `MergedForm`.`MForm_ID` = 8
 
+
+/* get base form id, student id and if a marker is supervisor - based on form id */
+
+SELECT `Form`.`BForm_ID`, `Student`.`Student_ID`, `MS`.`IsSupervisor`
+FROM `Form` 
+JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
+JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+JOIN `Student` ON `Student`.`Student_ID` = `MS`.`Student_ID`
+WHERE `Form`.`Form_ID` = 1
+
+
+/* get the form ID of the other marker if he has submitted his form - based on student id, base form id, form id, and isSupervisor */
+
+SELECT `Form`.`Form_ID`
+FROM `Form` 
+JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
+JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+JOIN `Student` ON `Student`.`Student_ID` = `MS`.`Student_ID`
+WHERE `Student`.`Student_ID` = 'cnng04' AND `Form`.`BForm_ID` = 1 
+AND `Form`.`Form_ID` != 1 AND `Form`.`IsSubmitted` = 1 AND `MS`.`IsSupervisor` != 1
+ORDER BY `Form`.`Time_Stamp` DESC
+
+
 /*** for adding data ***/
 
 /* inserting a comment and mark of a specific section - based on its order and the form ID */
