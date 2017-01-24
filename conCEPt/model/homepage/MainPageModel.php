@@ -31,7 +31,7 @@ class MainPageModel
 		$statement->execute();
 
 		//fetch all forms, grouped by student ID
-		return $statement->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_GROUP);
+		return $statement->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);
 		}
 	
 	public function getStudentInformation() {
@@ -43,12 +43,13 @@ class MainPageModel
 				 JOIN Marker ON Marker.Marker_ID = MS.Marker_ID
 				 JOIN Student ON Student.Student_ID = MS.Student_ID
 				 WHERE Marker.Marker_ID = :markerID
+				 GROUP BY Student.Student_ID
 		");
 				 
 		$statement->bindValue(':markerID',$marker,PDO::PARAM_STR);
 		$statement->execute();
 
-		return $statement->fetchAll(PDO::FETCH_ASSOC);
+		return $statement->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);
 	}
 
 
