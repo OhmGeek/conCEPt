@@ -7,8 +7,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		{$ for row in rows %}
-			{{row|raw}}
+		{$ for doc in docs %}
+			<tr class = {{doc.type}}> 
+				<td>{{doc.title}}</td>
+				<td> {{doc.complete1}} {{doc.link}}</td>
+				<td> {{doc.complete3}} {{doc.linkMerged}}</td>
+			</tr>
 		{% endfor %}
 	</tbody>
 </table>

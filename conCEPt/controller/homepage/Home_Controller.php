@@ -19,7 +19,10 @@ class MainPageController
 		//Generate Student pane
 		$student_forms = $model->getStudentForms();
 		$students = $model->getStudentInformation();
+		$twig_data = array();
 
+		// now go through all the data gathered, rendering the page itself
+		
 		echo "Forms";
 		print_r($student_forms);
 		echo "Students Themselves";
