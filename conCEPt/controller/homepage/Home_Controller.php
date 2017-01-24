@@ -19,7 +19,7 @@ class mainPageController
 		//Generate Student pane
 		$students = $model->getStudents();
 		$all_students = array();
-		for($students as $student) {
+		foreach($student as $students) {
 			array_push($all_students,$student['Fname'] . " " .  $student['Lname']);
 		}
 		//todo get the documents for each student (from the model).
