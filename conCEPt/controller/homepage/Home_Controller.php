@@ -1,6 +1,6 @@
 <?php
 
-class mainPageController
+class MainPageController
 {
 
 	function __construct()
@@ -17,13 +17,14 @@ class mainPageController
         $twig = new Twig_Environment($loader);
 
 		//Generate Student pane
-		$students = $model->getStudents();
-		$all_students = array();
-		foreach($student as $students) {
-			array_push($all_students,$student['Fname'] . " " .  $student['Lname']);
-		}
-		//todo get the documents for each student (from the model).
-		$student_pane = $twig->loadTemplate('studentPanel.twig');
+		$student_forms = $model->getStudentForms();
+		$students = $model->getStudentInformation();
+
+		echo "Forms";
+		print_r($student_forms);
+		echo "Students Themselves";
+		print_r($students);
+		//$student_pane = $twig->loadTemplate('studentPanel.twig');
 		//Generate pending pane
 
 		
