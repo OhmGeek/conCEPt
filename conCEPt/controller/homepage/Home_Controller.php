@@ -21,6 +21,18 @@ class MainPageController
 		$students = $model->getStudentInformation();
 		$twig_data = array();
 
+		foreach($students as $studentID) {
+			$forms = array();
+			foreach($student_forms[$studentID] as $index) {
+					$form = array('formID'=> array(
+						'title' => \\todo get title,
+						'complete1' => ,
+						'link' => ,
+						'linkMerged' => ,
+						'type' => ,
+					);
+			}
+		}
 		// now go through all the data gathered, rendering the page itself
 		
 		echo "Forms";
