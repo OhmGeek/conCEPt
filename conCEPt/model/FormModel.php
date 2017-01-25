@@ -38,7 +38,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-
+	//Returns the Form Title, and whether it is submitted and/or merged
 	function getFormInformation($formID)
 	{
 		$db = DB::getDB();
@@ -53,6 +53,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	//Returns all sections from a given form
 	function getFormSections($formID)
 	{
 		$db = DB::getDB();
@@ -68,7 +69,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	
+	//Returns the total mark of a given form
 	function getTotalMark($formID)
 	{
 		$db = DB::getDB();
@@ -84,7 +85,56 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	//Have separate function for merged document as there will be 2 markers?
+	//FUNCTIONS FOR DEALING WITH ANYTHING MERGE RELATED
+	
+	//Returns the ID of the form that $formID contributes to
+	function getMergedForm($formID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("");
+								
+		$statement->bindValue(':formID',$formID, PDO::PARAM_INT);												
+
+		$statement->execute();
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	//Returns the sections causing conflict in a merged form
+	function getConflicts($mergedFormID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("");
+								
+		$statement->bindValue(':formID',$mergedFormID, PDO::PARAM_INT);												
+
+		$statement->execute();
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	//Returns 1 if the current marker is the supervisor for this merged form, 0 if examiner
+	function isSupervisor($mergedFormID, $currentMarkerID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("");
+								
+		$statement->bindValue(':formID',$mergedFormID, PDO::PARAM_INT);												
+
+		$statement->execute();
+		
+		return count($statement->fetchAll(PDO::FETCH_ASSOC));
+	}
+	
+	function isEdited($mergedFormID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("");
+								
+		$statement->bindValue(':formID',$mergedFormID, PDO::PARAM_INT);												
+
+		$statement->execute();
+		
+		return count($statement->fetchAll(PDO::FETCH_ASSOC));
+	}
 
 }
 
