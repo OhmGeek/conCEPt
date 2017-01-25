@@ -13,6 +13,7 @@ class SaveSubmitController
 	function getMarkerID()
 	{
 		return "hkd4hdk";
+		//return $_SERVER["REMOVE_USER"];
 	}
 
 
@@ -22,14 +23,19 @@ class SaveSubmitController
 		
 		//$currentUser = $this->getMarkerID();
 
-		//Get the following from POST variables or from parameters into this function
- 		
-		$documentID = $postVariables["documentID"];
-		
+		//Get the formID and the storeType
+		$formID = $postVariables["documentID"];
 		$storeType = $postVariables["action"]; //Save or Submit
+		
+		//If storeType is Confirm or Reject, form is completed merged form, only need to change a flag
+		if($storeType == "Confirm"){
+			$Model->submitForm($formID);
+		}elseif($storeType == "Reject"){
+			//$Model->changeEditedFlag($formID, 0);
+		}
 
 		$sections = array();
-		
+		print_r($storeType);
 		// The number of sections in the form (ignoring the comments);
 		$numberOfSections = $postVariables["numberOfSections"];
 		
@@ -54,8 +60,7 @@ class SaveSubmitController
 			"rationale"=>$rationale);
 			
 			array_push($sections, $section);
-			
-			
+		
 		}
 		
 		// Deal with the comments
@@ -65,34 +70,52 @@ class SaveSubmitController
 			array_push($sections, $section);
 		}
 		
-		// Create array of results
-/* 		$response = array();
-		$response["sections"] = $sections;
-		$response["documentID"] = $documentID;
-		$response["storeType"] = $storeType;
-		$response = json_encode($response);
-
-		//echo $response; */
-
 		$Model = new saveSubmitModel();
-		
 		
 		foreach($sections as $section)
 		{
-			$result = $Model->sendSection($documentID, $section["sectionNumber"], $section["mark"], $section["rationale"]);
+			$result = $Model->sendSection($formID, $section["sectionNumber"], $section["mark"], $section["rationale"]);
 			if (!($result)){
 				echo($this->sendErrorMessage("Couldn't send a section"));
 				exit;
 			}
 		}
 
-		if ($storeType = "submit")
+		if ($storeType == "Submit")
 		{
-			echo "submitted";
-			//Need to change the flag isSubmitted
-			echo($Model->submitForm($formID));
+			//If this is a merged form (it has been edited by the supervisor)
+			$isMerged = $Model->isMergedForm($formID);
+			if ($isMerged){$Model->changeEditedFlag($formID, 1);}
+			else{
+				$Model->submitForm($formID);
+				//Get details from this form
+				$details = $Model->getGeneralDetails($formID);
+				$details = $details[0];
+				$BFormID = $details["BForm_ID"];
+				$studentID = $details["Student_ID"];
+				$isSupervisor = $details["IsSupervisor"];
+				//Find other marker's form
+				$otherForm = $Model->getOtherMarkersForm($studentID, $BFormID, $isSupervisor);
+				if (count($otherForm) > 0){
+					$otherForm = $otherForm[0];
+					$otherForm = $otherForm["Form_ID"];
+					if($isSupervisor){
+						$SForm = $formID;
+						$EForm = $otherForm;
+					}else{
+						$SForm = $otherForm;
+						$EForm = $formID;
+					}
+					$result = $Model->mergeForms($Eform, $SForm);
+					//Find conflicts (either in a query or in a function in this file)
+					$Model->updateConflicts($mergedForm, $conflicts);
+					//Write conflicts to table
+					//Open up two forms 
+					$Model->openForm($Eform);
+					$Model->openForm($SForm);
+				}
+			}
 		}
-
 
 		
 		//Send back confirmation or error message as  JSON to original page
