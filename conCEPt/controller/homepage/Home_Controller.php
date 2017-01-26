@@ -7,6 +7,32 @@ class MainPageController
 	{
 	}
 
+	private function generateStudentPane($twig,$model) {
+		//Generate Student pane
+		$student_forms = $model->getStudentForms();
+		$students = $model->getStudentInformation();
+		$twig_data = array();
+
+		foreach($students as $studentID) {
+			$forms = array();
+			foreach($student_forms[$studentID] as $form) {
+					$form = array('formID'=> array(
+						'title' => $form['title'],
+						'submitted' => $form['submittedmsg'],
+						'submitted_link' => $form['completelink'],
+						'shadow_submitted' => $form['complete2'],
+						'shadow_link' => $form['complete2link'],
+						'linkMerged' => $form['mergedlink'],
+						'type' => $form['type']
+					);
+			}
+		}
+		// now go through all the data gathered, rendering the page itself
+		
+		$student_pane = $twig->loadTemplate('studentPanel.twig');
+		return $student_pane->render($twig_data);
+	}
+
 	function generatePage()
 	{
 		$model = new MainPageModel();
@@ -16,30 +42,9 @@ class MainPageController
 		$loader = new Twig_Loader_Filesystem('../view/homepage/');
         $twig = new Twig_Environment($loader);
 
-		//Generate Student pane
-		$student_forms = $model->getStudentForms();
-		$students = $model->getStudentInformation();
-		$twig_data = array();
+		// student pane
+		$student_pane = $this->generateStudentPane($twig,$model);
 
-		foreach($students as $studentID) {
-			$forms = array();
-			foreach($student_forms[$studentID] as $index) {
-					$form = array('formID'=> array(
-						'title' => \\todo get title,
-						'complete1' => ,
-						'link' => ,
-						'linkMerged' => ,
-						'type' => ,
-					);
-			}
-		}
-		// now go through all the data gathered, rendering the page itself
-		
-		echo "Forms";
-		print_r($student_forms);
-		echo "Students Themselves";
-		print_r($students);
-		//$student_pane = $twig->loadTemplate('studentPanel.twig');
 		//Generate pending pane
 
 		
