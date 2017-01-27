@@ -279,7 +279,7 @@ ON DUPLICATE KEY UPDATE
 SELECT `Form_ID`
 FROM `Form`
 LEFT JOIN `MergedForm` ON `MergedForm`.`MForm_ID` = `Form`.`Form_ID`
-WHERE `IsMerged` = -1 AND `MergedForm`.`MForm_ID` IS NULL
+WHERE `IsMerged` = -1 AND `MergedForm`.`MForm_ID` IS NULL AND `BForm_ID` = 1
 ORDER BY `Form_ID` ASC
 LIMIT 1
 
