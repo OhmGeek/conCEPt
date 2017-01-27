@@ -15,7 +15,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{$ for doc in docs %}
+					{% for doc in docs %}
 					<tr class = {{doc.type}}> 
 						<td>{{doc.title}}</td>
 							<td> {{doc.complete1}} {{doc.link}}</td>
