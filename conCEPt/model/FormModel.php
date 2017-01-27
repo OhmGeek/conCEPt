@@ -22,7 +22,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	//Returns an array of information about 1 or 2 markers
+	//Returns an array of information about 1 
 	function getMarkerInformation($formID)
 	{
 		$db = DB::getDB();
@@ -87,13 +87,48 @@ class FormModel
 
 	//FUNCTIONS FOR DEALING WITH ANYTHING MERGE RELATED
 	
+	function getStudentInformationMerged($formID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("SELECT `Student`.`Fname` , `Student`.`Lname` , `Student`.`Year_Level`
+								FROM `MergedForm`
+								JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID`
+								JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+								JOIN  `Student` ON  `Student`.`Student_ID` =  `MS`.`Student_ID` 
+								WHERE `MergedForm`.`MForm_ID` = :formID");
+								
+		$statement->bindValue(':formID',$formID, PDO::PARAM_INT);												
+
+		$statement->execute();
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	function getMarkerInformationMerged($formID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("SELECT `Marker`.`Fname`, `Marker`.`Lname`, `MS`.`IsSupervisor`
+									FROM `MergedForm`
+									JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID` OR `MS_Form`.`Form_ID` = `MergedForm`.`SForm_ID`
+									JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+									JOIN `Marker` ON `Marker`.`Marker_ID` = `MS`.`Marker_ID`
+									WHERE `MergedForm`.`MForm_ID` = :formID");
+								
+		$statement->bindValue(':formID', $formID, PDO::PARAM_INT);												
+
+		$statement->execute();
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
 	//Returns the ID of the form that $formID contributes to
 	function getMergedForm($formID)
 	{
 		$db = DB::getDB();
-		$statement = $db->prepare("");
+		$statement = $db->prepare("SELECT `MForm_ID` 
+									FROM `MergedForm` 
+									WHERE `EForm_ID` = :eformID OR `SForm_ID` = :sformID");
 								
-		$statement->bindValue(':formID',$formID, PDO::PARAM_INT);												
+		$statement->bindValue(':eformID',$formID, PDO::PARAM_INT);												
+		$statement->bindValue(':sformID',$formID, PDO::PARAM_INT);												
 
 		$statement->execute();
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -103,7 +138,9 @@ class FormModel
 	function getConflicts($mergedFormID)
 	{
 		$db = DB::getDB();
-		$statement = $db->prepare("");
+		$statement = $db->prepare("SELECT `Sec_ID` 
+									FROM `SectionConflict` 
+									WHERE `Form_ID` = :formID");
 								
 		$statement->bindValue(':formID',$mergedFormID, PDO::PARAM_INT);												
 
@@ -115,25 +152,50 @@ class FormModel
 	function isSupervisor($mergedFormID, $currentMarkerID)
 	{
 		$db = DB::getDB();
-		$statement = $db->prepare("");
+		$statement = $db->prepare("SELECT `MS`.`IsSupervisor` 
+									FROM `MergedForm`
+									JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID` OR `MS_Form`.`Form_ID` = `MergedForm`.`SForm_ID`
+									JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+									WHERE `MergedForm`.`MForm_ID` = :formID AND `MS`.`Marker_ID` = :markerID");
 								
 		$statement->bindValue(':formID',$mergedFormID, PDO::PARAM_INT);												
+		$statement->bindValue(':markerID',$currentMarkerID, PDO::PARAM_STR);												
 
 		$statement->execute();
 		
-		return count($statement->fetchAll(PDO::FETCH_ASSOC));
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
+	//Returns 1 if isEdited
 	function isEdited($mergedFormID)
 	{
 		$db = DB::getDB();
-		$statement = $db->prepare("");
+		$statement = $db->prepare("SELECT `IsEdited` 
+									FROM `MergedForm` 
+									WHERE `MForm_ID` = :formID");
 								
 		$statement->bindValue(':formID',$mergedFormID, PDO::PARAM_INT);												
 
 		$statement->execute();
 		
-		return count($statement->fetchAll(PDO::FETCH_ASSOC));
+		return $statement->fetchAll(PDO::FETCH_ASSOC);
+		
+	}
+	
+	function getSectionOrderFromID($sectionID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("SELECT `Section`.`Sec_Order` 
+									FROM `Section`
+									WHERE `Section`.`Sec_ID` = :sectionID");
+								
+		$statement->bindValue(':sectionID',$sectionID, PDO::PARAM_INT);												
+
+		$statement->execute();
+		
+		$results = $statement->fetchAll(PDO::FETCH_ASSOC);
+		$result = $results[0];
+		return $result["Sec_Order"];
 	}
 
 }
