@@ -21,6 +21,7 @@ class MainPageController
 						$submitted_msg = "Submitted";
 					}
 					$form = array('formID'=> array(
+<<<<<<< HEAD
 						'title' => $value['Form_Title'],
 						'submitted' => $submitted_msg,
 						'submitted_link' => 'todo: link',
@@ -33,6 +34,16 @@ class MainPageController
 					// now add this form to the list of forms for the student
 					array_push($forms,$form);
 
+=======
+						'title' => $form['title'],
+						'submitted' => $form['submittedmsg'],
+						'submitted_link' => $form['completelink'],
+						'shadow_submitted' => $form['complete2'],
+						'shadow_link' => $form['complete2link'],
+						'linkMerged' => $form['mergedlink'],
+						'type' => $form['type'],
+					));
+>>>>>>> c3e07277d3a814efcdbb5ed4cfcda7a56e5340e7
 			}
 			$student = array(
 					'name' => "Hi",
@@ -58,6 +69,8 @@ class MainPageController
 		// student pane
 		$student_pane = $this->generateStudentPane($twig,$model);
 
+		// for now we shall just return the student pane
+		return $student_pane;
 		//Generate pending pane
 
 		
