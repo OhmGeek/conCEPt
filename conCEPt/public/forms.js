@@ -28,16 +28,29 @@ $(document).ready(function(){
 			console.log(this);
 			numberOfSections += 1;
 			console.log(this.name);
+			var name = this.name;
+			var name = this.name.split("-");
+			var type = name[0];
+			console.log(name);
+			console.log(type);
+			if (type == "mark"){
+				var valid = checkMark(this.value);
+				console.log(valid);
+				if (!valid){
+					//errorMessage
+					return;
+				}else{
+					jsonData[this.name]=this.value;
+				}
+			}
 			console.log(this.value);
 			jsonData[this.name]=this.value;
 		});
-		//jsonData["sections"] = sections;
 
 		jsonData["documentID"] = $("form").attr("id");
-		//DON'T KNOW HOW TO GET THE STORE TYPE FROM THE FORM YET
-		jsonData["numberOfSections"] = Math.floor((numberOfSections+1)/2)
+		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
 		console.log(jsonData);
-	
+		
  		$.post("index.php?route=send", jsonData, function(response){
 			console.log(response);
 			if (response.hasOwnProperty("error")){
@@ -73,8 +86,12 @@ $(document).ready(function(){
 			console.log("Allowing submit");
 			$("input[name='action'][value='Submit']").removeAttr("disabled");
 		}else{
-			$("input[name='action'][value='Save']").attr("disabled","disabled");
+			$("input[name='action'][value='Submit']").attr("disabled","disabled");
 		}
+	}
+	
+	function checkMark(mark){
+		return (parseInt(mark) >= 0 && parseInt(mark) <= 100);
 	}
 	
 });
