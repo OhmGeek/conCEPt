@@ -211,8 +211,6 @@ WHERE `Form_ID` = 1
 
 /* insert a new merged form - based on examiner form id and supervisor form id */
 
-
-Fatema
 INSERT INTO `Form`(`BForm_ID`, `IsMerged`) 
 SELECT `Form`.`BForm_ID`, -1
 FROM `Form`
@@ -274,4 +272,14 @@ FROM (
 GROUP BY `Sec_ID`
 ON DUPLICATE KEY UPDATE
  `Sec_ID` = VALUES(`Sec_ID`), `Comment` = VALUES(`Comment`), `Mark`= VALUES(`Comment`)
+
+
+/* to find un-used merged form id */
+
+SELECT `Form_ID`
+FROM `Form`
+LEFT JOIN `MergedForm` ON `MergedForm`.`MForm_ID` = `Form`.`Form_ID`
+WHERE `IsMerged` = -1 AND `MergedForm`.`MForm_ID` IS NULL
+ORDER BY `Form_ID` ASC
+LIMIT 1
 
