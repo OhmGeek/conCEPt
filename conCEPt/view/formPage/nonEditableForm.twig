@@ -27,17 +27,13 @@
 
 <div class = "general-comments">
 	General comments<br>
-	<div class = "comments  {% if commentsReadOnly %} no-edit {% endif %}"><textarea form="{{formID}}" name="comments" {% if commentsReadOnly %} readonly {% endif %}> {{comments}} </textarea></div>
+	<div class = "comments padding">{{comments}}</div>
 </div>
 
-<div style="padding-top:10px;">
-		<label>Submission comment</label>
-		<input type = "text" form="{{formID}}" name = "submitComment" Placeholder="Initial Submission" style="width:100%;"></input>
-</div>	
-<!-- Change these to buttons instead? -->
-
-<form  id ="{{formID}}" {% if not displayFormSubmission %} style="display:none;" {% endif %} >
-
-	<input type="submit" name = "action" value="Submit" disabled  />
-	<input type="submit" name = "action" value="Save"  />
+{% if confirmButton %}
+<form >
+	<input type="submit" name = "action" value="Confirm" />
+	<input type="submit" name = "action" value="Reject"  />
 </form>
+{% endif %}
+

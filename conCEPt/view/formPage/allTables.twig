@@ -12,13 +12,13 @@
 		<tr>
 			<td class = "padding">{{row.criteria|raw}}</td>
 			{% if row.markReadOnly %}
-				<td class = "no-edit">{{row.mark}}</td>
+				<td>{{row.mark}}</td>
 			{% else %}
 			<td><textarea form="{{formID}}" name= "mark-{{row.markID}}">{{row.mark}}</textarea></td>
 			{% endif %}
 
 			{% if row.rationaleReadOnly  %}
-			<td class="no-edit">{{row.rationale}}</td>
+			<td>{{row.rationale}}</td>
 			{% else %}
 			<td><textarea form="{{formID}}" name = "rationale-{{row.rationaleID}}"> {{row.rationale}} </textarea></td>
 			{% endif %}
