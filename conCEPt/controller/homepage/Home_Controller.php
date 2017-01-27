@@ -23,8 +23,8 @@ class MainPageController
 						'shadow_submitted' => $form['complete2'],
 						'shadow_link' => $form['complete2link'],
 						'linkMerged' => $form['mergedlink'],
-						'type' => $form['type']
-					);
+						'type' => $form['type'],
+					));
 			}
 		}
 		// now go through all the data gathered, rendering the page itself
@@ -45,6 +45,8 @@ class MainPageController
 		// student pane
 		$student_pane = $this->generateStudentPane($twig,$model);
 
+		// for now we shall just return the student pane
+		return $student_pane;
 		//Generate pending pane
 
 		
