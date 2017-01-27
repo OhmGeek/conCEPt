@@ -1,3 +1,4 @@
+{% for student in students %}
 <div class = "panel panel-default">
 	<div class = "panel-heading">
 		<h4 class = "panel-title">
@@ -15,11 +16,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for doc in docs %}
+					{% for doc in forms %}
 					<tr class = {{doc.type}}> 
 						<td>{{doc.title}}</td>
-							<td> {{doc.complete1}} {{doc.link}}</td>
-							<td> {{doc.complete3}} {{doc.linkMerged}}</td>
+							<td> {{doc.submitted}} {{doc.submitted_link}}</td>
+							<td> {{Merged}} {{doc.linkMerged}}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -27,3 +28,4 @@
 		</div>
 	</div>
 </div>
+{% endfor %}
