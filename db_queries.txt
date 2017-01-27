@@ -111,6 +111,16 @@ JOIN `Marker` ON `Marker`.`Marker_ID` = `MS`.`Marker_ID`
 WHERE `MergedForm`.`MForm_ID` = 8
 
 
+/* get student for a merged form - based on merged from id */
+
+SELECT `Student`.`Fname` , `Student`.`Lname` , `Student`.`Year_Level`
+FROM `MergedForm`
+JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID`
+JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+JOIN  `Student` ON  `Student`.`Student_ID` =  `MS`.`Student_ID` 
+WHERE `MergedForm`.`MForm_ID` = 9
+
+
 /* get base form id, student id and if a marker is supervisor - based on form id */
 
 SELECT `Form`.`BForm_ID`, `Student`.`Student_ID`, `MS`.`IsSupervisor`
@@ -132,6 +142,34 @@ WHERE `Student`.`Student_ID` = 'cnng04' AND `Form`.`BForm_ID` = 1
 AND `Form`.`Form_ID` != 1 AND `Form`.`IsSubmitted` = 1 AND `MS`.`IsSupervisor` != 1
 ORDER BY `Form`.`Time_Stamp` DESC
 
+
+/* get the merged form id - based on a form id that is part of the merged form */
+
+SELECT `MForm_ID` 
+FROM `MergedForm` 
+WHERE `EForm_ID` = 1 OR `SForm_ID` = 1
+
+
+/* Returns the sections causing conflict in a merged form - based on section form ID */
+
+SELECT `Sec_ID` 
+FROM `SectionConflict` 
+WHERE `Form_ID` = 8
+
+
+/* Returns 1 if the current marker is the supervisor for this merged form, 0 if examiner */
+
+SELECT `MS`.`IsSupervisor` 
+FROM `MergedForm`
+JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID` OR `MS_Form`.`Form_ID` = `MergedForm`.`SForm_ID`
+JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+WHERE `MergedForm`.`MForm_ID` = 8 AND `MS`.`Marker_ID` = 'hkd4hdk'
+
+/* check if a form is edited - based on merged form id */
+
+SELECT `IsEdited` 
+FROM `MergedForm` 
+WHERE `MForm_ID` = 8
 
 /*** for adding data ***/
 
@@ -170,3 +208,70 @@ WHERE `SectionMarking`.`Form_ID` = 1 AND `Section`.`Sec_Order` = 1
 UPDATE `Form` 
 SET `IsSubmitted`= 1, `Time_Stamp` = NOW()
 WHERE `Form_ID` = 1
+
+/* insert a new merged form - based on examiner form id and supervisor form id */
+
+
+Fatema
+INSERT INTO `Form`(`BForm_ID`, `IsMerged`) 
+SELECT `Form`.`BForm_ID`, -1
+FROM `Form`
+WHERE `Form`.`Form_ID` = 3;
+
+INSERT INTO `MergedForm`(`MForm_ID`,`EForm_ID`,`SForm_ID`)
+SELECT LAST_INSERT_ID(), 3, 1;
+
+SET group_concat_max_len = 65535;
+
+INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`, `Comment`, `Mark`) 
+SELECT `Sec_ID`, LAST_INSERT_ID() , GROUP_CONCAT(`Comment` SEPARATOR ' '), AVG(`Mark`)
+FROM (
+	SELECT `Sec_ID`, `Form_ID`, `Comment`, `Mark` FROM `SectionMarking` WHERE `Form_ID` = 3
+    UNION ALL
+    SELECT `Sec_ID`, `Form_ID`, `Comment`, `Mark` FROM `SectionMarking` WHERE `Form_ID` = 1
+) AS B
+GROUP BY `Sec_ID`
+
+
+/* insert conflicted section into the sectionConflict table - based on merged form id and an examiner or supervisor form id */
+
+INSERT INTO `SectionConflict`(`Form_ID`,`Sec_ID`)
+SELECT s1.`Form_ID`,s1.`Sec_ID`
+FROM (SELECT `Sec_ID`, `Form_ID`, `Comment`, `Mark` FROM `SectionMarking` WHERE `Form_ID` = 39) s1
+INNER JOIN (SELECT `Sec_ID`, `Form_ID`, `Comment`, `Mark` FROM `SectionMarking` WHERE `Form_ID` = 1) s2 ON s2.`Sec_ID` = s1.`Sec_ID`
+WHERE s1.`Form_ID` = 39 AND s2.`Form_ID`= 3 AND s1.`Mark` - s2.`Mark` > 5 OR s2.`Mark` - s1.`Mark` > 5
+
+
+/* duplicate a form - based on form id */
+
+INSERT INTO `Form`(`BForm_ID`, `IsSubmitted`, `IsMerged`, `Comment`, `Time_Stamp`) 
+SELECT `BForm_ID`, `IsSubmitted`, `IsMerged`, `Comment`, `Time_Stamp`
+FROM `Form`
+WHERE `Form_ID` = 3;
+
+INSERT INTO `MS_Form`(`MS_ID`, `Form_ID`)
+SELECT `MS_ID`, LAST_INSERT_ID()
+FROM `MS_Form`
+WHERE `Form_ID` = 3;
+
+INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`, `Comment`, `Mark`) 
+SELECT `Sec_ID`, LAST_INSERT_ID() , `Comment`, `Mark`
+FROM (
+	SELECT `Sec_ID`, `Form_ID`, `Comment`, `Mark` FROM `SectionMarking` WHERE `Form_ID` = 3
+) AS B
+GROUP BY `Sec_ID`
+
+
+/* update a merged form - based on merged form id */
+
+INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`, `Comment`, `Mark`) 
+SELECT `Sec_ID`, 39 , GROUP_CONCAT(`Comment` SEPARATOR ' '), AVG(`Mark`)
+FROM (
+	SELECT `Sec_ID`, `Form_ID`, `Comment`, `Mark` FROM `SectionMarking` WHERE `Form_ID` = 3
+    UNION ALL
+    SELECT `Sec_ID`, `Form_ID`, `Comment`, `Mark` FROM `SectionMarking` WHERE `Form_ID` = 1
+) AS B
+GROUP BY `Sec_ID`
+ON DUPLICATE KEY UPDATE
+ `Sec_ID` = VALUES(`Sec_ID`), `Comment` = VALUES(`Comment`), `Mark`= VALUES(`Comment`)
+
