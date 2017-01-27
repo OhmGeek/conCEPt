@@ -13,6 +13,8 @@ Class FormController
 	{
 		//return $_SERVER["REMOTE_USER"];
 		//return something hardcoded this time
+		return "hkd4hdk";
+		//return "knd6usj";
 	}
 	
     function generateForm($formID)
@@ -21,6 +23,8 @@ Class FormController
 		$loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
+		//CHECK THIS PERSON HAS ACCESS TO THE FORM (Either through merged form, or their own form)
+		
 		//Get general form information (title, isSubmitted, isMerged)
 		$formInformation = $Model->getFormInformation($formID);
 		$formInformation = $formInformation[0];
@@ -32,12 +36,12 @@ Class FormController
 		//Checks to determine what to display
 		if($isMerged == 0){
 			//Individual form, not involved in a merge
-			if (!($isSubmitted)){$this->displayEditableForm($formID, $twig, $Model, $formTitle, $isSubmitted);}
+			if (!($isSubmitted)){$this->displayEditableForm($formID, $twig, $Model, $formTitle);}
 			else{$this->displaySubmitted($formID, $twig, $Model, $formTitle);}
-		}elseif($isMerged == -1){
+		}elseif($isMerged == 1){
 			//Individual form involved in merge, doesn't matter who is trying to view it
 			//Get formID of merged form
-			$mergedFormID = $this->getMergedForm($formID);
+			$mergedFormID = $Model->getMergedForm($formID);
 			$mergedFormID = $mergedFormID[0];
 			$mergedFormID = $mergedForm["Form_ID"];
 			//Check if it has conflicts
@@ -45,32 +49,45 @@ Class FormController
 			$conflictSections = array();
 			foreach($results as $conflict)
 			{
-				array_push($conflict["Sec_Order"]); // Check the Param name
+				$sectionID = $conflict["Sec_ID"];
+				$sectionOrder = $Model->getSectionOrderFromID();
+				array_push($sectionOrder); // Check the Param name
 			}
-			if (count($conflictSections) > 0){$this->displayEditableForm($formID, $twig, $Model, $formTitle, $isSubmitted, $conflictSections);} 
-			else{$this->displaySubmitted($formID, $twig, $Model, $formTitle)};
+			if (count($conflictSections) > 0){$this->displayEditableForm($formID, $twig, $Model, $formTitle, $conflictSections);}
+			else{$this->displaySubmitted($formID, $twig, $Model, $formTitle);}
 		}else{
+			print_r("Should take this branch");
 			//This is the merged document
 			if ($isSubmitted){
 				//Display final non-editable form
-				$this->displaySubmitted($formID, $twig, $Model, $formTitle);
+				$this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
 			}else{
+				print_r("Hasn't been submitted");
 			//Matters who is trying to view it
-				$currentMarker = $Model->getCurrentMarker();
+				$currentMarker = $this->getCurrentMarker();
 				$isEdited = $Model->isEdited($formID);
-				$isSupervisor - $Model->isSupervisor($formID, $currentMarker);
+				$isEdited = $isEdited[0];
+				$isEdited = $isEdited["IsEdited"];
+				$isSupervisor = $Model->isSupervisor($formID, $currentMarker);
+				$isSupervisor = $isSupervisor[0];
+				$isSupervisor = $isSupervisor["IsSupervisor"];
+				print_r("Edited - ".$isEdited);
+				print_r("Supervisor - ".$isSupervisor);
 				if ($isSupervisor){
-					if($isEdited){
+					if(!($isEdited)){
+						print_r("Not edited");
 						//See form with editable rationales (could use displayIndividual??)
-						displayEditableForm($formID, $twig, $Model, $formTitle, array(), 1);
+						$this->displayEditableForm($formID, $twig, $Model, $formTitle, array(), 1, 1);
 					}else{
-						displaySubmitted($formID, $twig, $Model, $formTitle);
+						print_r("Edited");
+						$this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
 					}
 				}else{
+					print_r("Not supervisor");
 					if($isEdited){
-						displaySubmitted($formID, $twig, $Model, $formTitle, 1);
+						$this->displaySubmitted($formID, $twig, $Model, $formTitle, 1, 1);
 					}else{
-						displaySubmitted($formID, $twig, $Model, $formTitle);
+						$this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
 					}
 				}
 			}
@@ -88,10 +105,15 @@ Class FormController
 	//	-formTitle - title of the document (e.g Design Report)
 	//  -conflictSections - If involved in a merge conflict, make these sections editable
 	//  -marksReadOnly - allows you to set all marks to be read only (used when editing merged forms)
-	function displayEditableForm($formID, $twig, $Model, $formTitle, $conflictSections=array(), $marksReadOnly = 0){
-		
+	function displayEditableForm($formID, $twig, $Model, $formTitle, $conflictSections=array(), $marksReadOnly = 0, $isMerged=0){
+		print_r("Displaying editable form");
 		//Get student's information
-		$studentInfo = $Model->getStudentInformation($formID);
+		if ($isMerged){
+			$studentInfo = $Model->getStudentInformationMerged($formID);
+		}
+		else{
+			$studentInfo = $Model->getStudentInformation($formID);
+		}
 		$studentInfo = $studentInfo[0];
 		$studentName = $studentInfo["Fname"]." ".$studentInfo["Lname"];
 
@@ -100,11 +122,13 @@ Class FormController
 		$supervisorName = "";
 		
 		//Get marker information (information for both markers)
-		$markerInformation = $Model->getMarkerInformation($formID);
-		
+		if ($isMerged){
+			$markerInformation = $Model->getMarkerInformationMerged($formID);
+		}else{
+			$markerInformation = $Model->getMarkerInformation($formID);
+		}
 		foreach($markerInformation as $marker){
 			$markerName = $marker["Fname"]." ".$marker["Lname"];
-			
 			if ($marker["IsSupervisor"]){
 				$supervisorName = $markerName;
 			}else{
@@ -118,6 +142,7 @@ Class FormController
 	
 		$sections = array(); //array to hold each the sections
 
+		
 		//Get data for each non-comments section
 		for ($id = 0; $id < count($formDetails)-1; $id++)
 		{
@@ -139,11 +164,11 @@ Class FormController
 			
 			$section["criteria"] = $criteria;
 			$section["markID"] = $id+1;
-			$section["markReadOnly"] =  (1-(in_array(($id+1), $conflictSections)) || $marksReadOnly);
+			$section["markReadOnly"] =  ((1-(in_array(($id+1), $conflictSections)) && count($conflictSections) > 0) || $marksReadOnly);
 
 			$section["mark"] = $sectionMark;
 			$section["rationaleID"] = $id+1;
-			$section["rationaleReadOnly"] = (1-(in_array(($id+1), $conflictSections)));
+			$section["rationaleReadOnly"] = ((1-(in_array(($id+1), $conflictSections))) && count($conflictSections) > 0);
 
 			
 			$section["rationale"] = $sectionRationale;
@@ -156,7 +181,7 @@ Class FormController
 		$commentsRow = $formDetails[count($formDetails)-1];
 		$comments = $commentsRow["Comment"];
 		$commentID = count($formDetails);
-		$commentsReadOnly = (1-(in_array((count($formDetails)), $conflictSections)));
+		$commentsReadOnly = ((1-(in_array((count($formDetails)), $conflictSections))) && count($conflictSections) > 0);
 		
 		$markingSections = array('formID'=>$formID, 'rows'=>$sections);
 	
@@ -165,12 +190,20 @@ Class FormController
         $table = $template->render($markingSections);
 
 		$totalMark = -1; //Will be -1 if not a submitted form
+		if ($isMerged){
+			$totalMark = $Model->getTotalMark($formID);
+			$totalMark = $totalMark[0];
+			$totalMark = $totalMark["Total"];
+			$totalMark = round($totalMark, 2);
+		}
 		
 		$subtitle = "";
-		if ($isSupervisor){
+		if ($examinerName == ""){
 			$subtitle = "Individual Supervisor's Report";
-		}else{
+		}elseif($supervisorName == ""){
 			$subtitle = "Individual Examiner's Report";
+		}else{
+			$subtitle = "Final Report";
 		}
 		
 		//Don't display submission buttons if isSubmitted is false and conflictSections are empty
@@ -206,11 +239,16 @@ Class FormController
 	
 	
 //FINAL MERGED DOCUMENT or FINAL INDIVIDUAL DOCUMENT
-function displaySubmitted($formID,$twig, $Model, $formTitle, $confirmButton=0)
+function displaySubmitted($formID, $twig, $Model, $formTitle, $confirmButton=0, $merged = 0)
 	{
-				
+		print_r("Displaying editable form");
 		//Get student's information
-		$studentInfo = $Model->getStudentInformation($formID);
+		if ($merged){
+			$studentInfo = $Model->getStudentInformationMerged($formID);
+		}
+		else{
+			$studentInfo = $Model->getStudentInformation($formID);
+		}
 		$studentInfo = $studentInfo[0];
 		$studentName = $studentInfo["Fname"]." ".$studentInfo["Lname"];
 
@@ -219,11 +257,13 @@ function displaySubmitted($formID,$twig, $Model, $formTitle, $confirmButton=0)
 		$supervisorName = "";
 		
 		//Get marker information (information for both markers)
-		$markerInformation = $Model->getMarkerInformation($formID);
-		print_r($markerInformation);
+		if ($merged){
+			$markerInformation = $Model->getMarkerInformationMerged($formID);
+		}else{
+			$markerInformation = $Model->getMarkerInformation($formID);
+		}
 		foreach($markerInformation as $marker){
 			$markerName = $marker["Fname"]." ".$marker["Lname"];
-			print($marker["IsSupervisor"]);
 			if ($marker["IsSupervisor"]){
 				$supervisorName = $markerName;
 			}else{
@@ -269,7 +309,9 @@ function displaySubmitted($formID,$twig, $Model, $formTitle, $confirmButton=0)
 		$comments = $commentsRow["Comment"];
 
 		$markingSections = array('formID'=>$formID, 'rows'=>$sections);
-	
+		
+		//Possible to get section conflicts and add them to the form display here
+		
 		//Generate html table from nonEditableTable.twig (No textareas)
         $template = $twig->loadTemplate("nonEditableTable.twig");
         $table = $template->render($markingSections);
@@ -278,9 +320,7 @@ function displaySubmitted($formID,$twig, $Model, $formTitle, $confirmButton=0)
 		$totalMark = $Model->getTotalMark($formID);
 		$totalMark = $totalMark[0];
 		$totalMark = $totalMark["Total"];
-		
-		
-		print_r($totalMark);
+		$totalMark = round($totalMark, 2);
 		
 		if ($examinerName == ""){
 			$subtitle = "Individual Supervisor's Report";
@@ -290,7 +330,7 @@ function displaySubmitted($formID,$twig, $Model, $formTitle, $confirmButton=0)
 			$subtitle = "Final Report";
 		}
 	
-		
+	
         $template = $twig->loadTemplate("nonEditableForm.twig");
         $form = $template->render(array('table'=> $table,
                                         'title'=> $formTitle,
