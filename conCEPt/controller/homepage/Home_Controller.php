@@ -13,19 +13,32 @@ class MainPageController
 		$students = $model->getStudentInformation();
 		$twig_data = array();
 
-		foreach($students as $studentID) {
+		foreach($students as $studentID => $value) {
 			$forms = array();
-			foreach($student_forms[$studentID] as $form) {
+			foreach($value as $form) {
+					$submitted_msg = "Not submitted";
+					if($value['IsSubmitted'] = 1) {
+						$submitted_msg = "Submitted";
+					}
 					$form = array('formID'=> array(
-						'title' => $form['title'],
-						'submitted' => $form['submittedmsg'],
-						'submitted_link' => $form['completelink'],
-						'shadow_submitted' => $form['complete2'],
-						'shadow_link' => $form['complete2link'],
-						'linkMerged' => $form['mergedlink'],
-						'type' => $form['type']
-					);
+						'title' => $value['Form_Title'],
+						'submitted' => $submitted_msg,
+						'submitted_link' => 'todo: link',
+						'shadow_submitted' => 'shadow submitted',
+						'shadow_link' => 'todo shadow link',
+						'linkMerged' => 'todo merged link',
+						'type' => ''
+					));
+					
+					// now add this form to the list of forms for the student
+					array_push($forms,$form);
+
 			}
+			$student = array(
+					'name' => "Hi",
+					'forms' => $forms
+			);
+			$array_push(twig_data);
 		}
 		// now go through all the data gathered, rendering the page itself
 		
