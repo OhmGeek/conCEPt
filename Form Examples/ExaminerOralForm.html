@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Stylesheet for printing -->
+		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		
+		<style>
+			body { padding-top: 40px;}
+			.document-container{
+			width:80%;
+			padding:auto;
+			padding-top:20px;
+			margin:auto;}
+			h1, h2{text-align:center;}
+			
+			table{width:100%;}
+			table,th,td{border: 1px solid black; border-collapse:collapse;}
+			th{text-align:center;}
+			td, th{padding: 15px;}
+			
+			textarea{height:95%;
+				  width:95%;
+				  padding:0px;
+				  margin: 2px;
+				  resize: none;
+				  border: none;
+				  }
+
+			form{padding:10px 0px;}
+			.round {
+				border: 2px solid gray;
+				border-radius: 5px;
+			}
+			DIV.header-details{padding-bottom: 10px;}
+			DIV.header-input{display: inline;}
+			DIV.header-input label{font-size:1.2em;}
+			DIV.header-input input{border: none; width:25%;}
+			
+			DIV.general-comments{font-weight: bold; width: 100%; padding-top: 25px;}
+			DIV.comments{border: solid 1px; height: 300px;}
+			DIV.general-comments textarea{width: 95%; height: 95%;
+										margin: 5px; resize:none; border: none;}
+
+		</style>
+	</head>
+	
+	<body>
+	<!-- Navigation bar -->
+		<div class = "container">
+			<nav class = "navbar navbar-inverse navbar-fixed-top">
+				<div class = "container-fluid">
+					<div class = "navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#myNavbar">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">ODR</a>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+						<ul class="nav navbar-nav">
+							<li><a href="#">Students</a></li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li class = "dropdown-header">Examiner</li>
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+									<li class = "divider"></li>
+									<li class = "dropdown-header">Supervisor</li>
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Examiner Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+							<li class = "dropdown">
+								<a class = "dropdown-toggle" data-toggle = "dropdown" href = "#">
+									Supervisor Documents
+									<span class = "caret"></span>
+								</a>
+								<ul class = "dropdown-menu">
+									<li><a href = "#">Document 1</a></li>
+									<li><a href = "#">Document 2</a></li>
+									<li><a href = "#">Document 3</a></li>
+									<li><a href = "#">Document 4</a></li>
+									<li><a href = "#">Document 5</a></li>
+								</ul>
+							</li>
+						</ul>
+						<ul class = "nav navbar-nav navbar-right">
+							<li><a href="#">
+								<span class="glyphicon glyphicon-log-out"></span>
+								Sign out</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			
+		
+		<!-- Main document on page starts here -->
+			<div class="document-container">
+				<h1>Third Year Project Oral Report</h1> 
+				<h2>Individual Examiners Report</h2>
+				<div class = "header-details">
+					<div class = "header-input">
+						<label>Student Name: </label>
+						<input type = "text" name="studentName" form = "documentID"/>
+					</div> 
+					<div class="header-input">
+						<label>Examiner Name: </label>
+						<input type = "text" name="examinerName"form = "documentID"/>
+					</div>
+					<br>
+					<div class="header-input">
+						<label>Date/Time: </label>
+						<input type = "text" name="date-time"form = "documentID"/>
+					</div>
+					<div class="header-input">
+						<label>Location: </label>
+						<input type = "text" name="location"form = "documentID"/>
+					</div>
+					<br>
+					<div class="header-input">
+						<label>Oral Mark(out of 100): </label>
+						<input type = "text" name="total-mark"form = "documentID"/>
+					</div>
+				</div>
+				<p>
+				At the third year project Oral the examiners are examining <b>oral skills</b> (20 per cent) and the <b>quality of the implementation</b> (80 per cent). The student should give a brief overview of the project (the assumption here is that the examiners have not read the final paper), give a demonstration of the implementation and should be ready to answer any questions on the project.
+				</p>
+				<br>
+				<p>
+				It is the students responsibility to make sure that a working version is ready for demonstration at the Oral. If a demonstration is not available then document the reason (and do <b>not</b> give a mark for the quality of implementation). The student is given this one chance to demonstrate their implementation and further demonstrations <b>must not</b> be arranged except in exceptional circumstance such as the ITS network not being available during the time of the Oral (please inform Stephen McGough if the Oral is rescheduled).
+				</p>
+				<br>
+				<p>
+				<b>Note</b> the Assessment Criteria to be used are in the enclosed document.
+				</p>
+				<h3>Quality of Implementation</h3>
+				<h4>If there is a implementation to demonstrate then:</h4>
+				<p>At this point you should see the demonstration and evaluate how it fulfils its requirements and deliverables. The student will bring a list of the deliverables to the Oral. You should interact with the system yourself by trying your own data just to confirm that it does work with other data than that supplied by the student.  Evaluate to what extent each level of requirements are satisfied.</p>
+				<br><br>
+				<div class = "round">
+				<p> <b>BASIC requirements :</b> </p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="basic-requirements">< 25%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="basic-requirements">< 50%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="basic-requirements">< 75%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="basic-requirements">> 75%
+				</label>
+				<br>
+				<p> <b>INTERMEDIATE requirements : </b></p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="intermediate-requirements">< 25%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="intermediate-requirements">< 50%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="intermediate-requirements">< 75%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="intermediate-requirements">> 75%
+				</label>
+				<br>
+				<p> <b>ADVANCED requirements :</b> </p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="advanced-requirements">< 25%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="advanced-requirements">< 50%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="advanced-requirements">< 75%
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="advanced-requirements">> 75%
+				</label>
+				</div>
+				<br><br>
+				<p>And the extent to which the following qualities (interpreted in the context of the project being examined) are displayed:</p>
+				<div class = "round">
+				<p> <b>Complexity of the system :</b> </p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="complexity">Fail
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="complexity">Poor
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="complexity">Satisfactory
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="complexity">Good
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="complexity">Excellent
+				</label>
+				<br>
+				<p> <b>Robustness of the system as demonstrated : </b></p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="robustness">Fail
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="robustness">Poor
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="robustness">Satisfactory
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="robustness">Good
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="robustness">Excellent
+				</label>
+				<br>
+				<p> <b>Usability, accessibility and ease of use :</b> </p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="usability">Fail
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="usability">Poor
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="usability">Satisfactory
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="usability">Good
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="usability">Excellent
+				</label>
+				</div>
+				<br>
+				<br>
+				<div class = "header-input">
+						<label>Overall mark for the Quality of the Implementation (as a percentage): </label>
+						<input type = "text" name="quality-percentage" form = "documentID"/>
+				</div>
+				<div class = "general-comments">
+					General comments on the paper<br>
+					<div class = "comments"><textarea form="documentID" name="comments"></textarea></div>
+				</div>
+				<h3> Oral Skills </h3>
+				<div class = "round">
+				<p> <b>Clarity of the introduction to the project :</b> </p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="clarity">Fail
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="clarity">Poor
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="clarity">Satisfactory
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="clarity">Good
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="clarity">Excellent
+				</label>
+				<br>
+				<p> <b>Cohesive and comprehensive demonstration : </b></p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="cohesive">Fail
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="cohesive">Poor
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="cohesive">Satisfactory
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="cohesive">Good
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="cohesive">Excellent
+				</label>
+				<br>
+				<p> <b>Ability to the answer question :</b> </p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="ability">Fail
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="ability">Poor
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="ability">Satisfactory
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="ability">Good
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="ability">Excellent
+				</label>
+				<br>
+				<p> <b>Domenstration of mastery of the problem domain :</b> </p>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="demonstration">Fail
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="demonstration">Poor
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="demonstration">Satisfactory
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="demonstration">Good
+				</label>
+				<label class="radio-inline">
+					<input form = "documentID" type="radio" name="demonstration">Excellent
+				</label>
+				</div>
+				<br>
+				<br>
+				<div class = "header-input">
+						<label>Overall mark for Oral Skills (as a percentage): </label>
+						<input type = "text" name="-skill-percentage" form = "documentID"/>
+					</div> 
+				<div class = "general-comments">
+					Comments:<br>
+					<div class = "comments"><textarea form="documentID" name="skill-comments"></textarea></div>
+				</div>
+				<div class = "general-comments">
+					Comment on the Organisation of the Oral:<br>
+					<div class = "comments"><textarea form="documentID" name="organisation-comments"></textarea></div>
+				</div>
+				<form class = "table no-print" method="post" action="#" id ="documentID">
+					<input type="submit" value="Submit"/>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
