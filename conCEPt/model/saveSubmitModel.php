@@ -47,6 +47,23 @@ class SaveSubmitModel
 		
 	}
 	
+	function addSubmitComment($formID, $comment)
+	{
+		$db = DB::getDB();
+
+		$statement = $db->prepare("UPDATE `Form` 
+								SET `Comment`= :comment
+								WHERE `Form_ID` = :formID");
+								
+		$statement->bindValue(':formID',$formID, PDO::PARAM_INT);	
+		$statement->bindValue(':comment',$comment, PDO::PARAM_STR);	
+	
+		
+		$result = $statement->execute();
+
+		return $result;
+	}
+	
 	function getGeneralDetails($formID)
 	{
 		//QUERY TO RETURN BaseFormId, studentID and isSupervisor
@@ -74,14 +91,14 @@ class SaveSubmitModel
 		//Can just get it from the Merged table if I know if this marker is examiner or supervisor!
 		$db = DB::getDB();
 
-		$statement = $db->prepare("SELECT `Form`.`Form_ID`
+		$statement = $db->prepare("SELECT `Form`.`Form_ID`, `Form`.`IsSubmitted`
 									FROM `Form` 
 									JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
 									JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
 									JOIN `Student` ON `Student`.`Student_ID` = `MS`.`Student_ID`
 									WHERE `Student`.`Student_ID` = :studentID AND `Form`.`BForm_ID` = :bFormID 
-									AND `Form`.`IsSubmitted` = 1 AND `MS`.`IsSupervisor` != :supervisor
-									ORDER BY `Form`.`Time_Stamp` DESC");
+									AND `MS`.`IsSupervisor` != :supervisor
+									ORDER BY `Form`.`Time_Stamp` DESC,`Form`.`Form_ID` ASC");
 								
 								
 		$statement->bindValue(':studentID',$studentID, PDO::PARAM_STR);	
@@ -120,7 +137,9 @@ class SaveSubmitModel
 	{
 		$db = DB::getDB();
 
-		$statement = $db->prepare("");
+		$statement = $db->prepare("UPDATE `MergedForm` 
+								SET `IsEdited`= :value
+								WHERE `MForm_ID` = :formID");
 								
 								
 		$statement->bindValue(':value',$value, PDO::PARAM_INT);
@@ -130,13 +149,6 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
-
-	
-	
-	
-	
-	
 	
 	
 	
@@ -223,7 +235,22 @@ class SaveSubmitModel
 	
 	
 	
+	function updateMergeFlag($formID, $value)
+	{
+		$db = DB::getDB();
+
+		$statement = $db->prepare("UPDATE `Form` 
+								SET `IsMerged`= :value
+								WHERE `Form_ID` = :formID");
+											
+								
+		$statement->bindValue(':formID', $formID, PDO::PARAM_INT);
+		$statement->bindValue(':value', $value, PDO::PARAM_INT);
 	
+		$result = $statement->execute();
+
+		return $result;
+	}
 	
 	function getMergedForm($formID)
 	{
@@ -240,6 +267,22 @@ class SaveSubmitModel
 		$statement->execute();
 
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	function removeConflicts($mergedFormID)
+	{
+		$db = DB::getDB();
+
+		$statement = $db->prepare("DELETE 
+									FROM `SectionConflict`
+									WHERE `SectionConflict`.`Form_ID` = :mergedFormID");
+											
+								
+		$statement->bindValue(':mergedFormID', $mergedFormID, PDO::PARAM_INT);
+		
+		$result = $statement->execute();
+
+		return $result;
 	}
 	
 	function createConflicts($mergedFormID, $anyFormID)
@@ -283,9 +326,9 @@ class SaveSubmitModel
 	function duplicateForm($formID)
 	{
 		$db = DB::getDB();
-
+		//Change comment to duplicate
 		$statement = $db->prepare("INSERT INTO `Form`(`BForm_ID`, `IsSubmitted`, `IsMerged`, `Comment`, `Time_Stamp`) 
-									SELECT `BForm_ID`, `IsSubmitted`, `IsMerged`, `Comment`, `Time_Stamp`
+									SELECT `BForm_ID`, `IsSubmitted`, `IsMerged`, 'comment', `Time_Stamp`
 									FROM `Form`
 									WHERE `Form_ID` = :formID;
 
@@ -304,6 +347,7 @@ class SaveSubmitModel
 		$statement->bindValue(':formID',$formID, PDO::PARAM_INT);
 		$statement->bindValue(':formID2',$formID, PDO::PARAM_INT);
 		$statement->bindValue(':formID3',$formID, PDO::PARAM_INT);
+	
 		
 		$result = $statement->execute();
 
