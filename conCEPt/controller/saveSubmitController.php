@@ -4,7 +4,6 @@ include '../model/saveSubmitModel.php';
 
 class SaveSubmitController
 {
-	
 	function __construct($postVariables)
 	{
 		$this->retrieveInformation($postVariables);
@@ -12,40 +11,45 @@ class SaveSubmitController
 	
 	function getMarkerID()
 	{
-		//return "hkd4hdk";
-		return "knd6usj";
+		return "hkd4hdk";
+		//return "knd6usj";
 		//return $_SERVER["REMOVE_USER"];
 	}
-
-
+	
 	//Retrieve data from the POST request variables from the form (sent in an array by index.php)
 	function retrieveInformation($postVariables)
 	{
-		print_r("This has been called");
 		
-		//$currentUser = $this->getMarkerID();
+		$Model = new saveSubmitModel();
 
 		//Get the formID and the storeType
 		$formID = $postVariables["documentID"];
-		$storeType = $postVariables["action"]; //Save or Submit
+		$storeType = $postVariables["action"]; //Save or Submit, or Confirm or Reject
 		
 		//If storeType is Confirm or Reject, form is completed merged form, only need to change a flag
-		if($storeType == "Confirm"){
-			print_r("Confirm");
-			$Model->updateSubmitFlag($formID,1);
+		if($storeType == "Confirm"){			
+			$result = $Model->updateSubmitFlag($formID,1);
+			if ($result){
+				echo ($this->sendSuccessMessage("Confirm successful"));
+			}else{
+				echo ($this->sendErrorMessage("Confirm failed, try again"));
+			}
+			exit;
 		}elseif($storeType == "Reject"){
-			//$Model->changeEditedFlag($formID, 0);
+			$result = $Model->changeEditedFlag($formID, 0);
+			if ($result){
+				echo ($this->sendSuccessMessage("Successfully rejected"));
+			}else{
+				echo ($this->sendErrorMessage("Failed to reject, try again"));
+			}
+			exit;
 		}
-
 		$sections = array();
-		print_r($storeType);
 		// The number of sections in the form (ignoring the comments);
 		$numberOfSections = $postVariables["numberOfSections"];
-		
 		// Iterate through all sections in the form
 		for($n=1; $n < $numberOfSections-1; $n++)
 		{
-			
 			$sectionNumber = $n; //Section number in ordering on form
 			if (!(empty($postVariables["mark-".$n]))){
 				$mark = $postVariables["mark-".$n]; //Mark for this section
@@ -58,148 +62,156 @@ class SaveSubmitController
 			}else{
 				$rationale = "";
 			}	
-
 			$section = array("sectionNumber"=>$n,"mark"=>$mark,
 			"rationale"=>$rationale);
-			
 			array_push($sections, $section);
-		
 		}
-		
 		// Deal with the comments
 		if (isset($postVariables["comments"])){
 			$comments = stripslashes(trim($postVariables["comments"]));
 			$section = array("sectionNumber"=>($numberOfSections-1),"mark"=>0, "rationale"=>$comments);
 			array_push($sections, $section);
 		}
-		
-/* 		if(isset($postVariables["submitComment"])){
+		if(isset($postVariables["submitComment"])){
 			$submissionComment = stripslashes(trim($postVariables["submitComment"]));
-		} */
-		
-		$Model = new saveSubmitModel();
+		}else{
+			$submissionComment = "Initial submission";
+		}
 		
 		foreach($sections as $section)
 		{
 			$result = $Model->sendSection($formID, $section["sectionNumber"], $section["mark"], $section["rationale"]);
 			if (!($result)){
-				echo($this->sendErrorMessage("Couldn't send a section"));
+				echo($this->sendErrorMessage("Couldn't send a section, please try again"));
 				exit;
 			}
 		}
-
+		
 		if ($storeType == "Submit")
 		{
-			print_r("Submitting");
 			//If this is a merged form (it has been edited by the supervisor)
 			$isMerged = $Model->isMergedForm($formID);
-			if ($isMerged){$Model->changeEditedFlag($formID, 1);}
+			if ($isMerged){
+				$result = $Model->changeEditedFlag($formID, 1);
+				if ($result){
+					echo ($this->sendSuccessMessage("Edit successful"));
+				}else{
+					echo ($this->sendErrorMessage("Edit failed, try again"));
+				}
+				exit;
+			}
 			else{
-				print_r("Not merged");
-				$Model->updateSubmitFlag($formID, 1); //Also add the submission comment here
+				$result = $Model->updateSubmitFlag($formID, 1);
+				$result2 = $Model->addSubmitComment($formID, $submissionComment);
+				if (!($result && $result2)){
+					echo ($this->sendErrorMessage("Submission failed"));
+				}
 				//Get details from this form
 				$details = $Model->getGeneralDetails($formID);
 				$details = $details[0];
 				$BFormID = $details["BForm_ID"];
 				$studentID = $details["Student_ID"];
 				$isSupervisor = $details["IsSupervisor"];
+				
 				//Find other marker's form
-				print_r($details);
 				$otherForm = $Model->getOtherMarkerForm($studentID, $BFormID, $isSupervisor);
-				print_r($otherForm);
 				if (count($otherForm) > 0){
-					print_r("Found other form");
 					$otherForm = $otherForm[0];
-					$otherForm = $otherForm["Form_ID"];
-					print_r($otherForm);
-					if($isSupervisor){
-						print_r("Is supervisor");
-						$SForm = $formID;
-						$EForm = $otherForm;
-					}else{
-						print_r("Is not supervisor");
-						$SForm = $otherForm;
-						$EForm = $formID;
-					}
-					print_r($SForm);
-					print_r($EForm);
-					$mergedForm = $Model->getMergedForm($EForm);
-					print_r("/n".$mergedForm."/n");
-					if (count($mergedForm) == 0){
-						print_r("Merging");
-						//$result = $Model->mergeForms($Eform, $SForm);
-						$result = $this->mergeForms($EForm, $SForm, $BFormID, $Model);
-						print_r($result);
-					}else{
-						$mergedForm = $mergedForm[0];
-						$mergedForm = $mergedForm["MForm_ID"];
-						$Model->updateMergedForm($mergedForm, $EForm, $SForm);
-					}
-					
-					$mergedForm = $Model->getMergedForm($EForm);
-					$mergedForm = $mergedForm[0];
-					$mergedForm = $mergedForm["MForm_ID"];
-					print_r($mergedForm);
-					if (count($mergedForm) > 0){
-						print_r("Finding conflicts");
-						//Find conflicts (either in a query or in a function in this file)
-						$Model->createConflicts($mergedForm, $EForm);
-						$conflicts = $Model->getConflicts($mergedForm);
-						if (count($conflicts) > 0){
-							$Model->duplicateForm($Eform);
-							$Model->duplicateForm($SForm);
-							$Model->openForm($Eform);
-							$Model->openForm($SForm);
+					$otherFormSubmitted = $otherForm["IsSubmitted"];
+					if ($otherFormSubmitted){
+						$otherForm = $otherForm["Form_ID"];
+						if($isSupervisor){
+							$SForm = $formID;
+							$EForm = $otherForm;
+						}else{
+							$SForm = $otherForm;
+							$EForm = $formID;
+						}
+						$mergedForm = $Model->getMergedForm($EForm);
+						if (count($mergedForm) == 0){
+							//$result = $Model->mergeForms($Eform, $SForm);
+							$result = $this->mergeForms($EForm, $SForm, $BFormID, $Model);
+							if (!($result)){
+								echo ($this->sendErrorMessage("Merge failed, please resubmit"));
+							}
+						}else{
+							$mergedForm = $mergedForm[0];
+							$mergedForm = $mergedForm["MForm_ID"];
+							$result = $Model->updateMergedForm($mergedForm, $EForm, $SForm);
+							if (!($result)){
+								echo ($this->sendErrorMessage("Merge failed, please resubmit"));
+								//Have to reopen form for resubmission
+								//$this->reset($EForm, $SForm, $mergedForm); //Don't remove the form, just open up this one again??
+							}
+						}
+						$mergedForm = $Model->getMergedForm($EForm);
+						if (count($mergedForm) > 0){
+							$mergedForm = $mergedForm[0];
+							$mergedForm = $mergedForm["MForm_ID"];
+							//Remove conflicts first so they aren't re-found even after they've been dealt with
+							$Model->removeConflicts($mergedForm);
+							//Find conflicts (either in a query or in a function in this file)
+							$Model->createConflicts($mergedForm, $EForm);
+							$conflicts = $Model->getConflicts($mergedForm);
+							if (count($conflicts) > 0){
+								$Model->duplicateForm($EForm);
+								$Model->duplicateForm($SForm);
+								$Model->openForm($EForm);
+								$Model->openForm($SForm);
+							}
 						}
 					}
 				}
 			}
 		}
-
 		
-		//Send back confirmation or error message as  JSON to original page
-		if (successful){
-			echo($this->sendSuccessMessage("Succeded at ".$storeType."ing"));
-			exit;
-		}else{
-			echo("Error");
-			echo($this->sendErrorMessage("Failed to ".$storeType));
-			exit;
-		}
-			
+		
+		//Assume it has been successful if it got this far
+		echo($this->sendSuccessMessage($storeType." successfull"));
+		exit;
+		
 	}
 	
 	function mergeForms($EForm, $SForm, $BFormType, $Model)
 	{
-		print_r("Base form- ".$BFormType);
-		print_r("Eform - ".$EForm);
-		print_r("Sform - ".$SForm);
+		$result = true; //assume it worked
 		$Model->createBlankForm($EForm);
-		print_r("created blank form");
 		$mergedForm = $Model->getBlankMergedForm($BFormType);
-		//Check for errors at this point
-		$mergedForm = $mergedForm[0];
-		$mergedForm = $mergedForm["Form_ID"];
-		print_r("Merged form - ".$mergedForm);
-		$Model->updateMergeTable($mergedForm, $EForm, $SForm);
-		print_r("Updated merge table");
-		$Model->updateMergedForm($mergedForm, $EForm, $SForm);
-		print_r("Updated sections");
-		return 1;
+		if (count($mergedForm) == 0){
+			$result = false;
+		}else{
+			//Check for errors at this point
+			$mergedForm = $mergedForm[0];
+			$mergedForm = $mergedForm["Form_ID"];
+			$result1 = $Model->updateMergeTable($mergedForm, $EForm, $SForm);
+			$result2 = $Model->updateMergedForm($mergedForm, $EForm, $SForm);
+			$result3 = $Model->updateMergeFlag($EForm, 1);
+			$result4 = $Model->updateMergeFlag($SForm, 1);
+			$result = ($result1 && $result2 && $result3 && $result4); //all must have succeeded
+		}
+		
+/* 		if (!($result)){
+			$this->reset($EForm, $SForm, $mergedForm);
+		} */
+		return $result;
+	}
+	
+	function reset($EForm, $SForm, $mergedForm)
+	{
+		//remove merged form from form table
+		//change merge flags back to 0
+		//Open up original so they can resubmit??
 	}
 	
 	function sendErrorMessage($e)
 	{
-		$response = array();
-		$response["error"] = $e;
-		echo json_encode($response);
+		echo '{"success":"'.$e.'"}';
 	}
 	
 	function sendSuccessMessage($e)
 	{
-		$response = array();
-		$response["success"] = $e;
-		echo json_encode($response);
+		echo '{"success":"'.$e.'"}';
+		
 	}
 }
 ?>
