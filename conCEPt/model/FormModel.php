@@ -22,7 +22,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	//Returns an array of information about 1 
+	//Returns an array of information about the marker
 	function getMarkerInformation($formID)
 	{
 		$db = DB::getDB();
@@ -53,6 +53,41 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	
+	function checkMarkerIndividual($formID, $markerID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("SELECT *
+									FROM Form
+									JOIN MS_Form ON MS_Form.Form_ID = Form.FormID
+									JOIN MS ON MS.MS_ID = MS_Form.MS_ID
+									JOIN Marker ON Marker.Marker_ID = MS.Marker_ID
+									WHERE Marker.Marker_ID = :markerID 
+									AND Form.Form_ID = :formID;");
+		$statement->bindValue(":formID", $formID, PDO::PARAM_INT);
+		$statement->bindValue(":markerID", $markerID, PDO::PARAM_STR);
+		$statement->execute();
+		return count($statement->fetchAll(PDO::FETCH_ASSOC));
+	}
+	
+	function checkMarkerMerged($formID, $markerID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("SELECT *
+									FROM MergedForm
+									JOIN Form ON (Form.Form_ID = MergedForm.EForm_ID OR MS_Form.Form_ID = MergedForm.SForm_ID)
+									JOIN MS_Form ON MS_Form.Form_ID = Form.FormID
+									JOIN MS ON MS.MS_ID = MS_Form.MS_ID
+									JOIN Marker ON Marker.Marker_ID = MS.Marker_ID
+									WHERE Marker.Marker_ID = :markerID 
+									AND MergedForm.MForm_ID = :formID;");
+		$statement->bindValue(":formID", $formID, PDO::PARAM_INT);
+		$statement->bindValue(":markerID", $markerID, PDO::PARAM_STR);
+		$statement->execute();
+		return count($statement->fetchAll(PDO::FETCH_ASSOC));
+	}
+	
+	
 	//Returns all sections from a given form
 	function getFormSections($formID)
 	{
@@ -85,8 +120,10 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+
 	//FUNCTIONS FOR DEALING WITH ANYTHING MERGE RELATED
-	
+
+    //Returns an array of information about the student
 	function getStudentInformationMerged($formID)
 	{
 		$db = DB::getDB();
@@ -102,7 +139,8 @@ class FormModel
 		$statement->execute();
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
+
+	//Returns an array of information about both markers
 	function getMarkerInformationMerged($formID)
 	{
 		$db = DB::getDB();
@@ -119,7 +157,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-	//Returns the ID of the form that $formID contributes to
+	//Returns the ID of the merged form that $formID contributes to
 	function getMergedForm($formID)
 	{
 		$db = DB::getDB();
@@ -134,7 +172,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-	//Returns the sections causing conflict in a merged form
+	//Returns the sections causing conflicts in a merged form
 	function getConflicts($mergedFormID)
 	{
 		$db = DB::getDB();
@@ -181,7 +219,8 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 		
 	}
-	
+
+	//Returns the number of the section in the form, given its sectionID from the Section table
 	function getSectionOrderFromID($sectionID)
 	{
 		$db = DB::getDB();
