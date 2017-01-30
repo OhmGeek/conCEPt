@@ -10,14 +10,14 @@ class MainPageModel
 	}
 	
 	public function getMarkerID() {
-		return $_SERVER['REMOTE_USER'];
+		return 'hkd4hdk'; 
 	}
 
 		//Generates a list of students separated by examined and supervised
 	public function getStudentForms() {
 		$marker = $this->getMarkerID();
 		$statement = $this->db->prepare(
-				"SELECT Student.Student_ID, Form.Form_ID, BaseForm.Form_Title, Form.IsSubmitted, Form.IsMerged
+				"SELECT Student.Student_ID, Form.Form_ID, BaseForm.Form_title, Form.IsSubmitted, Form.IsMerged
 				 FROM MS_Form
 				 JOIN MS ON MS.MS_ID = MS_Form.MS_ID
 				 JOIN Marker ON Marker.Marker_ID = MS.Marker_ID

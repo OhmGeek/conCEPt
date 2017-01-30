@@ -2,10 +2,11 @@
 <div class = "panel panel-default">
 	<div class = "panel-heading">
 		<h4 class = "panel-title">
-			<a class = "btn-block" data-toggle="collapse" href="#{{studentName}}">{{studentName}}</a>
+			<a class = "btn-block" data-toggle="collapse"
+href="#{{student.studentName}}">{{student.studentName}}</a>
 		</h4>
 	</div>
-	<div id="{{studentName}}" class = "panel-collapse collapse">
+	<div id="{{student.studentName}}" class = "panel-collapse collapse">
 		<div class = "panel-body">
 			<table class ="table text-center">
 				<thead>
@@ -16,11 +17,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for doc in forms %}
+					{% for doc in student.forms %}
 					<tr class = {{doc.type}}> 
 						<td>{{doc.title}}</td>
 							<td> {{doc.submitted}} {{doc.submitted_link}}</td>
-							<td> {{Merged}} {{doc.linkMerged}}</td>
+							<td> {{doc.merged}} {{doc.linkMerged}}</td>
 					</tr>
 					{% endfor %}
 				</tbody>

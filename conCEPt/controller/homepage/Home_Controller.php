@@ -11,34 +11,35 @@ class MainPageController
 		//Generate Student pane
 		$student_forms = $model->getStudentForms();
 		$students = $model->getStudentInformation();
-		$twig_data = array();
-
-		foreach($students as $studentID => $value) {
+		$twig_data = array('students'=>array());
+		foreach($student_forms as $studentID => $data) {
 			$forms = array();
-			foreach($value as $form) {
+			foreach($data as $value) {
 					$submitted_msg = "Not submitted";
-					if($value['IsSubmitted'] = 1) {
+					if($value['IsSubmitted'] == 1) {
 						$submitted_msg = "Submitted";
 					}
-					$form = array('formID'=> array(
-						'title' => $value['Form_Title'],
+					$form = array(
+						'title' => $value['Form_title'],
 						'submitted' => $submitted_msg,
 						'submitted_link' => 'todo: link',
 						'shadow_submitted' => 'shadow submitted',
 						'shadow_link' => 'todo shadow link',
 						'linkMerged' => 'todo merged link',
-						'type' => ''
-					));
+						'type' =>
+'submitted'
+					);
 					
 					// now add this form to the list of forms for the student
 					array_push($forms,$form);
 
 			}
 			$student = array(
-					'name' => "Hi",
+					'studentName' => $students[$studentID][0]['Fname'] . " " .
+$students[$studentID][0]['Lname'],
 					'forms' => $forms
 			);
-			array_push($twig_data,$student);
+			array_push($twig_data['students'],$student);
 		}
 		// now go through all the data gathered, rendering the page itself
 		
