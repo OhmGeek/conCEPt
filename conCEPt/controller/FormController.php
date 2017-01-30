@@ -11,7 +11,7 @@ Class FormController
     {
         $this->generateForm($formID);
     }
-	
+
 	function getCurrentMarker()
 	{
 		//return $_SERVER["REMOTE_USER"];
@@ -19,19 +19,36 @@ Class FormController
 		//return "hkd4hdk";
 		return "knd6usj";
 	}
-	
+
+	//Decides how to display the form
     function generateForm($formID)
     {
 		$Model = new FormModel();
 		$loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
-		//CHECK THIS PERSON HAS ACCESS TO THE FORM (Either through merged form, or their own form)
+		
 		//Get general form information (title, isSubmitted, isMerged)
 		$formInformation = $Model->getFormInformation($formID);
 		$formInformation = $formInformation[0];
 		$formTitle = $formInformation["Form_title"];
 		$isSubmitted = $formInformation["IsSubmitted"];
 		$isMerged = $formInformation["IsMerged"]; //0 means not merged, -1 means merged, 1 means forms a merge??
+		
+		
+		//CHECK THIS PERSON HAS ACCESS TO THE FORM (Either through merged form, or their own form)
+/* 		Check if person is admin, they can view all forms in submitted form
+		$admin = $Model->checkAdmin($this->getCurrentMarker());
+		if($admin){
+			$this->displaySubmitted($formID, $twig, $Model, $formTitle);
+		} */
+		/* Check if this person is a marker on this form or contributing to this merged form
+		$result=$this->checkMarker($formID, $Model);
+		if(!($result)){
+			//Redirect to another page??
+		} */
+		
+		
+		
 		//Checks to determine what to display
 		if($isMerged == 0){
 			//Individual form, not involved in a merge
@@ -102,16 +119,19 @@ Class FormController
 			}
 		}
 	}
-	
-	//FROM HERE, GENERATES NORMAL INDIVIDUAL EDITABLE FORMS
-	//Inputs:
-	//	-formID - id of form to display
-	//	-twig - the twig object
-	//	-Model - model used 
-	//	-isSubmitted - is the form submitted
-	//	-formTitle - title of the document (e.g Design Report)
-	//  -conflictSections - If involved in a merge conflict, make these sections editable
-	//  -marksReadOnly - allows you to set all marks to be read only (used when editing merged forms)
+
+
+	/** Function to display an editable form
+     * Inputs:
+	 *	-formID - id of form to display
+	 *	-twig - the twig object
+	 *	-Model - model used
+	 *	-formTitle - title of the document (e.g Design Report)
+	 *  -conflictSections - array of section conflicts in merged form
+	 *  -marksReadOnly - use 1 to set all marks to be read only (used when editing merged forms)
+     *  -isMerged - use 1 if a merged form, 0 for individual forms
+     *  - addSubmitComment - use 1 if you want user to have to add comment along with submission (usually only used if submitting for a second time)
+     */
 	function displayEditableForm($formID, $twig, $Model, $formTitle, $conflictSections=array(), $marksReadOnly = 0, $isMerged=0, $addSubmitComment=0){
 		//Get student's information
 		if ($isMerged){
@@ -208,16 +228,25 @@ Class FormController
 										'displayFormSubmission'=>$displayFormSubmission,
 										'displaySubmissionComment'=>$addSubmitComment,));
 		//GENERATE NAVBAR (Will be done by a separate file because of changes to forms in navbar)
-		//$template = $twig->loadTemplate("navbar.twig");
-		//$navbar = $template->render();
-		$navbar = "<h1> Navbar will be generated here </h1>";
+		$navbar = new navbarController();
+		$navbar = $navbar->generateNavbarHtml();
+		
 		//GENERATE MAIN FORM PAGE FROM mainFormPage.twig
         $template = $twig->loadTemplate("mainFormPage.twig");
         print($template->render(array('title'=>$formTitle,'navbar'=>$navbar,'form'=> $form)));
     }
-	
-//FINAL MERGED DOCUMENT or FINAL INDIVIDUAL DOCUMENT
-function displaySubmitted($formID, $twig, $Model, $formTitle, $conflictSections = array(), $confirmButton=0, $merged = 0)
+
+    /** Function to display a non-editable form
+     * Inputs:
+     *	-formID - id of form to display
+     *	-twig - the twig object
+     *	-Model - model used
+     *	-formTitle - title of the document (e.g Design Report)
+     *  -conflictSections - array of section conflicts in merged form
+     *  -confirmButton - use 1 if you want to display "Reject" and "Confirm" buttons (used when an examiner has to confirm edits to a merged form)
+     *  -merged - use 1 if the form is merged, 0 if individual
+     */
+    function displaySubmitted($formID, $twig, $Model, $formTitle, $conflictSections = array(), $confirmButton=0, $merged = 0)
 	{
 		//Get student's information
 		if ($merged){
@@ -300,11 +329,19 @@ function displaySubmitted($formID, $twig, $Model, $formTitle, $conflictSections 
 										'confirmButton'=>$confirmButton,
 										'formID'=>$formID));
 		//GENERATE NAVBAR (Will be done by a separate file because of changes to forms in navbar)
-		//$template = $twig->loadTemplate("navbar.twig");
-		//$navbar = $template->render();
-		$navbar = "<h1> Navbar will be generated here </h1>";
+		$navbar = new navbarController();
+		$navbar = $navbar->generateNavbarHtml();
 		//GENERATE MAIN FORM PAGE FROM mainFormPage.twig
         $template = $twig->loadTemplate("mainFormPage.twig");
         print($template->render(array('title'=>$formTitle,'navbar'=>$navbar,'form'=> $form)));
 	}
+	
+	
+/* 	function checkMarker($formID, $Model)
+	{
+		$markerID = $this->getCurrentMarker();
+		$result = $Model->checkMarkerIndividual($formID, $markerID);
+		$result2 = $Model->checkMarkerMerged($formID, $markerID);
+		return ($result || $result2);
+	} */
 }
