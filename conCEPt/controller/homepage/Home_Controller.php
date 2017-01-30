@@ -15,7 +15,7 @@ class MainPageController
 		foreach($student_forms as $studentID => $data) {
 			$forms = array();
 			foreach($data as $value) {
-					$submitted_msg = "Not submitted";
+					$submitted_msg = "Not Submitted";
 					if($value['IsSubmitted'] == 1) {
 						$submitted_msg = "Submitted";
 					}
@@ -23,8 +23,6 @@ class MainPageController
 						'title' => $value['Form_title'],
 						'submitted' => $submitted_msg,
 						'submitted_link' => 'todo: link',
-						'shadow_submitted' => 'shadow submitted',
-						'shadow_link' => 'todo shadow link',
 						'linkMerged' => 'todo merged link',
 						'type' =>
 'submitted'
@@ -60,7 +58,14 @@ $students[$studentID][0]['Lname'],
 		$student_pane = $this->generateStudentPane($twig,$model);
 
 		// for now we shall just return the student pane
-		return $student_pane;
+		$template = $twig->loadTemplate('homePage.twig');
+		$template->render(array(
+			'navbar'=> "",
+			'studentTab' => $student_pane,
+			'pendingTab' => "",
+			'submittedTab' => "",
+			'clashesTab' => ""
+		));
 		//Generate pending pane
 
 		
