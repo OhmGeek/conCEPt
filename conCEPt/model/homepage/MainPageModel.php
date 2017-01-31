@@ -32,7 +32,7 @@ class MainPageModel
 
 		//fetch all forms, grouped by student ID
 		return $statement->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);
-		}
+	}
 	
 	public function getStudentInformation() {
 		$marker = $this->getMarkerID();
@@ -51,7 +51,5 @@ class MainPageModel
 
 		return $statement->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);
 	}
-
-
 
 }

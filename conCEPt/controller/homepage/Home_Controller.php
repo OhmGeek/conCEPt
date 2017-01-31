@@ -24,8 +24,7 @@ class MainPageController
 						'submitted' => $submitted_msg,
 						'submitted_link' => 'todo: link',
 						'linkMerged' => 'todo merged link',
-						'type' =>
-'submitted'
+						'type' => 'submitted'
 					);
 					
 					// now add this form to the list of forms for the student
@@ -33,8 +32,7 @@ class MainPageController
 
 			}
 			$student = array(
-					'studentName' => $students[$studentID][0]['Fname'] . " " .
-$students[$studentID][0]['Lname'],
+					'studentName' => $students[$studentID][0]['Fname'] . " " . $students[$studentID][0]['Lname'],
 					'forms' => $forms
 			);
 			array_push($twig_data['students'],$student);

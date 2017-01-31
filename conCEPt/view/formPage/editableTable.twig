@@ -1,5 +1,5 @@
 <!--AIM IS FOR THIS TO GENERATE ALL POSSIBLE TABLES FOR FORMS -->
-<table>
+<table class = "table table-bordered">
 	<col width="35%">
 	<col width="5%">
 	<col width="45%">
@@ -12,9 +12,9 @@
 		<tr>
 			<td class = "padding">{{row.criteria|raw}}</td>
 			
-			<td><textarea form="{{formID}}" name= "mark{{row.markID}}" {% if row.markReadOnly %} readonly {% endif %}>{{row.mark}} </textarea></td>
+			<td {% if row.markReadOnly %} class="no-edit" {% endif %}><textarea form="{{formID}}" name= "mark-{{row.markID}}" {% if row.markReadOnly %} readonly {% endif %}>{{row.mark}} </textarea></td>
 
-			<td><textarea form="{{formID}}" name = "rationale{{row.rationaleID}}" {% if row.rationaleReadOnly  %} readonly {% endif %}> {{row.rationale}} </textarea></td>
+			<td {% if row.rationaleReadOnly  %} class="no-edit" {% endif %}><textarea form="{{formID}}" name = "rationale-{{row.rationaleID}}" {% if row.rationaleReadOnly  %} readonly {% endif %}> {{row.rationale}} </textarea></td>
 			
 		</tr>
 	{% endfor %}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{{title}}</title>
+		<title>History</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 		<!-- jQuery library -->
@@ -12,14 +12,13 @@
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-		<!-- Stylesheet for printing -->
-		<link rel="stylesheet" type="text/css" href="../public/print.css" media="print">
-		
-		<!--Own styling-->
+		<!-- Stylesheet from forms (used for table styling) -->
 		<link rel="stylesheet" type="text/css" href="../public/forms.css">
-
-		<!--Own JavaScript-->
-		<script src="forms.js"></script>
+		
+	
+		<style>
+			body { padding-top: 60px;}
+		</style>
 	</head>
 	
 	<body>
@@ -34,7 +33,20 @@
 		
 		<!-- MAIN DOCUMENT STARTS HERE -->
 			<div class="document-container">
-				{{form|raw}}
+				<table class ="table text-center">
+					<tr>
+						<th>Document</th>
+						<th>Comment</th>
+						<th>Submission Date</th>
+					</tr>
+					{% for document in documents %}
+						<tr>
+							<td><a href = {{document.link}} >{{document.name}}</a></td>
+							<td>{{document.comment}}</td>
+							<td>{{document.date}}
+						</tr>
+					{% endfor %}
+				</table>
 			</div>
 		</div>
 	</body>
