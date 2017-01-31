@@ -30,9 +30,9 @@
 	<div class = "comments  {% if commentsReadOnly %} no-edit {% endif %}"><textarea form="{{formID}}" name="comments" {% if commentsReadOnly %} readonly {% endif %}> {{comments}} </textarea></div>
 </div>
 {% if displaySubmissionComment %}
-	<div style="padding-top:10px; padding-bottom:10px;">
+	<div style="padding-top:10px;">
 			<label>Submission comment</label>
-			<input type = "text" form="{{formID}}" name = "submitComment" Placeholder="Initial Submission" style="width:100%;"></input>
+			<input type = "text" form="{{formID}}" name = "submitComment" Placeholder="Reason for change" style="width:100%;"></input>
 	</div>	
 {% endif %}
 <!-- Change these to buttons instead? -->

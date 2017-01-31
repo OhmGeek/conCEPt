@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>{{documentName}} - Select</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 		<!-- jQuery library -->
@@ -12,10 +13,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<!-- Stylesheet for printing -->
-		<link rel="stylesheet" type="text/css" href="../print.css" media="print">
+		<link rel="stylesheet" type="text/css" href="../public/print.css" media="print">
 		
 		<!--Own styling-->
-		<link rel="stylesheet" type="text/css" href="../forms.css">
+		<link rel="stylesheet" type="text/css" href="../public/forms.css">
 		<style>
 			.form-inline{text-align:center;}
 			body{padding-top:60px;}
@@ -24,6 +25,7 @@
 	
 	<body>
 	<!-- Navigation bar -->
+	
 		<div class = "container">
 			{{navbar|raw}}
 			
@@ -32,16 +34,16 @@
 			<div class="document-container">
 				<h1>{{documentName}}</h1> 
 				
-				<form class="form-inline" method = "get" action="indexFormSelection.php">
+				<form class="form-inline" method = "get" action="../public/index.php">
+					<input type = "hidden" name = "route" value="receive">
 					<div class = "form-group">
 						<label> Student's name: </label>
-						<select class="form-control" name="formID">
-							{{% for student in students %}}
-								<option value="{{student.formID}}">{{student.name}}</option>
-							{{% endfor %}}
+						<select class="form-control" name="id">
+							{% for student in students %}
+								<option value="{{student.formID}}">{{student.name}} - Year {{student.level}}</option>
+							{% endfor %}
 						</select>
 						<input type="submit" value="Go to form"></input>
-						<input type="text" name="form" value="{{markerType}}-{{formName}}" hidden></input>
 					</div>
 				</form>
 			</div>
