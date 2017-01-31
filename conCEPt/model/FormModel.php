@@ -59,7 +59,7 @@ class FormModel
 		$db = DB::getDB();
 		$statement = $db->prepare("SELECT *
 									FROM Form
-									JOIN MS_Form ON MS_Form.Form_ID = Form.FormID
+									JOIN MS_Form ON MS_Form.Form_ID = Form.Form_ID
 									JOIN MS ON MS.MS_ID = MS_Form.MS_ID
 									JOIN Marker ON Marker.Marker_ID = MS.Marker_ID
 									WHERE Marker.Marker_ID = :markerID 
@@ -75,8 +75,8 @@ class FormModel
 		$db = DB::getDB();
 		$statement = $db->prepare("SELECT *
 									FROM MergedForm
-									JOIN Form ON (Form.Form_ID = MergedForm.EForm_ID OR MS_Form.Form_ID = MergedForm.SForm_ID)
-									JOIN MS_Form ON MS_Form.Form_ID = Form.FormID
+									JOIN Form ON (Form.Form_ID = MergedForm.EForm_ID OR Form.Form_ID = MergedForm.SForm_ID)
+									JOIN MS_Form ON MS_Form.Form_ID = Form.Form_ID
 									JOIN MS ON MS.MS_ID = MS_Form.MS_ID
 									JOIN Marker ON Marker.Marker_ID = MS.Marker_ID
 									WHERE Marker.Marker_ID = :markerID 
@@ -87,6 +87,16 @@ class FormModel
 		return count($statement->fetchAll(PDO::FETCH_ASSOC));
 	}
 	
+	function checkAdmin($markerID)
+	{
+		$db = DB::getDB();
+		$statement = $db->prepare("SELECT *
+									FROM Admin
+									WHERE ADMIN_ID = :markerID; ");
+		$statement->bindValue(":markerID", $markerID, PDO::PARAM_STR);
+		$statement->execute();
+		return count($statement->fetchAll(PDO::FETCH_ASSOC));
+	}
 	
 	//Returns all sections from a given form
 	function getFormSections($formID)

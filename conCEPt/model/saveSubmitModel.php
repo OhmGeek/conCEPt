@@ -7,7 +7,7 @@ class SaveSubmitModel
 	{
 	}
 	
-
+    //Inserts a section for a given form
 	function sendSection($formID, $sectionOrderID, $mark, $rationale)
 	{
 		$db = DB::getDB();
@@ -28,7 +28,8 @@ class SaveSubmitModel
 		return $result;
 		
 	}
-	
+
+	//Sets the submit flag of a given form to a given value
 	function updateSubmitFlag($formID, $value)
 	{
 		$db = DB::getDB();
@@ -46,7 +47,8 @@ class SaveSubmitModel
 		return $result;
 		
 	}
-	
+
+	//Adds a submission commment to a form
 	function addSubmitComment($formID, $comment)
 	{
 		$db = DB::getDB();
@@ -63,7 +65,8 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
+
+	//Gets general details from a form (BaseFormID, StudentID, IsSupervisor)
 	function getGeneralDetails($formID)
 	{
 		//QUERY TO RETURN BaseFormId, studentID and isSupervisor
@@ -84,7 +87,8 @@ class SaveSubmitModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 		
 	}
-	
+
+	//Gets the form submitted by the other marker for a given student and form type
 	function getOtherMarkerForm($studentID, $bFormID, $isSupervisor)
 	{
 		//QUERY TO GET OTHER MARKER'S FORM
@@ -111,10 +115,7 @@ class SaveSubmitModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-	
-	//The following functions deal with Merge related forms
-	
-	//Checks if the form is merged
+	//Returns 1 if the form is merged, 0 if individual
 	function isMergedForm($formID)
 	{
 		$db = DB::getDB();
@@ -122,9 +123,7 @@ class SaveSubmitModel
 		$statement = $db->prepare("SELECT * 
 									FROM `MergedForm`
 									WHERE `MergedForm`.`MForm_ID` = :formID");
-								
-								
-		
+
 		$statement->bindValue(':formID',$formID, PDO::PARAM_INT);	
 		
 		$statement->execute();
@@ -149,9 +148,8 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
-	
-	
+
+	//Creates a blank form of the same type as the one given
 	function createBlankForm($formID)
 	{
 		$db = DB::getDB();
@@ -168,7 +166,8 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
+
+	//Gets a blank form of a given type from the DB to use
 	function getBlankMergedForm($bFormTypeID)
 	{
 		$db = DB::getDB();
@@ -187,7 +186,8 @@ class SaveSubmitModel
 
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
+
+	//Adds a merged form to the merge table and links the two contributor forms to it
 	function updateMergeTable($mergedFormID, $EFormID, $SFormID)
 	{
 		$db = DB::getDB();
@@ -204,9 +204,8 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
-	
-	//Updates a merged form that already exists
+
+	//Updates the sections of a merged form by combining the sections from its contributors
 	function updateMergedForm($mergedFormID, $EFormID, $SFormID)
 	{
 		$db = DB::getDB();
@@ -231,10 +230,8 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
-	
-	
-	
+
+	//Updates the IsMerged flag of a given form to a given value
 	function updateMergeFlag($formID, $value)
 	{
 		$db = DB::getDB();
@@ -251,7 +248,8 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
+
+	//Returns the merged form that the given form contributes to
 	function getMergedForm($formID)
 	{
 		$db = DB::getDB();
@@ -268,7 +266,8 @@ class SaveSubmitModel
 
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
+
+	//Deletes all conflicts associated with the given form
 	function removeConflicts($mergedFormID)
 	{
 		$db = DB::getDB();
@@ -284,7 +283,8 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
+
+	//Finds conflicts between forms and adds them to the DB
 	function createConflicts($mergedFormID, $anyFormID)
 	{
 		$db = DB::getDB();
@@ -320,8 +320,6 @@ class SaveSubmitModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	
-	
 	//Creates complete duplicate of a given form, with a new ID
 	function duplicateForm($formID)
 	{
@@ -353,11 +351,8 @@ class SaveSubmitModel
 
 		return $result;
 	}
-	
-	
-	
-	//Re-opens a submitted form to allow it to be edited
-	//Change the isSubmitted flag to 0, update timestamp to NOW()
+
+	//Changes the IsSubmitted flag of a form to 0 (allows it to be edited again)
 	function openForm($formID)
 	{
 		$this->updateSubmitFlag($formID, 0);
