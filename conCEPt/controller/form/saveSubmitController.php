@@ -167,7 +167,7 @@ class SaveSubmitController
 		
 		
 		//Assume it has been successful if it got this far
-		echo($this->sendSuccessMessage($storeType." successfull"));
+		return ($this->sendSuccessMessage($storeType." successfull"));
 		exit;
 		
 	}
