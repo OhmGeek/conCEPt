@@ -25,29 +25,34 @@ $(document).ready(function(){
 		var jsonData = {};
 		var numberOfSections = 0;
 		$.each(data, function(){
-			console.log(this);
 			numberOfSections += 1;
-			console.log(this.name);
-			console.log(this.value);
+			var name = this.name;
+			var name = this.name.split("-");
+			var type = name[0];
+			if (type == "mark"){
+				var valid = checkMark(this.value);
+				if (!valid){
+					//errorMessage
+					return;
+				}else{
+					jsonData[this.name]=this.value;
+				}
+			}
 			jsonData[this.name]=this.value;
 		});
-		//jsonData["sections"] = sections;
 
 		jsonData["documentID"] = $("form").attr("id");
-		//DON'T KNOW HOW TO GET THE STORE TYPE FROM THE FORM YET
-		jsonData["numberOfSections"] = Math.floor((numberOfSections+1)/2)
-		console.log(jsonData);
-	
+		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
+		
  		$.post("index.php?route=send", jsonData, function(response){
-			console.log(response);
+			response = $.trim(response);
+			var response = $.parseJSON(response);
 			if (response.hasOwnProperty("error")){
-				//alert with response["error"];
+				displayError(response["error"]);
 				console.log(response["error"]);
 			}else{
-				//alert with response["success"];
-				console.log(response["success"]);
-				console.log(response.hasOwnProperty("success"));
-				location.reload();
+				displaySuccess(response["success"]);
+				//location.reload();
 			}
 		});
 	});
@@ -73,8 +78,28 @@ $(document).ready(function(){
 			console.log("Allowing submit");
 			$("input[name='action'][value='Submit']").removeAttr("disabled");
 		}else{
-			$("input[name='action'][value='Save']").attr("disabled","disabled");
+			$("input[name='action'][value='Submit']").attr("disabled","disabled");
 		}
+	}
+	
+	function checkMark(mark){
+		return (parseInt(mark) >= 0 && parseInt(mark) <= 100);
+	}
+	
+	function displayError(e)
+	{
+		var alertDiv = $("#alerts");
+		alertDiv.removeClass("alert alert-success alert-dismissable");
+		alertDiv.attr("class", "alert alert-danger alert-dismissable");
+		alertDiv.html("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Error: </strong>"+ e);
+	}
+	
+	function displaySuccess(s)
+	{
+		var alertDiv = $("#alerts");
+		alertDiv.removeClass("alert alert-success alert-dismissable");
+		alertDiv.attr("class", "alert alert-success alert-dismissable");
+		alertDiv.html("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Success: </strong>"+ s);
 	}
 	
 });

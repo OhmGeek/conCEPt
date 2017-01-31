@@ -2,11 +2,6 @@
 require_once(__DIR__ . '/../../model/homepage/MainPageModel.php');
 class MainPageController
 {
-
-	function __construct()
-	{
-	}
-
 	private function generateStudentPane($twig,$model) {
 		//Generate Student pane
 		$student_forms = $model->getStudentForms();
@@ -26,14 +21,12 @@ class MainPageController
 						'linkMerged' => 'todo merged link',
 						'type' => 'submitted'
 					);
-					
 					// now add this form to the list of forms for the student
 					array_push($forms,$form);
 
 			}
 			$student = array(
-					'studentName' => $students[$studentID][0]['Fname'] . " " .
-$students[$studentID][0]['Lname'],
+					'studentName' => $students[$studentID][0]['Fname'] . " " . $students[$studentID][0]['Lname'],
 					'forms' => $forms
 			);
 			array_push($twig_data['students'],$student);

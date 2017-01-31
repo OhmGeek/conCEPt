@@ -3,6 +3,8 @@
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
 require_once(__DIR__ . '/../model/pdf/pdf_model.php');
 require_once(__DIR__ . '/../controller/homepage/Home_Controller.php');
+require_once(__DIR__ . '/../controller/form/formSelectionController.php');
+
 // deal with the odd installation we have going on
 
 $base = __DIR__;
@@ -35,6 +37,15 @@ switch ($path) {
 		header("Content-type:application/pdf");
 		header("Content-Disposition:attachment;filename='downloaded.pdf'");
 		echo $pdf->get_PDF();
+		break;
+	case "/?form/":
+		$formController = new formSelectionController();
+		echo $formController->generateSelectionPage($_GET['form_id']);
+		break;
+
+	case "/?save_form/":
+		$controller = new SaveSubmitController($_POST);
+		
 		break;
 	default:
 		echo "404 Error\n";

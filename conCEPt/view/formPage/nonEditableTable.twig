@@ -1,6 +1,5 @@
-<!--CREATES A TABLE WITH NON-EDITABLE TEXTAREAS-->
-
-<table>
+<!--AIM IS FOR THIS TO GENERATE ALL POSSIBLE TABLES FOR FORMS -->
+<table class = "table table-bordered">
 	<col width="35%">
 	<col width="5%">
 	<col width="45%">
@@ -11,9 +10,10 @@
 	</tr>
 	{% for row in rows %}
 		<tr>
-			<td>{{row.criteria}}</td>
-			<td>{{row.mark}}</td>
-			<td>{{row.rationale}}</td>
+			<td class = "padding">{{row.criteria|raw}}</td>
+			<td class = "padding">{{row.mark}}</td>
+			<td class = "padding">{{row.rationale}}</td>
 		</tr>
 	{% endfor %}
 </table>
+
