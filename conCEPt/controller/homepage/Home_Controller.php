@@ -24,8 +24,7 @@ class MainPageController
 						'submitted' => $submitted_msg,
 						'submitted_link' => 'todo: link',
 						'linkMerged' => 'todo merged link',
-						'type' =>
-'submitted'
+						'type' => 'submitted'
 					);
 					
 					// now add this form to the list of forms for the student
@@ -56,7 +55,7 @@ $students[$studentID][0]['Lname'],
 
 		// student pane
 		$student_pane = $this->generateStudentPane($twig,$model);
-
+		return $student_pane;
 		// for now we shall just return the student pane
 		$template = $twig->loadTemplate('homePage.twig');
 		$template->render(array(
