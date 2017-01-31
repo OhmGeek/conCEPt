@@ -18,6 +18,7 @@ Class FormController
 		//return something hardcoded this time
 		//return "hkd4hdk";
 		return "knd6usj";
+		//return "kdfv48";
 	}
 
 	//Decides how to display the form
@@ -36,16 +37,24 @@ Class FormController
 		
 		
 		//CHECK THIS PERSON HAS ACCESS TO THE FORM (Either through merged form, or their own form)
-/* 		Check if person is admin, they can view all forms in submitted form
+		//Check if person is admin, they can view all forms in submitted form
 		$admin = $Model->checkAdmin($this->getCurrentMarker());
 		if($admin){
 			$this->displaySubmitted($formID, $twig, $Model, $formTitle);
-		} */
-		/* Check if this person is a marker on this form or contributing to this merged form
+			exit;
+		}
+		
+		//Check if this person is a marker on this form or contributing to this merged form
 		$result=$this->checkMarker($formID, $Model);
 		if(!($result)){
-			//Redirect to another page??
-		} */
+			//Display mainFormPage but with html replaced with message indicating user should leave
+			$navbar = new navbarController();
+			$navbar = $navbar->generateNavbarHtml();
+			$template = $twig->loadTemplate("mainFormPage.twig");
+			$invalid = "<h1>Not allowed to view that form, please go back to the main page</h1>";
+			print($template->render(array('title'=>"Not Authorised",'navbar'=>$navbar,'form'=> $invalid)));
+			exit;
+		}
 		
 		
 		
@@ -337,11 +346,11 @@ Class FormController
 	}
 	
 	
-/* 	function checkMarker($formID, $Model)
+	function checkMarker($formID, $Model)
 	{
 		$markerID = $this->getCurrentMarker();
 		$result = $Model->checkMarkerIndividual($formID, $markerID);
 		$result2 = $Model->checkMarkerMerged($formID, $markerID);
 		return ($result || $result2);
-	} */
+	}
 }

@@ -8,23 +8,33 @@ class formSelectionController{
 	{
 	}
 	
+	function getCurrentMarker()
+	{
+		//return $_SERVER["REMOTE_USER"];
+		//return something hardcoded this time
+		//return "hkd4hdk";
+		return "knd6usj";
+	}
+	
 	function generateSelectionPage($formTypeID)
 	{
 		$Model = new formSelectionModel();
 		
 		
 		//Generate navbar (Will be done by a separate file because of changes to forms in navbar)
-		//$template = $twig->loadTemplate("navbar.twig");
-		//$navbar = $template->render();
-		$navbar = "<h1>Navbar will be generated here</h1>";
+		$navbar = new navbarController();
+		$navbar = $navbar->generateNavbarHtml();
 		
+		$markerID = $this->getCurrentMarker();
 		
 		//Get name of form
 		$formDetails = $Model->getFormName($formTypeID);
 		$documentName = $formDetails[0]["Form_Title"];
 		
+		
 		//Get list of students
-		$results = $Model->getStudentOptions($formTypeID);
+		$results = $Model->getStudentOptions($formTypeID, $markerID);
+		
 		
 		$students = array();
 		foreach($results as $row)
