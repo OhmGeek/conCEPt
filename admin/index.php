@@ -206,7 +206,7 @@ $router->respond('POST', '/makeRelationship', function(){
 						$sql_query_link3 = $sql_query_link3 . "'" . $final_supervisor_id . "'";
 					}
 					$sql_query_link3 = $sql_query_link3 . ") " . " AND `MS`.`Student_ID` = '" . $final_student_id . "');";
-					return $sql_query_link3;
+					# return $sql_query_link3;
 					if(!mysqli_query($link, $sql_query_link3)){
 						return json_encode(array("error" => "Forms could not be built after creation (this might be because they already exist)"));
 					}
