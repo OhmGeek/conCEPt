@@ -59,7 +59,7 @@ class MainPageController
 		));
 		//Generate pending pane
 
-		
+		return $template;	
 		//Generate  submitted pane
 		
 		//Generate clashes pane
