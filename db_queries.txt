@@ -98,9 +98,6 @@ JOIN `BaseForm` ON `BaseForm`.`BForm_ID` = `Form`.`BForm_ID`
 WHERE  `Marker`.`Marker_ID` = 'hkd4hdk' AND `BaseForm`.`BForm_ID` = 1
 
 
-/* get submitted forms */
-
-
 /* get markers for a merged form - based on merged from id */
 
 SELECT `Marker`.`Fname`, `Marker`.`Lname`
@@ -165,11 +162,24 @@ JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID` OR `MS_Form`.`Fo
 JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
 WHERE `MergedForm`.`MForm_ID` = 8 AND `MS`.`Marker_ID` = 'hkd4hdk'
 
+
 /* check if a form is edited - based on merged form id */
 
 SELECT `IsEdited` 
 FROM `MergedForm` 
 WHERE `MForm_ID` = 8
+
+
+/* to find un-used merged form id */
+
+SELECT `Form_ID`
+FROM `Form`
+LEFT JOIN `MergedForm` ON `MergedForm`.`MForm_ID` = `Form`.`Form_ID`
+WHERE `IsMerged` = -1 AND `MergedForm`.`MForm_ID` IS NULL AND `BForm_ID` = 1
+ORDER BY `Form_ID` ASC
+LIMIT 1
+
+
 
 /*** for adding data ***/
 
@@ -273,13 +283,62 @@ GROUP BY `Sec_ID`
 ON DUPLICATE KEY UPDATE
  `Sec_ID` = VALUES(`Sec_ID`), `Comment` = VALUES(`Comment`), `Mark`= VALUES(`Comment`)
 
+/* add/update a student */
 
-/* to find un-used merged form id */
+INSERT INTO `Student`(`Student_ID`, `Fname`, `Lname`, `Year_Level`) 
+VALUES ('knlb5j','Luke','McBeth',3)
+ON DUPLICATE KEY UPDATE
+ `Fname` = VALUES(`Fname`), `Lname` = VALUES(`Lname`), `Year_Level`= VALUES(`Year_Level`)
 
-SELECT `Form_ID`
+
+/* add/update marker */
+
+INSERT INTO `Marker`(`Marker_ID`, `Fname`, `Lname`) 
+VALUES ('lmlhi6','Mark','Million')
+ON DUPLICATE KEY UPDATE
+ `Fname` = VALUES(`Fname`), `Lname` = VALUES(`Lname`)
+
+
+/* connect marker and student - based on marker and student id */
+
+INSERT INTO `MS`(`Marker_ID`, `Student_ID`, `IsSupervisor`) 
+VALUES ('lmlhi6','knlb5j',1)
+
+
+/* create a blank form for each base */
+
+INSERT INTO `Form`(`BForm_ID`) 
+SELECT `BForm_ID`
+FROM `BaseForm`
+
+
+/* connect the marker-student pair to the 5 form types (forms previously created but not used) - based on student and marker id */
+
+INSERT INTO `MS_Form`(`MS_ID`, `Form_ID`) 
+SELECT 
+(
+    SELECT `MS`.`MS_ID`
+    FROM `MS`
+    LEFT JOIN `MS_Form` ON `MS_Form`.`MS_ID` = `MS`.`MS_ID`
+    WHERE `MS_Form`.`MS_ID` IS NULL AND `MS`.`Marker_ID` = 'lmlhi6' AND `MS`.`Student_ID` = 'knlb5j'
+) M , `Form_ID`
+FROM
+(
+    SELECT `Form`.`Form_ID`, `Form`.`BForm_ID`
+	FROM `Form`
+	LEFT JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
+	WHERE `MS_Form`.`Form_ID` IS NULL AND `IsMerged` = 0
+    GROUP BY `Form`.`BForm_ID`
+) B
+
+
+/* add the sections to the forms created for the marker-student pair - base on marker and student ids */
+
+INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`)
+SELECT `Section`.`Sec_ID`, `Form`.`Form_ID`
 FROM `Form`
-LEFT JOIN `MergedForm` ON `MergedForm`.`MForm_ID` = `Form`.`Form_ID`
-WHERE `IsMerged` = -1 AND `MergedForm`.`MForm_ID` IS NULL AND `BForm_ID` = 1
-ORDER BY `Form_ID` ASC
-LIMIT 1
+JOIN `Section` ON `Section`.`BForm_ID` = `Form`.`BForm_ID`
+JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
+JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+WHERE `MS`.`Marker_ID` = 'lmlhi6' AND `MS`.`Student_ID` = 'knlb5j'
 
