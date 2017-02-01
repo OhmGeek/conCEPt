@@ -48,10 +48,9 @@ class MainPageController
 
 		// student pane
 		$student_pane = $this->generateStudentPane($twig,$model);
-		return $student_pane;
 		// for now we shall just return the student pane
 		$template = $twig->loadTemplate('homePage.twig');
-		$template->render(array(
+		return $template->render(array(
 			'navbar'=> "",
 			'studentTab' => $student_pane,
 			'pendingTab' => "",

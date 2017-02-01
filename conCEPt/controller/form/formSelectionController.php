@@ -1,6 +1,6 @@
 <?php
 
-include '../model/formSelectionModel.php';
+include '../model/forms/formSelectionModel.php';
 class formSelectionController{
 	
 	
@@ -47,7 +47,10 @@ class formSelectionController{
         $twig = new Twig_Environment($loader);
 
 		$template = $twig->loadTemplate("formSelection.twig");
-		print($template->render(array("navbar"=>$navbar,"documentName"=>$documentName,"students"=>$students)));
+		return $template->render(array(
+			"navbar" => $navbar,
+			"documentName" => $documentName,
+			"students" => $students));
 	}
 }
 ?>
