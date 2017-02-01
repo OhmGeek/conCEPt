@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$Lname = $_POST['Lname'];
 		$year = $_POST['Year_Level'];	
 		if(strcmp($student,"")==0 or empty($_POST['Lname']) or strcmp($Fname,"")==0 or strcmp($year,"")==0) {
-			echo "error";
+			echo "Error : One of the fields seem to be empty. Please try again.";
 			exit();
 		}
 		
