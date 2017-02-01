@@ -180,6 +180,18 @@ ORDER BY `Form_ID` ASC
 LIMIT 1
 
 
+/* Get all completed forms sorted by studentID */
+
+SELECT `Student`.`Student_ID`, `Student`.`Fname`, `Student`.`Lname`, `Form`.`Form_ID`, `BaseForm`.`Form_Title`
+FROM `Form`
+JOIN `BaseForm` ON `BaseForm`.`BForm_ID` = `Form`.`BForm_ID`
+JOIN `MergedForm` ON `MergedForm`.`MForm_ID` = `Form`.`Form_ID`
+JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID`
+JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+JOIN `Student` ON `Student`.`Student_ID` = `MS`.`Student_ID`
+WHERE `Form`.`IsSubmitted` = 1 AND `Form`.`IsMerged` = -1
+ORDER BY `Student`.`Student_ID` ASC
+
 
 /*** for adding data ***/
 
