@@ -7,17 +7,11 @@ class formSelectionModel{
 	}
 
 	
-	function getMarkerID()
-	{
-		//Returns the id of the marker currently logged in
-		return "hkd4hdk";
-	}
-	
 	//Return an array of student names, along with form ID's for each student 
-	function getStudentOptions($formTypeID)
+	function getStudentOptions($formTypeID, $markerID)
 	{
 		$db = DB::getDB();
-		$markerID = $this->getMarkerID();
+		
 		
 		//$db = DB::getDB();
 		$statement = $db->prepare("SELECT `Form`.`Form_ID`, `Student`.`Fname` , `Student`.`Lname` , `Student`.`Year_Level`
@@ -35,7 +29,8 @@ class formSelectionModel{
 		$statement->execute();
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
+
+	//Returns the title of the given form
 	function getFormName($formTypeID)
 	{
 		$db = DB::getDB();

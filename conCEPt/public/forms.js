@@ -18,6 +18,7 @@ $(document).ready(function(){
 	});
 
 	$("form").submit(function(){
+		var sendData = true; //if this is false, don't send data
 		event.preventDefault();
 		console.log("STOPPED SENDING");
 		var data = $(this).serializeArray();
@@ -32,27 +33,36 @@ $(document).ready(function(){
 			if (type == "mark"){
 				var valid = checkMark(this.value);
 				if (!valid){
-					//errorMessage
+					sendData = false;
 					return;
 				}else{
+					console.log("else statement");
 					jsonData[this.name]=this.value;
 				}
 			}
 			jsonData[this.name]=this.value;
 		});
-
+		
+		if (!sendData){
+			displayError("Invalid mark input");
+			return;
+		}
+		
 		jsonData["documentID"] = $("form").attr("id");
 		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
 		
+		console.log(jsonData);
  		$.post("index.php?route=send", jsonData, function(response){
+			console.log("Retrieved");
 			response = $.trim(response);
 			var response = $.parseJSON(response);
 			if (response.hasOwnProperty("error")){
 				displayError(response["error"]);
 				console.log(response["error"]);
 			}else{
+				console.log("Success");
 				displaySuccess(response["success"]);
-				//location.reload();
+				location.reload();
 			}
 		});
 	});
@@ -92,6 +102,7 @@ $(document).ready(function(){
 		alertDiv.removeClass("alert alert-success alert-dismissable");
 		alertDiv.attr("class", "alert alert-danger alert-dismissable");
 		alertDiv.html("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Error: </strong>"+ e);
+		return;
 	}
 	
 	function displaySuccess(s)
@@ -100,6 +111,7 @@ $(document).ready(function(){
 		alertDiv.removeClass("alert alert-success alert-dismissable");
 		alertDiv.attr("class", "alert alert-success alert-dismissable");
 		alertDiv.html("<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>Success: </strong>"+ s);
+		return;
 	}
 	
 });

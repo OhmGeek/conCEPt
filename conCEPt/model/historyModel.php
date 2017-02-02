@@ -6,7 +6,8 @@ class HistoryModel
 	function __construct()
 	{
 	}
-	
+
+	//Returns an array of all forms submitted by the given marker, along with the associated comment and timestamp
 	function getAllDocuments($markerID)
 	{
 		$db = DB::getDB();

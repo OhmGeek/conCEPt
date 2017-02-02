@@ -14,7 +14,7 @@
 			
 			<td {% if row.markReadOnly %} class="no-edit" {% endif %}><textarea form="{{formID}}" name= "mark-{{row.markID}}" {% if row.markReadOnly %} readonly {% endif %}>{{row.mark}} </textarea></td>
 
-			<td {% if row.rationaleReadOnly  %} class="no-edit" {% endif %}><textarea form="{{formID}}" name = "rationale-{{row.rationaleID}}" {% if row.rationaleReadOnly  %} readonly {% endif %}> {{row.rationale}} </textarea></td>
+			<td {% if row.rationaleReadOnly  %} class="no-edit" {% endif %}><div class="{% if !row.rationaleReadOnly %}editable{% endif %}" form="{{formID}}" name = "rationale-{{row.rationaleID}}"> {{row.rationale | raw}} </div></td>
 			
 		</tr>
 	{% endfor %}
