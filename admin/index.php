@@ -56,16 +56,16 @@ $router->respond('POST', '/Staff_makeMarker', function(){
 
 $router->respond('POST', '/Staff_makeStudent', function(){
 		
-	if(!strcmp($_POST["Student_ID"], "")){
+	if(!isset($_POST["Student_ID"])){
 		return json_encode(array("error" => "Student ID was not set"));
 	} 
-	else if(!strcmp($_POST['Lname'], "")){
+	else if(!isset($_POST['Lname'])){
 		return json_encode(array("error" => "Surname was not set"));
 	} 
-	else if(!strcmp($_POST["Fname"], "")){
+	else if(!isset($_POST["Fname"])){
 		return json_encode(array("error" => "Forename was not set"));
 	}
-	else if(!strcmp($_POST["Year_Level"], "")){
+	else if(!isset($_POST["Year_Level"])){
 		return json_encode(array("error" => "Year of study was not set"));
 	}
 	$student = $_POST['Student_ID'];
