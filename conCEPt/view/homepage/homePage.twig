@@ -12,10 +12,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<!-- Stylesheet for printing -->
-		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		<link rel="stylesheet" type="text/css" href="./css/print.css" media="print">
+		<script>
+			jQuery(document).ready(function ($) {
+    			$('.nav-tabs').tab();
+			});
 		
+		</script>		
 		<style>
-			body { padding-top: 60px;}
+			body { padding-top: 80px }
 		</style>
 	</head>
 	
@@ -27,10 +32,10 @@
 			
 			<!-- Main tab section here -->
 			<ul class ="nav nav-tabs" data-tabs="tabs">
-				<li class = "active"><a data-toggle="tab" href="#tab_student">Students</a></li>
-				<li><a data-toggle="tab" href="#tab_pending">Pending</a></li>
-				<li><a data-toggle="tab" href="#tab_submitted">Submitted</a></li>
-				<li><a data-toggle="tab" href="#tab_clashes">Clashes</a></li>
+				<li class="active navselector"><a data-toggle="tab" href="#tab_student">Students</a></li>
+				<li class="navselector"><a data-toggle="tab" href="#tab_pending">Pending</a></li>
+				<li class="navselector"><a data-toggle="tab" href="#tab_submitted">Submitted</a></li>
+				<li class="navselector"><a data-toggle="tab" href="#tab_clashes">Clashes</a></li>
 			</ul>
 			<div class = "tab-content">
 				<div id="tab_student" class="tab-pane fade in active">

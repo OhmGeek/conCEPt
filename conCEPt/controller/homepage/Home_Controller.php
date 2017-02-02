@@ -57,9 +57,9 @@ class MainPageController
 		return $template->render(array(
 			'navbar'=> $navbar->generateNavbarHtml(),
 			'studentTab' => $student_pane,
-			'pendingTab' => "",
-			'submittedTab' => "",
-			'clashesTab' => ""
+			'pendingTab' => "<div>HI</div>",
+			'submittedTab' => "<div>SI</div>",
+			'clashesTab' => "<div>BI</div>"
 		));
 		//Generate pending pane
 
