@@ -1,5 +1,8 @@
 <?php
 require_once(__DIR__ . '/../../model/homepage/MainPageModel.php');
+require_once(__DIR__ . '/../../controller/navbarController.php');
+
+
 class MainPageController
 {
 	private function generateStudentPane($twig,$model) {
@@ -41,6 +44,7 @@ class MainPageController
 	{
 		$model = new MainPageModel();
 		
+		$navbar = new navbarController();		
 		//Get info
 		
 		$loader = new Twig_Loader_Filesystem('../view/homepage/');
@@ -51,7 +55,7 @@ class MainPageController
 		// for now we shall just return the student pane
 		$template = $twig->loadTemplate('homePage.twig');
 		return $template->render(array(
-			'navbar'=> "",
+			'navbar'=> $navbar->generateNavbarHtml(),
 			'studentTab' => $student_pane,
 			'pendingTab' => "",
 			'submittedTab' => "",
