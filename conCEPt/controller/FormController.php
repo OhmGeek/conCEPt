@@ -25,7 +25,7 @@ Class FormController
     function generateForm($formID)
     {
 		$Model = new FormModel();
-		$loader = new Twig_Loader_Filesystem('../view/');
+		$loader = new Twig_Loader_Filesystem('../view/formPage');
         $twig = new Twig_Environment($loader);
 		
 		//Get general form information (title, isSubmitted, isMerged)
