@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
@@ -52,11 +51,9 @@ switch ($path) {
 		echo "404 Error\n";
 		echo $path;
 }
-
-=======
+/*
 <?php
 	require_once '../vendor/autoload.php';
-	
 	include '../model/db.php';
 	include '../control/saveSubmitController.php';
 	include '../control/formSelectionController.php';
@@ -82,6 +79,6 @@ switch ($path) {
 		$test = new navbarController();
 		print_r($test->generateNavbarHtml());
 	}
-	
 ?>
->>>>>>> a14d206ebbdbfc6871135bd41a5a4c12d4fad09a
+*/
+
