@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8"> 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 		<!-- jQuery library -->
@@ -15,7 +16,9 @@
 		<link rel="stylesheet" type="text/css" href="print.css" media="print">
 		
 		<style>
-			body { padding-top: 60px;}
+			.thick {
+					font-weight: bold;
+			}
 		</style>
 		
 		<title>
@@ -26,6 +29,20 @@
 	</head>
 	
 	<body>
+	
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="">Admin Page</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active">
+						<a href="http://community.dur.ac.uk/cs.seg04/cepTesting/Cameron/view/staffStudentAndMarkerAdder.twig">Add Students or Markers</a>
+					</li>
+		    </ul>
+		  </div>
+		</nav>
+		
 		<div id="intro" class="text-center">
 			<H1>Create a Relationship<small>(both individuals must already be entered into the system) </small></H1>
 		</div>
@@ -141,45 +158,43 @@
 			console.log(argument_set);
 			
 			$.ajax({
-					url: "http://community.dur.ac.uk/cs.seg04/cepTesting/Cameron/public/index.php/makeRelationship",
-					type:"POST",
-					data: argument_set,
-					complete: function(){
-						console.log(this.url);
-					},
-					success: function(resp){
-						console.log("success stuff here");
-						console.log(resp);
-						console.log("about to json parse");
-						js_resp = JSON.parse(resp);
-						console.log("just json parsed theoretically");
-						if("success" in js_resp){
-							$('#box_alert_success').html('<strong>Success: </strong>' + js_resp["success"]);
-							console.log($('#box_alert').html());
-							$("#box_alert_success").fadeTo(10000, 500).slideUp(500, function(){
-								$("#box_alert_success").slideUp(500);
-							});
-						}
-						else if("error" in js_resp){
-							$('#box_alert_failure').html('<strong>Failure: </strong>' + js_resp["error"]);
-							$("#box_alert_failure").fadeTo(10000, 500).slideUp(500, function(){
-								$("#box_alert_failure").slideUp(500);
-							});
-						}
-					},
-					error: function(resp){
-						console.log("Failed to complete collection of data from the database")
-						console.log(resp);
-						$('#box_alert_failure').text('<strong>Failure: </strong> Something went wrong');
+				url: "http://community.dur.ac.uk/cs.seg04/cepTesting/Cameron/public/index.php/Staff_makeRelationship",
+				type:"POST",
+				data: argument_set,
+				complete: function(){
+					console.log(this.url);
+				},
+				success: function(resp){
+					console.log("success stuff here");
+					console.log(resp);
+					console.log("about to json parse");
+					js_resp = JSON.parse(resp);
+					console.log("just json parsed theoretically");
+					if("success" in js_resp){
+						$('#box_alert_success').html('<strong>Success: </strong>' + js_resp["success"]);
+						console.log($('#box_alert').html());
+						$("#box_alert_success").fadeTo(10000, 500).slideUp(500, function(){
+							$("#box_alert_success").slideUp(500);
+						});
+					}
+					else if("error" in js_resp){
+						$('#box_alert_failure').html('<strong>Failure: </strong>' + js_resp["error"]);
 						$("#box_alert_failure").fadeTo(10000, 500).slideUp(500, function(){
 							$("#box_alert_failure").slideUp(500);
 						});
 					}
-				});
+				},
+				error: function(resp){
+					console.log("Failed to complete collection of data from the database")
+					console.log(resp);
+					$('#box_alert_failure').text('<strong>Failure: </strong> Something went wrong');
+					$("#box_alert_failure").fadeTo(10000, 500).slideUp(500, function(){
+						$("#box_alert_failure").slideUp(500);
+					});
+				}
+			});
 		}
 		</script>
 		
 	</body>
 </html>
-			
-			

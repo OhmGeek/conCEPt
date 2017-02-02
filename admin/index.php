@@ -16,7 +16,82 @@ $router->respond('GET', '/test', function() {
     echo 'Hello World';
 });
 
-$router->respond('POST', '/makeRelationship', function(){
+$router->respond('POST', '/Staff_makeMarker', function(){	
+	if(!strcmp($_POST["Marker_ID"], "")){
+		return json_encode(array("error" => "Marker ID was not set"));
+	}
+	else if (!strcmp($_POST['Lname'], "")){
+		return json_encode(array("error" => "Forename was not set"));
+	}
+	else if (!strcmp($_POST["Fname"], "")){
+		return json_encode(array("error" => "Surname was not set"));
+	}
+	else{
+		$marker = $_POST['Marker_ID'];
+		$Fname = $_POST['Fname'];
+		$Lname = $_POST['Lname'];
+		$servername = "mysql.dur.ac.uk";
+		$username = "dcs8s04";
+		$password = "when58";
+		$dbname = 'Idcs8s04_conCEPt';
+		
+		$conn = new mysqli($servername, $username, $password, $dbname);
+		// Check connection
+		if ($conn->connect_error) {
+			return json_encode(array("error" => "Connection failed: " . $conn->connect_error));
+		}
+				 
+		$sql = "INSERT INTO `Idcs8s04_conCEPt`.`Marker` (`Marker_ID`, `Fname`, `Lname`) VALUES ('$marker', '$Fname', '$Lname');" ;
+		$result = $conn->query($sql);
+		if($result){
+			return json_encode(array("success" => "Marker has been created successfully (may have already existed)"));
+		}
+		else{
+			return json_encode(array("error" => "Marker was not created succssfully"));
+		}
+		$conn->close();
+		
+	}
+});
+
+$router->respond('POST', '/Staff_makeStudent', function(){
+		
+	if(!strcmp($_POST["Student_ID"], "")){
+		return json_encode(array("error" => "Student ID was not set"));
+	} 
+	else if(!strcmp($_POST['Lname'], "")){
+		return json_encode(array("error" => "Surname was not set"));
+	} 
+	else if(!strcmp($_POST["Fname"], "")){
+		return json_encode(array("error" => "Forename was not set"));
+	}
+	else if(!strcmp($_POST["Year_Level"], "")){
+		return json_encode(array("error" => "Year of study was not set"));
+	}
+	$student = $_POST['Student_ID'];
+	$Fname = $_POST['Fname'];
+	$Lname = $_POST['Lname'];
+	$year = $_POST['Year_Level'];
+	
+	$servername = "mysql.dur.ac.uk";
+	$username = "dcs8s04";
+	$password = "when58";
+	$dbname = 'Idcs8s04_conCEPt';
+	
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+		return json_encode(array("error" => "Connection failed: " . $conn->connect_error));
+	}
+			 
+	$sql = "INSERT INTO `Idcs8s04_conCEPt`.`Student` (`Student_ID`, `Fname`, `Lname`, `Year_Level`) VALUES ('$student', '$Fname', '$Lname', '$year');" ;
+	$result = $conn->query($sql);
+	$conn->close();
+	return json_encode(array("success" => "Student has been created sucessfully (may have already existed)"));
+	
+});
+
+$router->respond('POST', '/Staff_makeRelationship', function(){
 	$link = mysqli_connect('mysql.dur.ac.uk', 'dcs8s04', 'when58', 'Idcs8s04_conCEPt');
 	$student_given = false;
 	$supervisor_given = false;
@@ -254,4 +329,3 @@ $router->onHttpError(function ($code, $router) {
 });
 
 $router->dispatch();
-
