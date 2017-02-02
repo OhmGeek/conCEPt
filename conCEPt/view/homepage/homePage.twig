@@ -26,19 +26,25 @@
 			{{navbar|raw}}
 			
 			<!-- Main tab section here -->
-			<ul class ="nav nav-tabs">
-				<li class = "active"><a data-toggle="tab" href="#Students">Students</a></li>
-				<li><a data-toggle="tab" href="#Pending">Pending</a></li>
-				<li><a data-toggle="tab" href="#Submitted">Submitted</a></li>
-				<li><a data-toggle="tab" href="#Clashes">Clashes</a></li>
+			<ul class ="nav nav-tabs" data-tabs="tabs">
+				<li class = "active"><a data-toggle="tab" href="#tab_student">Students</a></li>
+				<li><a data-toggle="tab" href="#tab_pending">Pending</a></li>
+				<li><a data-toggle="tab" href="#tab_submitted">Submitted</a></li>
+				<li><a data-toggle="tab" href="#tab_clashes">Clashes</a></li>
 			</ul>
 			<div class = "tab-content">
-			
-			<!--comes from tab.twig-->
-				{{studentTab|raw}}
-				{{pendingTab|raw}}
-				{{submittedTab|raw}}
-				{{clashesTab|raw}}
+				<div id="tab_student" class="tab-pane fade in active">
+					{{studentTab|raw}}
+				</div>
+				<div id="tab_pending" class="tab-pane fade">
+					{{pendingTab|raw}}
+				</div>
+				<div id="tab_submitted" class="tab-pane fade">
+					{{submittedTab|raw}}
+				</div>
+				<div id="tab_clashes" class="tab-pane fade">
+					{{clashesTab|raw}}
+				</div>
 			</div>
 		</div>
 	</body>
