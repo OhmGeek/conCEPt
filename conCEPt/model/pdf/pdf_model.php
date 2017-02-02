@@ -2,22 +2,23 @@
 
 include_once(__DIR__ . '/../db.php');
 
-class PDF_Model {
+class PDF_Model{
 
-    public function __construct($html_content) {
-        $this->html_input = $html_content;
+    public function __construct() 
+    {
+
     }
 
-    public function get_PDF() {
+    public function get_PDF($html_input) {
         $url = "http://test.ohmgeek.co.uk/PDFGenerator/generate_pdf.php";
-        $encoded_html = urlencode($this->html_input);
+        $encoded_html = urlencode($html_input);
         $pdf = file_get_contents($url . "?html=" . $encoded_html);
         return $pdf;
     }
 
     public function getFormContentsByID($formID)
     {
-        $db = new DB();
+        $db = DB::getDB();
         $statement = $db->prepare("SELECT  `Section`.`Sec_Order` , `Section`.`Sec_Name` , `Section`.`Sec_Percent` , `Section`.`Sec_Criteria` , `SectionMarking`.`Comment` , `SectionMarking`.`Mark`
                                    FROM  `SectionMarking`
                                    JOIN `Section` 
@@ -31,7 +32,7 @@ class PDF_Model {
     }
     public function getTotalFormMarkByID($formID)
     {
-        $db = new DB();
+        $db = DB::getDB();
         $statement = $db->prepare("SELECT SUM(`Section`.`Sec_Percent`*`SectionMarking`.`Mark` / 100) AS `Total`
                                    FROM  `SectionMarking` 
                                    JOIN `Section`
@@ -41,22 +42,22 @@ class PDF_Model {
         $statement->execute();
 
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if is_numeric($result['Total'])
+        if (is_numeric($result['Total']))
         {
-            $num = floatval($result['Total'])
-            return intval(round($num))
+            $num = floatval($result['Total']);
+            return intval(round($num));
         }
         else
         {
             return false;
         }
 
-        return 
+        return;
         
     }
     public function getAllCompletedFormIDs()
     {
-        $db = new DB();
+        $db = DB::getDB();
         $statement = $db->prepare("SELECT `Student`.`Student_ID`, `Student`.`Fname`, `Student`.`Lname`, `Form`.`Form_ID`, `BaseForm`.`Form_Title`
                                    FROM `Form`
                                    JOIN `BaseForm` ON `BaseForm`.`BForm_ID` = `Form`.`BForm_ID`
@@ -67,7 +68,7 @@ class PDF_Model {
                                    WHERE `Form`.`IsSubmitted` = 1 AND `Form`.`IsMerged` = -1
                                    ORDER BY `Student`.`Student_ID` ASC");
         $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
         
     }
 
