@@ -52,7 +52,7 @@ $(document).ready(function(){
 		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
 		
 		console.log(jsonData);
- 		$.post("index.php?route=send", jsonData, function(response){
+ 		$.post("forms.php?route=send", jsonData, function(response){
 			console.log("Retrieved");
 			response = $.trim(response);
 			var response = $.parseJSON(response);

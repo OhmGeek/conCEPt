@@ -1,6 +1,6 @@
 <?php
 //include model here
-include '../model/saveSubmitModel.php';
+require_once(__DIR__ . '/../../model/forms/saveSubmitModel.php');
 
 class SaveSubmitController
 {

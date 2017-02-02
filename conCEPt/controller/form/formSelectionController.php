@@ -1,6 +1,6 @@
 <?php
 
-include '../model/forms/formSelectionModel.php';
+require_once(__DIR__ . '/../../model/forms/formSelectionModel.php');
 class formSelectionController{
 	
 
