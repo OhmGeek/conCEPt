@@ -1,0 +1,18 @@
+<table class ="table text-center">
+	<thead>
+		<tr>
+			<th class="text-center">Document</th>
+			<th class="text-center">Submitted</th>
+			<th class="text-center">Merged</th>
+		</tr>
+	</thead>
+	<tbody>
+		{$ for doc in docs %}
+			<tr class = {{doc.type}}> 
+				<td>{{doc.title}}</td>
+				<td> {{doc.complete1}} {{doc.link}}</td>
+				<td> {{doc.complete3}} {{doc.linkMerged}}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

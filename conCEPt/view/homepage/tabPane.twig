@@ -1,0 +1,19 @@
+<div id="{{tabName}}" class = "tab-pane fade in active">
+	<h3 class = "page-header">{{tabName}}</h3>
+	<div class = "examined">
+		<h4 class = "page-header">Examined</h4>
+		<div class = "panel-group">
+			{% for studentPanel in examined %}
+				{{studentPanel|raw}}
+			{% endfor %}
+		</div>
+	</div>
+	<div class = "supervised">
+		<h4 class = "page-header">Supervised</h4>
+		<div class = "panel-group">
+			{% for studentPanel in supervised %}
+				{{studentPanel|raw}}
+			{% endfor %}
+		</div>
+	</div>
+</div>

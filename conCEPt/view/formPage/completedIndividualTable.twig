@@ -1,0 +1,22 @@
+<!--AIM IS FOR THIS TO GENERATE ALL POSSIBLE TABLES FOR FORMS -->
+<table>
+	<col width="35%">
+	<col width="5%">
+	<col width="45%">
+	<tr>
+		<th>Criteria</th>
+		<th>Mark</th>
+		<th>Rationale</th>
+	</tr>
+	{% for row in rows %}
+		<tr>
+			<td class = "padding">{{row.criteria|raw}}</td>
+			
+			<td class = "padding"{{row.mark}}</td>
+
+			<td class = "padding"> {{row.rationale}}</td>
+			
+		</tr>
+	{% endfor %}
+</table>
+

@@ -1,0 +1,44 @@
+<!--EDITABLE FORM FOR EXAMINER AND SUPERVISOR REPORTS-->
+<!DOCTYPE html>
+<h1>{{title}}</h1> 
+<h2>{{subtitle}}</h2>
+<div class = "header-details">
+	<div class = "header-input">
+		<h4><strong>Student name:</strong> {{studentName}}</h4>
+	</div> 
+	{% if supervisorName %}
+		<div class="header-input">
+			<h4><strong>Supervisor name:</strong> {{supervisorName}}</h4>
+		</div>
+	{% endif %}
+	{% if examinerName %}
+		<div class="header-input">
+			<h4><strong>Examiner name:</strong> {{examinerName}}</h4>
+		</div>
+	{% endif %}
+	{% if totalMark != -1 %}
+		<div class="header-input">
+			<h4><strong>Total mark: </strong> {{totalMark}}</h4>
+		</div<
+	{% endif %}
+</div>
+
+{{table|raw}}
+
+<div class = "general-comments">
+	General comments<br>
+	<div class = "comments  {% if commentsReadOnly %} no-edit {% endif %}"><div class="{% if commentsReadOnly %}editable{% endif %}" form="{{formID}}" name="comments"> {{comments|raw}} </div></div>
+</div>
+{% if displaySubmissionComment %}
+	<div style="padding-top:10px;">
+			<label>Submission comment</label>
+			<input type = "text" form="{{formID}}" name = "submitComment" Placeholder="Reason for change" style="width:100%;"></input>
+	</div>	
+{% endif %}
+<!-- Change these to buttons instead? -->
+
+<form  id ="{{formID}}" {% if not displayFormSubmission %} style="display:none;" {% endif %} >
+
+	<input type="submit" name = "action" value="Submit" disabled  />
+	<input type="submit" name = "action" value="Save"  />
+</form>
