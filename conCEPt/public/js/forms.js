@@ -15,6 +15,10 @@ $(document).ready(function(){
 	//Ajax post request made when form is submitted
 	$("form input").click(function(){
 		$("form").append($("<input type = 'hidden'>").attr({name:$(this).attr('name'),value:$(this).attr('value')}));
+		
+		$('div').each(function() {
+			$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).attr('html')}));
+		});
 	});
 
 	$("form").submit(function(){
