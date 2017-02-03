@@ -1,11 +1,11 @@
 <?php
 	require_once '../vendor/autoload.php';
 	include '../model/db.php';
-	include '../controller/form/saveSubmitController.php';
-	include '../controller/form/formSelectionController.php';
-	include '../controller/FormController.php';
-	include '../controller/historyController.php';
-	include '../controller/navbarController.php';
+	include '../controller/SaveSubmitController.php';
+	include '../controller/FormSelectionController.php';
+	include '../controller/FormDisplayController.php';
+	include '../controller/HistoryController.php';
+	include '../controller/NavbarController.php';
 	
 	$route = $_GET["route"];
 
@@ -14,14 +14,14 @@
 		$test = new SaveSubmitController($_POST);
 	}elseif ($route == "receive"){
 		$formID = $_GET["formid"];
-		$test = new FormController($formID);
+		$test = new FormDisplayController($formID);
 	}elseif ($route == "select"){
 		$formTypeID = $_GET["typeId"];
-		$test = new formSelectionController();
+		$test = new FormSelectionController();
 		$test->generateSelectionPage($formTypeID);
 	}elseif($route == "history"){
 		$test = new HistoryController();
 	}elseif($route == "navbar"){
-		$test = new navbarController();
+		$test = new NavbarController();
 		print_r($test->generateNavbarHtml());
 	}
