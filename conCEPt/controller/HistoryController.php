@@ -1,5 +1,5 @@
 <?php
-include '../model/historyModel.php';
+include '../model/HistoryModel.php';
 class HistoryController
 {
 

@@ -1,8 +1,8 @@
 <?php
 
-include '../model/navbarModel.php';
+include '../model/NavbarModel.php';
 
-class navbarController
+class NavbarController
 {
 	function __construct()
 	{
