@@ -81,10 +81,14 @@ $(document).ready(function(){
 		}).length==0;
 		
 	
-
+		//todo same again for DIVS
+		
+		var divsFilled = $(".diveditable").filter(function() {
+			return $.trim($(this).html()).length == 0;
+		}).length==0;
 		//If inputsFilled and textareasFilled,
 		//remove disabled attribute from Submit input
-		if (inputsFilled && textareasFilled){
+		if (inputsFilled && textareasFilled && divsFilled){
 			console.log("Allowing submit");
 			$("input[name='action'][value='Submit']").removeAttr("disabled");
 		}else{
