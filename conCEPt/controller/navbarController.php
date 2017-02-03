@@ -2,7 +2,7 @@
 
 include '../model/navbarModel.php';
 
-class navbarController
+class NavbarController
 {
 	function __construct()
 	{
