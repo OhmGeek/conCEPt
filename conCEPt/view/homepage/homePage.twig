@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+		<title>Home</title>
 		<!-- jQuery library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
@@ -18,6 +18,19 @@
     			$('.nav-tabs').tab();
 			});
 		
+
+			$("a[role=tab]").click(function(){
+    				if($(this).parent('li').hasClass('active')){
+        				$(this).parent('li').removeClass('active');
+        				$(".tab-content").addClass('hidden');        
+   				 } else{
+        				$("#tab-custom li").removeClass('active');
+        				$(this).parent('li').addClass('active');
+       					$(".tab-content").removeClass('tab-content-hidden');
+        				$(".tab-content .tab-pane").hide();	//hide all
+        				$($(this).attr('href')).show();		//show the selected one;
+    }
+});
 		</script>		
 		<style>
 			body { padding-top: 80px }
@@ -26,16 +39,16 @@
 	
 	<body>
 	<!-- Navigation bar -->
-		<div class = "container">
+		<div id="tab-custom" class = "container">
 			<!--Comes from navbar.twig-->
 			{{navbar|raw}}
 			
 			<!-- Main tab section here -->
 			<ul class ="nav nav-tabs" data-tabs="tabs">
-				<li class="active navselector"><a data-toggle="tab" href="#tab_student">Students</a></li>
-				<li class="navselector"><a data-toggle="tab" href="#tab_pending">Pending</a></li>
-				<li class="navselector"><a data-toggle="tab" href="#tab_submitted">Submitted</a></li>
-				<li class="navselector"><a data-toggle="tab" href="#tab_clashes">Clashes</a></li>
+				<li class="active navselector"><a data-toggle="tab" role="tab" href="#tab_student">Students</a></li>
+				<li class="navselector"><a data-toggle="tab" role="tab" href="#tab_pending">Pending</a></li>
+				<li class="navselector"><a data-toggle="tab" role="tab" href="#tab_submitted">Submitted</a></li>
+				<li class="navselector"><a data-toggle="tab" role="tab" href="#tab_clashes">Clashes</a></li>
 			</ul>
 			<div class = "tab-content">
 				<div id="tab_student" class="tab-pane fade in active">

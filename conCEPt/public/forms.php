@@ -13,7 +13,7 @@
 	if ($route == "send"){
 		$test = new SaveSubmitController($_POST);
 	}elseif ($route == "receive"){
-		$formID = $_GET["id"];
+		$formID = $_GET["formid"];
 		$test = new FormController($formID);
 	}elseif ($route == "select"){
 		$formTypeID = $_GET["typeId"];

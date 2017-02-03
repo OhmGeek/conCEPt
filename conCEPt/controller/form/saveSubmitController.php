@@ -11,9 +11,9 @@ class SaveSubmitController
 	
 	function getMarkerID()
 	{
-		return "hkd4hdk";
+		//return "hkd4hdk";
 		//return "knd6usj";
-		//return $_SERVER["REMOVE_USER"];
+		return $_SERVER["REMOTE_USER"];
 	}
 	
 	//Retrieve data from the POST request variables from the form (sent in an array by index.php)

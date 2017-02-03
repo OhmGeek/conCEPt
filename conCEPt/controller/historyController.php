@@ -10,7 +10,7 @@ class HistoryController
 	
 	function getCurrentMarker()
 	{
-		return "knd6usj";
+		return $_SERVER['REMOTE_USER'];
 	}
 
 	//Displays the History page for the current marker
@@ -38,7 +38,7 @@ class HistoryController
 			$document = array();
 			$document["name"] = $formName."-".$studentName."- year ".$year;
 			$document["comment"] = $comment;
-			$document["link"] = "index.php?route=receive&id=".$formID;
+			$document["link"] = "forms.php?route=receive&id=".$formID;
 			$document["date"] = $date." at ".$time;
 			
 			array_push($documents, $document);

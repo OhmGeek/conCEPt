@@ -17,11 +17,20 @@ class MainPageController
 					if($value['IsSubmitted'] == 1) {
 						$submitted_msg = "Submitted";
 					}
+					$merged_text = "";	
+					$merged_link = "";
+					if($value['IsMerged'] == 1) {
+						$merged_text = "Merged";
+						$merged_link = "#merged"; 
+					}
+					$form_id = $value['Form_ID'];
 					$form = array(
 						'title' => $value['Form_title'],
 						'submitted' => $submitted_msg,
-						'submitted_link' => 'todo: link',
-						'linkMerged' => 'todo merged link',
+						'submitted_link' =>
+"forms.php?route=receive&formid=$form_id",
+						'merged' => $merged_text,
+						'linkMerged' => $merged_link,
 						'type' => 'submitted'
 					);
 					// now add this form to the list of forms for the student

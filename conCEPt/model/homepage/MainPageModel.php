@@ -10,7 +10,7 @@ class MainPageModel
 	}
 	
 	public function getMarkerID() {
-		return 'hkd4hdk'; 
+		return $_SERVER['REMOTE_USER']; 
 	}
 
 		//Generates a list of students separated by examined and supervised

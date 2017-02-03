@@ -14,10 +14,10 @@ Class FormController
 
 	function getCurrentMarker()
 	{
-		//return $_SERVER["REMOTE_USER"];
+		return $_SERVER["REMOTE_USER"];
 		//return something hardcoded this time
 		//return "hkd4hdk";
-		return "knd6usj";
+		//return "knd6usj";
 		//return "kdfv48";
 	}
 
