@@ -1,6 +1,6 @@
 <?php
-include '../model/FormModel.php';
-Class FormController
+include '../model/FormDisplayModel.php';
+Class FormDisplayController
 {
 	//TODO this week
 	//	- Do something with conflict sections on merged form to show markers that this form has conflicts
