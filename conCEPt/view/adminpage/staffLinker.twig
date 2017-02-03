@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"> 
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Stylesheet for printing -->
+		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		
+		<style>
+			.thick {
+					font-weight: bold;
+			}
+		</style>
+		
+		<title>
+			Assign Marker
+		</title>
+		
+		
+	</head>
+	
+	<body>
+	
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="">Admin Page</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active">
+						<a href="http://community.dur.ac.uk/cs.seg04/cepTesting/Cameron/view/staffStudentAndMarkerAdder.twig">Add Students or Markers</a>
+					</li>
+		    </ul>
+		  </div>
+		</nav>
+		
+		<div id="intro" class="text-center">
+			<H1>Create a Relationship<small>(both individuals must already be entered into the system) </small></H1>
+		</div>
+		<form id="form_staff_linker" onsubmit="makeRelationship();" class=".container-fluid">
+			<div id="row1" class="row">
+				<div id="student_section" class="col-xs-4">
+					<H2 class="text-center"> Student </H2>
+					<label for="label_box_student_id" class=".label-info"> ID </label>
+					<input type="text" id="box_student_id" class="form-control">
+					
+					<label for="label_box_student_forename" class=".label-info"> Forename </label>
+					<input type="text" id="box_student_forename" class="form-control">
+					
+					<label for="label_box_student_surname" class=".label-info"> Surname </label>
+					<input type="text" id="box_student_surname" class="form-control">
+					
+					<label for="label_box_student_year" class=".label-info"> Year of Course </label>
+					<input type="text" id="box_student_year_of_study" class="form-control">
+				</div>
+				<div id="staff_section">
+					<div id="supervisor_section" class="col-xs-4">
+						<H2 class="text-center" > Supervisor </H2>
+						<label for="label_box_marker_id" class=".label-info"> ID </label>
+						<input type="text" id="box_supervisor_id" class="form-control">
+						
+						<label for="label_box_supervisor__forename" class=".label-info"> Forename </label>
+						<input type="text" id="box_supervisor_forename" class="form-control">
+						
+						<label for="label_box_supervisor_surname" class=".label-info"> Surname </label>
+						<input type="text" id="box_supervisor_surname" class="form-control">
+					</div>
+
+					<div id="examiner_section" class="col-xs-4">
+						<H2 class="text-center" > Examiner </H2>
+						<label for="label_box_marker_id" class=".label-info"> ID </label>
+						<input type="text" id="box_examiner_id" class="form-control">
+						
+						<label for="label_box_examiner__forename" class=".label-info"> Forename </label>
+						<input type="text" id="box_examiner_forename" class="form-control">
+						
+						<label for="label_box_examiner_surname" class=".label-info"> Surname </label>
+						<input type="text" id="box_examiner_surname" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div id="row2" class="row">
+				<div id="submission_section" class="col-xs-12 text-center">
+					<H1>
+					<input type="submit" class="btn-large btn-primary text-center" value="Add relationship" id="form_staff_linker_submit">
+					</H1>
+				</div>
+			</div>
+			<div id="row3" class="row">
+				<div id="alert_section" class="col-xs-12 text-center">
+					<div id="box_alert_success" class="alert alert-dismissable alert-success" style="display:none"></div>
+					<div id="box_alert_failure" class="alert alert-dismissable alert-danger" style="display:none"></div>
+				</div>
+			</div>
+		</form>
+		
+		
+		<script>
+		$('#form_staff_linker_submit').click(function(e){
+			e.preventDefault();
+			makeRelationship();
+		});
+		
+		function makeRelationship(){
+			var argument_set = {};
+			var examiner_id = $('#box_examiner_id').val();
+			if(examiner_id != ""){
+				argument_set["examiner_id"] = examiner_id;
+			}
+			var examiner_forename = $('#box_examiner_forename').val();
+			if(examiner_forename != ""){
+				argument_set["examiner_forename"] = examiner_forename;
+			}
+			var examiner_surname = $('#box_examiner_surname').val();
+			if(examiner_surname != ""){
+				argument_set["examiner_surname"] = examiner_surname;
+			}
+			
+			
+			var supervisor_id = $('#box_supervisor_id').val();
+			if(supervisor_id != ""){
+				argument_set["supervisor_id"] = supervisor_id;
+			}
+			var supervisor_forename = $('#box_supervisor_forename').val();
+			if(supervisor_forename != ""){
+				argument_set["supervisor_forename"] = supervisor_forename;
+			}
+			var supervisor_surname = $('#box_supervisor_surname').val();
+			if(supervisor_surname != ""){
+				argument_set["supervisor_surname"] = supervisor_surname;
+			}
+			
+			var student_id = $('#box_student_id').val();
+			if(student_id != ""){
+				argument_set["student_id"] = student_id;
+			}
+			var student_forename = $('#box_student_forename').val();
+			if(student_forename != ""){
+				argument_set["student_forename"] = student_forename;
+			}
+			var student_surname = $('#box_student_surname').val();
+			if(student_surname != ""){
+				argument_set["student_surname"] = student_surname;
+			}
+			var student_year_of_study = $('#box_student_year_of_study').val();
+			if(student_year_of_study != ""){
+				argument_set["student_year_of_study"] = student_year_of_study;
+			}
+			console.log(argument_set);
+			
+			$.ajax({
+				url: "http://community.dur.ac.uk/cs.seg04/cepTesting/Cameron/public/index.php/Staff_makeRelationship",
+				type:"POST",
+				data: argument_set,
+				complete: function(){
+					console.log(this.url);
+				},
+				success: function(resp){
+					console.log("success stuff here");
+					console.log(resp);
+					console.log("about to json parse");
+					js_resp = JSON.parse(resp);
+					console.log("just json parsed theoretically");
+					if("success" in js_resp){
+						$('#box_alert_success').html('<strong>Success: </strong>' + js_resp["success"]);
+						console.log($('#box_alert').html());
+						$("#box_alert_success").fadeTo(10000, 500).slideUp(500, function(){
+							$("#box_alert_success").slideUp(500);
+						});
+					}
+					else if("error" in js_resp){
+						$('#box_alert_failure').html('<strong>Failure: </strong>' + js_resp["error"]);
+						$("#box_alert_failure").fadeTo(10000, 500).slideUp(500, function(){
+							$("#box_alert_failure").slideUp(500);
+						});
+					}
+				},
+				error: function(resp){
+					console.log("Failed to complete collection of data from the database")
+					console.log(resp);
+					$('#box_alert_failure').text('<strong>Failure: </strong> Something went wrong');
+					$("#box_alert_failure").fadeTo(10000, 500).slideUp(500, function(){
+						$("#box_alert_failure").slideUp(500);
+					});
+				}
+			});
+		}
+		</script>
+		
+	</body>
+</html>
