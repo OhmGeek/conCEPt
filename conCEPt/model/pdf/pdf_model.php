@@ -11,8 +11,12 @@ class PDF_Model{
 
     public function get_PDF($html_input) {
         $url = "http://test.ohmgeek.co.uk/PDFGenerator/generate_pdf.php";
-        $encoded_html = urlencode($html_input);
+        $encoded_html = rawurlencode($html_input);
         $pdf = file_get_contents($url . "?html=" . $encoded_html);
+        #$pdfHandle = fopen($url . "?html=" . $encoded_html, 'rb');
+        #$pdf = fread($pdfHandle, filesize($pdfHandle))
+        file_put_contents("./temp.pdf", $pdf);
+        #fwrite($pdf, './temp.pdf');
         return $pdf;
     }
 

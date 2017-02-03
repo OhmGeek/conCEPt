@@ -6,16 +6,37 @@ include '../../model/pdf/pdf_model.php';
 
 class PDFController
 {
+	/*store model globally*/
+	private $model;
+
     function __construct()
     {
-        $this->displayCompletedForms();
+    	$this->model = new PDF_Model();
+    	if (isset($_GET['form']))
+    	{
+            $this->createPDF($_GET['form']);
+    	}
+    	else
+    	{
+    		$this->displayCompletedForms();
+    	}
+        
+    }
+    function createPDF($formID)
+    {
+        $pdfContents = $this->model->getFormContentsByID($formID);
+
+        $html = print_r($pdfContents, true);
+        $pdf = $this->model->get_PDF("<html><head></head><body>".$html."</body><html>");
+ 
+        header("Content-type:application/pdf");
+        header("Content-Disposition:attachment;filename=downloaded.pdf");
+        readfile("./temp.pdf");
+        exit;
     }
     function displayCompletedForms()
     {
-
-        $PDF_Model = new PDF_Model();
-
-        $completedFormInformation = $PDF_Model->getAllCompletedFormIDs();
+        $completedFormInformation = $this->model->getAllCompletedFormIDs();
 
         $formInformationByStudent = array();
         foreach($completedFormInformation as $row)
