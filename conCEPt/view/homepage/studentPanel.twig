@@ -1,12 +1,12 @@
 {% for student in students %}
-<div class = "panel panel-default">
+<div class = "panel">
 	<div class = "panel-heading">
 		<h4 class = "panel-title">
-			<a class = "btn-block" data-toggle="collapse"
+			<a class = ""
 href="#{{student.studentName}}">{{student.studentName}}</a>
 		</h4>
-	</div>
-	<div id="{{student.studentName}}" class = "panel-collapse collapse">
+	<div>
+	<div id="{{student.studentName}}" class = "panel">
 		<div class = "panel-body">
 			<table class ="table text-center">
 				<thead>
@@ -18,10 +18,12 @@ href="#{{student.studentName}}">{{student.studentName}}</a>
 				</thead>
 				<tbody>
 					{% for doc in student.forms %}
-					<tr class = {{doc.type}}> 
+					<tr class = "{{doc.type}}"> 
 						<td>{{doc.title}}</td>
-							<td> {{doc.submitted}} {{doc.submitted_link}}</td>
-							<td> {{doc.merged}} {{doc.linkMerged}}</td>
+							<td><a
+href="{{doc.submitted_link}}">{{doc.submitted}}</a></td>
+							<td><a
+href="{{doc.linkMerged}}">{{doc.merged}}</a></td>
 					</tr>
 					{% endfor %}
 				</tbody>

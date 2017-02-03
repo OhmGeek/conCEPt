@@ -15,6 +15,10 @@ $(document).ready(function(){
 	//Ajax post request made when form is submitted
 	$("form input").click(function(){
 		$("form").append($("<input type = 'hidden'>").attr({name:$(this).attr('name'),value:$(this).attr('value')}));
+		
+		$('div').each(function() {
+			$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).attr('html')}));
+		});
 	});
 
 	$("form").submit(function(){
@@ -52,7 +56,7 @@ $(document).ready(function(){
 		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
 		
 		console.log(jsonData);
- 		$.post("index.php?route=send", jsonData, function(response){
+ 		$.post("forms.php?route=send", jsonData, function(response){
 			console.log("Retrieved");
 			response = $.trim(response);
 			var response = $.parseJSON(response);
@@ -81,10 +85,14 @@ $(document).ready(function(){
 		}).length==0;
 		
 	
-
+		//todo same again for DIVS
+		
+		var divsFilled = $(".diveditable").filter(function() {
+			return $.trim($(this).html()).length == 0;
+		}).length==0;
 		//If inputsFilled and textareasFilled,
 		//remove disabled attribute from Submit input
-		if (inputsFilled && textareasFilled){
+		if (inputsFilled && textareasFilled && divsFilled){
 			console.log("Allowing submit");
 			$("input[name='action'][value='Submit']").removeAttr("disabled");
 		}else{
