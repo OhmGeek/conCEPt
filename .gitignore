@@ -1,2 +1,4 @@
 # ignore PHPStorm files
 .idea/*
+.DS_Store
+
