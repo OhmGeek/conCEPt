@@ -1,6 +1,6 @@
 <?php
 
-include '../model/navbarModel.php';
+include '../model/NavbarModel.php';
 
 class NavbarController
 {
