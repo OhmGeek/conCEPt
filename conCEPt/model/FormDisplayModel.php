@@ -1,6 +1,8 @@
 <?php
 namespace Concept\Model;
 
+use PDO;
+
 class FormModel
 {
     function __construct()

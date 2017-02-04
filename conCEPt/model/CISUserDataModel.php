@@ -8,6 +8,8 @@
  */
 namespace Concept\Model;
 
+use PDO;
+
 class CISUserDataModel
 {
 
@@ -38,7 +40,7 @@ class CISUserDataModel
                                          FROM UserDetails
                                          WHERE firstnames LIKE %{:NAME}% OR surname LIKE %{:NAME}");
 
-        $statement->bindValue(':name', $this->username, PDO::PARAM_STR);
+        $statement->bindValue(':name', $name, PDO::PARAM_STR);
         $statement->execute();
 
         $results = $statement->fetchAll(PDO::FETCH_ASSOC, true);

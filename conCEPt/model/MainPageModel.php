@@ -3,6 +3,8 @@
 namespace Concept\Model;
 
 
+use PDO;
+
 class MainPageModel
 {
     public function __construct()

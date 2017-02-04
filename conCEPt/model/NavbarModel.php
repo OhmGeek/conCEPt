@@ -2,6 +2,8 @@
 
 namespace Concept\Model;
 
+use PDO;
+
 class NavbarModel
 {
     function __construct()

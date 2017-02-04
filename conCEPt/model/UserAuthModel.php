@@ -7,6 +7,8 @@
  * Time: 12:19
  */
 namespace Concept\Model;
+use PDO;
+
 class UserAuthModel
 {
 

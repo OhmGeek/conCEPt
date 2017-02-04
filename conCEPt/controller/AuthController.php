@@ -10,6 +10,7 @@ namespace Concept\Controller;
 
 
 use Concept\Model\UserAuthModel;
+use Klein\Route;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 

@@ -2,6 +2,8 @@
 
 namespace Concept\Model;
 
+use PDO;
+
 class SaveSubmitModel
 {
     function __construct()
