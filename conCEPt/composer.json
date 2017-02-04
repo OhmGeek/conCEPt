@@ -34,9 +34,9 @@
     "klein/klein": "v2.1.1"
   },
   "autoload": {
-	"psr-4": {
-      "\Concept\Model": "model/",
-      "\Concept\Controller": "controller/"
+    "psr-0": {
+      "Concept\\Model\\": "model",
+      "Concept\\Controller\\": "controller"
     }
   }
 }
