@@ -7,7 +7,7 @@ class formSelectionModel{
 	}
 
 	
-	//Return an array of student names, along with form ID's for each student 
+	//Given a form typeID (ID from the BaseForm table), returns a list of formIDs this marker has access to, along with the names of the students associated with those forms 
 	function getStudentOptions($formTypeID, $markerID)
 	{
 		$db = DB::getDB();
