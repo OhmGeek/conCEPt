@@ -2,6 +2,9 @@
 
 namespace Concept\Controller;
 
+use Concept\Model\NavbarModel;
+use \Twig_Loader_Filesystem;
+use \Twig_Environment;
 class NavbarController
 {
     function __construct()
@@ -13,7 +16,7 @@ class NavbarController
     function generateNavbarHtml()
     {
 
-        $Model = new navbarModel();
+        $Model = new NavbarModel();
 
         $results = $Model->getFormTypes();
 

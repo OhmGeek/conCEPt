@@ -3,7 +3,7 @@ namespace Concept\Model;
 
 use PDO;
 
-class FormModel
+class FormDisplayModel
 {
     function __construct()
     {

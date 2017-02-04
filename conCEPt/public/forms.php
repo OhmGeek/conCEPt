@@ -1,11 +1,14 @@
 <?php
+
+require_once '../vendor/autoload.php';
+
+
 use Concept\Controller\FormDisplayController;
 use Concept\Controller\FormSelectionController;
 use Concept\Controller\HistoryController;
 use Concept\Controller\NavbarController;
 use Concept\Controller\SaveSubmitController;
 
-require_once '../vendor/autoload.php';
 
 
 $route = $_GET["route"];

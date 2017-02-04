@@ -1,14 +1,17 @@
 <?php
 namespace Concept\Controller;
 
-
+use Concept\Model\MainPageModel;
+use Concept\Controller\NavbarController;
+use \Twig_Loader_FileSystem;
+use \Twig_Environment;
 class MainPageController
 {
     function generatePage()
     {
         $model = new MainPageModel();
 
-        $navbar = new navbarController();
+        $navbar = new NavbarController();
         //Get info
 
         $loader = new Twig_Loader_Filesystem('../view/homepage/');

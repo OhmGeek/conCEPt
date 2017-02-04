@@ -22,7 +22,7 @@ class Auth_Controller
         $user_model = new UserAuthModel($username);
 
         // create a twig loader
-        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../view/auth');
+        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../view');
         $twig = new Twig_Environment($loader);
 
         if ($user_model->isAdmin()) {

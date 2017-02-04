@@ -8,7 +8,7 @@ use Concept\Model\UserAuthModel;
 $user_model = new UserAuthModel($_SERVER['REMOTE_USER']);
 
 // create a twig loader
-$loader = new Twig_Loader_Filesystem(__DIR__ . '/../view/auth');
+$loader = new Twig_Loader_Filesystem(__DIR__ . '/../view');
 $twig = new Twig_Environment($loader);
 
 // deal with routing:

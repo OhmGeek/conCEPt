@@ -2,7 +2,7 @@
 
 namespace Concept\Controller;
 
-use Concept\Model\FormModel;
+use Concept\Model\FormDisplayModel;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
@@ -16,7 +16,7 @@ Class FormDisplayController
     function __construct()
     {
         //$this->generateForm($formID);
-        $this->model = new FormModel();
+        $this->model = new FormDisplayModel();
         $loader = new Twig_Loader_Filesystem('../view/formPage');
         $this->twig = new Twig_Environment($loader);
     }
@@ -50,7 +50,7 @@ Class FormDisplayController
     function generateForm($formID)
     {
         //Inititalise the Model and Twig objects to use
-        $Model = new FormModel();
+        $Model = new FormDisplayModel();
         $loader = new Twig_Loader_Filesystem('../view/formPage');
         $twig = new Twig_Environment($loader);
 
