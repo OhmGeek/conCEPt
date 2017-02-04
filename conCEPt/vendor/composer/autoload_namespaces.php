@@ -7,6 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
-    'Concept\\Model\\' => array($baseDir . '/model'),
-    'Concept\\Controller\\' => array($baseDir . '/controller'),
 );

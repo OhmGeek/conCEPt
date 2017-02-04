@@ -7,4 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Klein\\' => array($vendorDir . '/klein/klein/src/Klein'),
+    'Concept\\Model\\' => array($baseDir . '/model'),
+    'Concept\\Controller\\' => array($baseDir . '/controller'),
 );

@@ -1,4 +1,5 @@
 <?php
+
 namespace Concept\Model;
 use PDO;
 

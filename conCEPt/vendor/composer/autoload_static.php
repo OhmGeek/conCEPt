@@ -11,12 +11,25 @@ class ComposerStaticInit69c39a7b514063208f45cb1d751f7c2f
         array (
             'Klein\\' => 6,
         ),
+        'C' => 
+        array (
+            'Concept\\Model\\' => 14,
+            'Concept\\Controller\\' => 19,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Klein\\' => 
         array (
             0 => __DIR__ . '/..' . '/klein/klein/src/Klein',
+        ),
+        'Concept\\Model\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/model',
+        ),
+        'Concept\\Controller\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/controller',
         ),
     );
 
@@ -26,17 +39,6 @@ class ComposerStaticInit69c39a7b514063208f45cb1d751f7c2f
             'Twig_' => 
             array (
                 0 => __DIR__ . '/..' . '/twig/twig/lib',
-            ),
-        ),
-        'C' => 
-        array (
-            'Concept\\Model\\' => 
-            array (
-                0 => __DIR__ . '/../..' . '/model',
-            ),
-            'Concept\\Controller\\' => 
-            array (
-                0 => __DIR__ . '/../..' . '/controller',
             ),
         ),
     );

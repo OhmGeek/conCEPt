@@ -8,7 +8,7 @@
  */
 namespace Concept\Model;
 use PDO;
-
+use Concept\Model\DB;
 class UserAuthModel
 {
 
