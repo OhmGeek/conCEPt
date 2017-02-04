@@ -14,7 +14,8 @@
 		$test = new SaveSubmitController($_POST);
 	}elseif ($route == "receive"){
 		$formID = $_GET["formid"];
-		$test = new FormDisplayController($formID);
+		$test = new FormDisplayController();
+		$test->generatePage($formID);
 	}elseif ($route == "select"){
 		$formTypeID = $_GET["typeId"];
 		$test = new FormSelectionController();
