@@ -12,7 +12,6 @@
 namespace Klein\Tests;
 
 use Klein\DataCollection\DataCollection;
-use Klein\Klein;
 use Klein\Request;
 use Klein\Response;
 use Klein\ServiceProvider;
@@ -23,14 +22,6 @@ use Klein\Validator;
  */
 class ServiceProviderTest extends AbstractKleinTest
 {
-
-    protected function getBasicServiceProvider()
-    {
-        return new ServiceProvider(
-            $request = new Request(),
-            $response = new Response()
-        );
-    }
 
     public function testConstructor()
     {
@@ -356,11 +347,11 @@ class ServiceProviderTest extends AbstractKleinTest
                 $service->sharedData()->set('name', 'should be overwritten');
 
                 // Set our layout
-                $service->layout(__DIR__.'/views/layout.php');
+                $service->layout(__DIR__ . '/views/layout.php');
 
                 // Render our view, and pass some MORE data
                 $service->render(
-                    __DIR__.'/views/test.php',
+                    __DIR__ . '/views/test.php',
                     $test_data
                 );
             }
@@ -370,9 +361,9 @@ class ServiceProviderTest extends AbstractKleinTest
 
         $this->expectOutputString(
             '<h1>About</h1>' . PHP_EOL
-            .'My name is Trevor Suarez.' . PHP_EOL
-            .'WOOT!' . PHP_EOL
-            .'<div>footer</div>' . PHP_EOL
+            . 'My name is Trevor Suarez.' . PHP_EOL
+            . 'WOOT!' . PHP_EOL
+            . '<div>footer</div>' . PHP_EOL
         );
     }
 
@@ -393,11 +384,11 @@ class ServiceProviderTest extends AbstractKleinTest
                 $service->sharedData()->set('name', 'should be overwritten');
 
                 // Set our layout
-                $service->layout(__DIR__.'/views/layout.php');
+                $service->layout(__DIR__ . '/views/layout.php');
 
                 // Render our view, and pass some MORE data
                 $service->render(
-                    __DIR__.'/views/test.php',
+                    __DIR__ . '/views/test.php',
                     $test_data
                 );
             }
@@ -407,9 +398,9 @@ class ServiceProviderTest extends AbstractKleinTest
 
         $this->expectOutputString(
             '<h1>About</h1>' . PHP_EOL
-            .'My name is Trevor Suarez.' . PHP_EOL
-            .'WOOT!' . PHP_EOL
-            .'<div>footer</div>' . PHP_EOL
+            . 'My name is Trevor Suarez.' . PHP_EOL
+            . 'WOOT!' . PHP_EOL
+            . '<div>footer</div>' . PHP_EOL
         );
     }
 
@@ -424,11 +415,11 @@ class ServiceProviderTest extends AbstractKleinTest
         $this->klein_app->respond(
             function ($request, $response, $service) use ($test_data) {
                 // Set our layout
-                $service->layout(__DIR__.'/views/layout.php');
+                $service->layout(__DIR__ . '/views/layout.php');
 
                 // Render our view, and pass some MORE data
                 $service->partial(
-                    __DIR__.'/views/test.php',
+                    __DIR__ . '/views/test.php',
                     $test_data
                 );
             }
@@ -439,7 +430,7 @@ class ServiceProviderTest extends AbstractKleinTest
         // Make sure the layout doesn't get included
         $this->expectOutputString(
             'My name is Trevor Suarez.' . PHP_EOL
-            .'WOOT!' . PHP_EOL
+            . 'WOOT!' . PHP_EOL
         );
     }
 
@@ -504,7 +495,6 @@ class ServiceProviderTest extends AbstractKleinTest
         $this->klein_app->dispatch();
     }
 
-    // Test ALL of the magic setter, getter, exists, and removal methods
     public function testMagicGetSetExistsRemove()
     {
         $test_data = array(
@@ -529,5 +519,15 @@ class ServiceProviderTest extends AbstractKleinTest
         $this->assertNull($service->sharedData()->get('test_data'));
         $this->assertNull($service->name);
         $this->assertFalse(isset($service->name));
+    }
+
+    // Test ALL of the magic setter, getter, exists, and removal methods
+
+    protected function getBasicServiceProvider()
+    {
+        return new ServiceProvider(
+            $request = new Request(),
+            $response = new Response()
+        );
     }
 }

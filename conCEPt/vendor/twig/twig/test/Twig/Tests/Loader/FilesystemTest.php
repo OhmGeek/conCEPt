@@ -13,10 +13,10 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
 {
     public function testGetSourceContext()
     {
-        $path = dirname(__FILE__).'/../Fixtures';
+        $path = dirname(__FILE__) . '/../Fixtures';
         $loader = new Twig_Loader_Filesystem(array($path));
         $this->assertEquals('errors/index.html', $loader->getSourceContext('errors/index.html')->getName());
-        $this->assertEquals(realpath($path.'/errors/index.html'), realpath($loader->getSourceContext('errors/index.html')->getPath()));
+        $this->assertEquals(realpath($path . '/errors/index.html'), realpath($loader->getSourceContext('errors/index.html')->getPath()));
     }
 
     /**
@@ -24,7 +24,7 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testSecurity($template)
     {
-        $loader = new Twig_Loader_Filesystem(array(dirname(__FILE__).'/../Fixtures'));
+        $loader = new Twig_Loader_Filesystem(array(dirname(__FILE__) . '/../Fixtures'));
 
         try {
             $loader->getCacheKey($template);
@@ -64,26 +64,26 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testPaths($basePath, $cacheKey, $rootPath)
     {
-        $loader = new Twig_Loader_Filesystem(array($basePath.'/normal', $basePath.'/normal_bis'), $rootPath);
-        $loader->setPaths(array($basePath.'/named', $basePath.'/named_bis'), 'named');
-        $loader->addPath($basePath.'/named_ter', 'named');
-        $loader->addPath($basePath.'/normal_ter');
-        $loader->prependPath($basePath.'/normal_final');
-        $loader->prependPath($basePath.'/named/../named_quater', 'named');
-        $loader->prependPath($basePath.'/named_final', 'named');
+        $loader = new Twig_Loader_Filesystem(array($basePath . '/normal', $basePath . '/normal_bis'), $rootPath);
+        $loader->setPaths(array($basePath . '/named', $basePath . '/named_bis'), 'named');
+        $loader->addPath($basePath . '/named_ter', 'named');
+        $loader->addPath($basePath . '/normal_ter');
+        $loader->prependPath($basePath . '/normal_final');
+        $loader->prependPath($basePath . '/named/../named_quater', 'named');
+        $loader->prependPath($basePath . '/named_final', 'named');
 
         $this->assertEquals(array(
-            $basePath.'/normal_final',
-            $basePath.'/normal',
-            $basePath.'/normal_bis',
-            $basePath.'/normal_ter',
+            $basePath . '/normal_final',
+            $basePath . '/normal',
+            $basePath . '/normal_bis',
+            $basePath . '/normal_ter',
         ), $loader->getPaths());
         $this->assertEquals(array(
-            $basePath.'/named_final',
-            $basePath.'/named/../named_quater',
-            $basePath.'/named',
-            $basePath.'/named_bis',
-            $basePath.'/named_ter',
+            $basePath . '/named_final',
+            $basePath . '/named/../named_quater',
+            $basePath . '/named',
+            $basePath . '/named_bis',
+            $basePath . '/named_ter',
         ), $loader->getPaths('named'));
 
         // do not use realpath here as it would make the test unuseful
@@ -97,12 +97,12 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                dirname(__FILE__).'/Fixtures',
+                dirname(__FILE__) . '/Fixtures',
                 'test/Twig/Tests/Loader/Fixtures/named_quater/named_absolute.html',
                 null,
             ),
             array(
-                dirname(__FILE__).'/Fixtures/../Fixtures',
+                dirname(__FILE__) . '/Fixtures/../Fixtures',
                 'test/Twig/Tests/Loader/Fixtures/named_quater/named_absolute.html',
                 null,
             ),
@@ -114,12 +114,12 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
             array(
                 'Fixtures',
                 'Fixtures/named_quater/named_absolute.html',
-                getcwd().'/test/Twig/Tests/Loader',
+                getcwd() . '/test/Twig/Tests/Loader',
             ),
             array(
                 'Fixtures',
                 'Fixtures/named_quater/named_absolute.html',
-                getcwd().'/test/../test/Twig/Tests/Loader',
+                getcwd() . '/test/../test/Twig/Tests/Loader',
             ),
         );
     }
@@ -141,10 +141,10 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
 
     public function testFindTemplateExceptionNamespace()
     {
-        $basePath = dirname(__FILE__).'/Fixtures';
+        $basePath = dirname(__FILE__) . '/Fixtures';
 
-        $loader = new Twig_Loader_Filesystem(array($basePath.'/normal'));
-        $loader->addPath($basePath.'/named', 'named');
+        $loader = new Twig_Loader_Filesystem(array($basePath . '/normal'));
+        $loader->addPath($basePath . '/named', 'named');
 
         try {
             $loader->getSourceContext('@named/nowhere.html');
@@ -156,10 +156,10 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
 
     public function testFindTemplateWithCache()
     {
-        $basePath = dirname(__FILE__).'/Fixtures';
+        $basePath = dirname(__FILE__) . '/Fixtures';
 
-        $loader = new Twig_Loader_Filesystem(array($basePath.'/normal'));
-        $loader->addPath($basePath.'/named', 'named');
+        $loader = new Twig_Loader_Filesystem(array($basePath . '/normal'));
+        $loader->addPath($basePath . '/named', 'named');
 
         // prime the cache for index.html in the named namespace
         $namedSource = $loader->getSourceContext('@named/index.html')->getCode();
@@ -172,9 +172,9 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
     public function testLoadTemplateAndRenderBlockWithCache()
     {
         $loader = new Twig_Loader_Filesystem(array());
-        $loader->addPath(dirname(__FILE__).'/Fixtures/themes/theme2');
-        $loader->addPath(dirname(__FILE__).'/Fixtures/themes/theme1');
-        $loader->addPath(dirname(__FILE__).'/Fixtures/themes/theme1', 'default_theme');
+        $loader->addPath(dirname(__FILE__) . '/Fixtures/themes/theme2');
+        $loader->addPath(dirname(__FILE__) . '/Fixtures/themes/theme1');
+        $loader->addPath(dirname(__FILE__) . '/Fixtures/themes/theme1', 'default_theme');
 
         $twig = new Twig_Environment($loader);
 
@@ -203,7 +203,7 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
     public function testArrayInheritance($templateName)
     {
         $loader = new Twig_Loader_Filesystem(array());
-        $loader->addPath(dirname(__FILE__).'/Fixtures/inheritance');
+        $loader->addPath(dirname(__FILE__) . '/Fixtures/inheritance');
 
         $twig = new Twig_Environment($loader);
 
@@ -220,7 +220,7 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
         // phar-sample.phar was created with the following script:
         // $f = new Phar('phar-test.phar');
         // $f->addFromString('hello.twig', 'hello from phar');
-        $loader->addPath('phar://'.dirname(__FILE__).'/Fixtures/phar/phar-sample.phar');
+        $loader->addPath('phar://' . dirname(__FILE__) . '/Fixtures/phar/phar-sample.phar');
         $this->assertSame('hello from phar', $loader->getSourceContext('hello.twig')->getCode());
     }
 }

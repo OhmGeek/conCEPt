@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 class Twig_Extension_Sandbox extends Twig_Extension
 {
     protected $sandboxedGlobally;
@@ -40,11 +41,6 @@ class Twig_Extension_Sandbox extends Twig_Extension
         $this->sandboxed = false;
     }
 
-    public function isSandboxed()
-    {
-        return $this->sandboxedGlobally || $this->sandboxed;
-    }
-
     public function isSandboxedGlobally()
     {
         return $this->sandboxedGlobally;
@@ -65,6 +61,11 @@ class Twig_Extension_Sandbox extends Twig_Extension
         if ($this->isSandboxed()) {
             $this->policy->checkSecurity($tags, $filters, $functions);
         }
+    }
+
+    public function isSandboxed()
+    {
+        return $this->sandboxedGlobally || $this->sandboxed;
     }
 
     public function checkMethodAllowed($obj, $method)

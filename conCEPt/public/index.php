@@ -1,10 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../controller/auth/Auth_Controller.php');
-require_once(__DIR__ . '/../model/pdf/pdf_model.php');
-require_once(__DIR__ . '/../controller/homepage/Home_Controller.php');
-require_once(__DIR__ . '/../controller/form/formSelectionController.php');
-
+use Concept\Controller\MainPageController;
+use Concept\Model\UserAuthModel;
 
 // create a user model
 $user_model = new UserAuthModel($_SERVER['REMOTE_USER']);
@@ -16,19 +13,16 @@ $twig = new Twig_Environment($loader);
 // deal with routing:
 
 // admin goes to the admin page
-if($user_model->isAdmin()) {
-	echo "ADMIN! TODO";
-}
-
-elseif($user_model->isMarker()) {
-	//marker goes to the main marker page (MainPage)
-	$main_page = new MainPageController();
-	echo $main_page->generatePage();
-}
-else {
-	// 403 Error: Not Authorised
-	$error_template = $twig->loadTemplate('403.twig');
-        echo $error_template->render(array());
+if ($user_model->isAdmin()) {
+    echo "ADMIN! TODO";
+} elseif ($user_model->isMarker()) {
+    //marker goes to the main marker page (MainPage)
+    $main_page = new MainPageController();
+    echo $main_page->generatePage();
+} else {
+    // 403 Error: Not Authorised
+    $error_template = $twig->loadTemplate('403.twig');
+    echo $error_template->render(array());
 }
 
 

@@ -78,73 +78,73 @@ class Twig_Tests_ExpressionParserTest extends PHPUnit_Framework_TestCase
         return array(
             // simple array
             array('{{ [1, 2] }}', new Twig_Node_Expression_Array(array(
-                  new Twig_Node_Expression_Constant(0, 1),
-                  new Twig_Node_Expression_Constant(1, 1),
+                new Twig_Node_Expression_Constant(0, 1),
+                new Twig_Node_Expression_Constant(1, 1),
 
-                  new Twig_Node_Expression_Constant(1, 1),
-                  new Twig_Node_Expression_Constant(2, 1),
-                ), 1),
+                new Twig_Node_Expression_Constant(1, 1),
+                new Twig_Node_Expression_Constant(2, 1),
+            ), 1),
             ),
 
             // array with trailing ,
             array('{{ [1, 2, ] }}', new Twig_Node_Expression_Array(array(
-                  new Twig_Node_Expression_Constant(0, 1),
-                  new Twig_Node_Expression_Constant(1, 1),
+                new Twig_Node_Expression_Constant(0, 1),
+                new Twig_Node_Expression_Constant(1, 1),
 
-                  new Twig_Node_Expression_Constant(1, 1),
-                  new Twig_Node_Expression_Constant(2, 1),
-                ), 1),
+                new Twig_Node_Expression_Constant(1, 1),
+                new Twig_Node_Expression_Constant(2, 1),
+            ), 1),
             ),
 
             // simple hash
             array('{{ {"a": "b", "b": "c"} }}', new Twig_Node_Expression_Array(array(
-                  new Twig_Node_Expression_Constant('a', 1),
-                  new Twig_Node_Expression_Constant('b', 1),
+                new Twig_Node_Expression_Constant('a', 1),
+                new Twig_Node_Expression_Constant('b', 1),
 
-                  new Twig_Node_Expression_Constant('b', 1),
-                  new Twig_Node_Expression_Constant('c', 1),
-                ), 1),
+                new Twig_Node_Expression_Constant('b', 1),
+                new Twig_Node_Expression_Constant('c', 1),
+            ), 1),
             ),
 
             // hash with trailing ,
             array('{{ {"a": "b", "b": "c", } }}', new Twig_Node_Expression_Array(array(
-                  new Twig_Node_Expression_Constant('a', 1),
-                  new Twig_Node_Expression_Constant('b', 1),
+                new Twig_Node_Expression_Constant('a', 1),
+                new Twig_Node_Expression_Constant('b', 1),
 
-                  new Twig_Node_Expression_Constant('b', 1),
-                  new Twig_Node_Expression_Constant('c', 1),
-                ), 1),
+                new Twig_Node_Expression_Constant('b', 1),
+                new Twig_Node_Expression_Constant('c', 1),
+            ), 1),
             ),
 
             // hash in an array
             array('{{ [1, {"a": "b", "b": "c"}] }}', new Twig_Node_Expression_Array(array(
-                  new Twig_Node_Expression_Constant(0, 1),
-                  new Twig_Node_Expression_Constant(1, 1),
+                new Twig_Node_Expression_Constant(0, 1),
+                new Twig_Node_Expression_Constant(1, 1),
 
-                  new Twig_Node_Expression_Constant(1, 1),
-                  new Twig_Node_Expression_Array(array(
-                        new Twig_Node_Expression_Constant('a', 1),
-                        new Twig_Node_Expression_Constant('b', 1),
+                new Twig_Node_Expression_Constant(1, 1),
+                new Twig_Node_Expression_Array(array(
+                    new Twig_Node_Expression_Constant('a', 1),
+                    new Twig_Node_Expression_Constant('b', 1),
 
-                        new Twig_Node_Expression_Constant('b', 1),
-                        new Twig_Node_Expression_Constant('c', 1),
-                      ), 1),
+                    new Twig_Node_Expression_Constant('b', 1),
+                    new Twig_Node_Expression_Constant('c', 1),
                 ), 1),
+            ), 1),
             ),
 
             // array in a hash
             array('{{ {"a": [1, 2], "b": "c"} }}', new Twig_Node_Expression_Array(array(
-                  new Twig_Node_Expression_Constant('a', 1),
-                  new Twig_Node_Expression_Array(array(
-                        new Twig_Node_Expression_Constant(0, 1),
-                        new Twig_Node_Expression_Constant(1, 1),
+                new Twig_Node_Expression_Constant('a', 1),
+                new Twig_Node_Expression_Array(array(
+                    new Twig_Node_Expression_Constant(0, 1),
+                    new Twig_Node_Expression_Constant(1, 1),
 
-                        new Twig_Node_Expression_Constant(1, 1),
-                        new Twig_Node_Expression_Constant(2, 1),
-                      ), 1),
-                  new Twig_Node_Expression_Constant('b', 1),
-                  new Twig_Node_Expression_Constant('c', 1),
+                    new Twig_Node_Expression_Constant(1, 1),
+                    new Twig_Node_Expression_Constant(2, 1),
                 ), 1),
+                new Twig_Node_Expression_Constant('b', 1),
+                new Twig_Node_Expression_Constant('c', 1),
+            ), 1),
             ),
         );
     }
@@ -181,41 +181,41 @@ class Twig_Tests_ExpressionParserTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 '{{ "foo #{bar}" }}', new Twig_Node_Expression_Binary_Concat(
+                new Twig_Node_Expression_Constant('foo ', 1),
+                new Twig_Node_Expression_Name('bar', 1),
+                1
+            ),
+            ),
+            array(
+                '{{ "foo #{bar} baz" }}', new Twig_Node_Expression_Binary_Concat(
+                new Twig_Node_Expression_Binary_Concat(
                     new Twig_Node_Expression_Constant('foo ', 1),
                     new Twig_Node_Expression_Name('bar', 1),
                     1
                 ),
+                new Twig_Node_Expression_Constant(' baz', 1),
+                1
             ),
-            array(
-                '{{ "foo #{bar} baz" }}', new Twig_Node_Expression_Binary_Concat(
-                    new Twig_Node_Expression_Binary_Concat(
-                        new Twig_Node_Expression_Constant('foo ', 1),
-                        new Twig_Node_Expression_Name('bar', 1),
-                        1
-                    ),
-                    new Twig_Node_Expression_Constant(' baz', 1),
-                    1
-                ),
             ),
 
             array(
                 '{{ "foo #{"foo #{bar} baz"} baz" }}', new Twig_Node_Expression_Binary_Concat(
+                new Twig_Node_Expression_Binary_Concat(
+                    new Twig_Node_Expression_Constant('foo ', 1),
                     new Twig_Node_Expression_Binary_Concat(
-                        new Twig_Node_Expression_Constant('foo ', 1),
                         new Twig_Node_Expression_Binary_Concat(
-                            new Twig_Node_Expression_Binary_Concat(
-                                new Twig_Node_Expression_Constant('foo ', 1),
-                                new Twig_Node_Expression_Name('bar', 1),
-                                1
-                            ),
-                            new Twig_Node_Expression_Constant(' baz', 1),
+                            new Twig_Node_Expression_Constant('foo ', 1),
+                            new Twig_Node_Expression_Name('bar', 1),
                             1
                         ),
+                        new Twig_Node_Expression_Constant(' baz', 1),
                         1
                     ),
-                    new Twig_Node_Expression_Constant(' baz', 1),
                     1
                 ),
+                new Twig_Node_Expression_Constant(' baz', 1),
+                1
+            ),
             ),
         );
     }

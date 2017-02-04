@@ -11,6 +11,10 @@
 
 class Twig_Tests_Node_Expression_CallTest extends PHPUnit_Framework_TestCase
 {
+    public static function customStaticFunction($arg1, $arg2 = 'default', $arg3 = array())
+    {
+    }
+
     public function testGetArguments()
     {
         $node = new Twig_Tests_Node_Expression_Call(array(), array('type' => 'function', 'name' => 'date'));
@@ -81,7 +85,7 @@ class Twig_Tests_Node_Expression_CallTest extends PHPUnit_Framework_TestCase
     public function testGetArgumentsForStaticMethod()
     {
         $node = new Twig_Tests_Node_Expression_Call(array(), array('type' => 'function', 'name' => 'custom_static_function'));
-        $this->assertEquals(array('arg1'), $node->getArguments(__CLASS__.'::customStaticFunction', array('arg1' => 'arg1')));
+        $this->assertEquals(array('arg1'), $node->getArguments(__CLASS__ . '::customStaticFunction', array('arg1' => 'arg1')));
     }
 
     /**
@@ -92,10 +96,6 @@ class Twig_Tests_Node_Expression_CallTest extends PHPUnit_Framework_TestCase
     {
         $node = new Twig_Tests_Node_Expression_Call(array(), array('type' => 'function', 'name' => 'foo', 'is_variadic' => true));
         $node->getArguments(array($this, 'customFunctionWithArbitraryArguments'), array());
-    }
-
-    public static function customStaticFunction($arg1, $arg2 = 'default', $arg3 = array())
-    {
     }
 
     public function customFunction($arg1, $arg2 = 'default', $arg3 = array())

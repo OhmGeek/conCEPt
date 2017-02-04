@@ -24,6 +24,14 @@ class Twig_Profiler_NodeVisitor_Profiler extends Twig_BaseNodeVisitor
     /**
      * {@inheritdoc}
      */
+    public function getPriority()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function doEnterNode(Twig_Node $node, Twig_Environment $env)
     {
         return $node;
@@ -60,13 +68,5 @@ class Twig_Profiler_NodeVisitor_Profiler extends Twig_BaseNodeVisitor
     private function getVarName()
     {
         return sprintf('__internal_%s', hash('sha256', uniqid(mt_rand(), true), false));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return 0;
     }
 }

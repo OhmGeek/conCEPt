@@ -39,11 +39,11 @@ EOF
         );
 
         $expr = new Twig_Node_Expression_Conditional(
-                        new Twig_Node_Expression_Constant(true, 1),
-                        new Twig_Node_Expression_Constant('foo', 1),
-                        new Twig_Node_Expression_Constant('foo', 1),
-                        0
-                    );
+            new Twig_Node_Expression_Constant(true, 1),
+            new Twig_Node_Expression_Constant('foo', 1),
+            new Twig_Node_Expression_Constant('foo', 1),
+            0
+        );
         $node = new Twig_Node_Include($expr, null, false, false, 1);
         $tests[] = array($node, <<<EOF
 // line 1

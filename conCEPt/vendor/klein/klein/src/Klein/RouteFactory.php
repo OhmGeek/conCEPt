@@ -36,27 +36,23 @@ class RouteFactory extends AbstractRouteFactory
      */
 
     /**
-     * Check if the path is null or equal to our match-all, null-like value
+     * Build a Route instance
      *
-     * @param mixed $path
-     * @return boolean
+     * @param callable $callback Callable callback method to execute on route match
+     * @param string $path Route URI path to match
+     * @param string|array $method HTTP Method to match
+     * @param boolean $count_match Whether or not to count the route as a match when counting total matches
+     * @param string $name The name of the route
+     * @return Route
      */
-    protected function pathIsNull($path)
+    public function build($callback, $path = null, $method = null, $count_match = true, $name = null)
     {
-        return (static::NULL_PATH_VALUE === $path || null === $path);
-    }
-
-    /**
-     * Quick check to see whether or not to count the route
-     * as a match when counting total matches
-     *
-     * @param string $path
-     * @return boolean
-     */
-    protected function shouldPathStringCauseRouteMatch($path)
-    {
-        // Only consider a request to be matched when not using 'matchall'
-        return !$this->pathIsNull($path);
+        return new Route(
+            $callback,
+            $this->preprocessPathString($path),
+            $method,
+            $this->shouldPathStringCauseRouteMatch($path) // Ignore the $count_match boolean that they passed
+        );
     }
 
     /**
@@ -72,7 +68,7 @@ class RouteFactory extends AbstractRouteFactory
     protected function preprocessPathString($path)
     {
         // If the path is null, make sure to give it our match-all value
-        $path = (null === $path) ? static::NULL_PATH_VALUE : (string) $path;
+        $path = (null === $path) ? static::NULL_PATH_VALUE : (string)$path;
 
         // If a custom regular expression (or negated custom regex)
         if ($this->namespace &&
@@ -113,22 +109,26 @@ class RouteFactory extends AbstractRouteFactory
     }
 
     /**
-     * Build a Route instance
+     * Check if the path is null or equal to our match-all, null-like value
      *
-     * @param callable $callback    Callable callback method to execute on route match
-     * @param string $path          Route URI path to match
-     * @param string|array $method  HTTP Method to match
-     * @param boolean $count_match  Whether or not to count the route as a match when counting total matches
-     * @param string $name          The name of the route
-     * @return Route
+     * @param mixed $path
+     * @return boolean
      */
-    public function build($callback, $path = null, $method = null, $count_match = true, $name = null)
+    protected function pathIsNull($path)
     {
-        return new Route(
-            $callback,
-            $this->preprocessPathString($path),
-            $method,
-            $this->shouldPathStringCauseRouteMatch($path) // Ignore the $count_match boolean that they passed
-        );
+        return (static::NULL_PATH_VALUE === $path || null === $path);
+    }
+
+    /**
+     * Quick check to see whether or not to count the route
+     * as a match when counting total matches
+     *
+     * @param string $path
+     * @return boolean
+     */
+    protected function shouldPathStringCauseRouteMatch($path)
+    {
+        // Only consider a request to be matched when not using 'matchall'
+        return !$this->pathIsNull($path);
     }
 }

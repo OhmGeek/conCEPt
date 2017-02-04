@@ -25,6 +25,6 @@ class Twig_Tests_Profiler_Dumper_HtmlTest extends Twig_Tests_Profiler_Dumper_Abs
     └ <span style="background-color: #ffd">included.twig</span>
 </pre>
 EOF
-        , $dumper->dump($this->getProfile()));
+            , $dumper->dump($this->getProfile()));
     }
 }

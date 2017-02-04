@@ -6,14 +6,17 @@
  * Date: 09/01/17
  * Time: 12:22
  */
-require_once(__DIR__ . '/../../vendor/autoload.php');
-require_once(__DIR__ . '/../../model/auth/UserAuthModel.php');
-require_once(__DIR__ . '/../../model/route/Route.php');
+namespace Concept\Controller;
 
-// todo move 403 code to route (and redirect)
+
+use Concept\Model\UserAuthModel;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
+
 class Auth_Controller
 {
-    public static function auth_page($username) {
+    public static function auth_page($username)
+    {
         // create a user model
         $user_model = new UserAuthModel($username);
 
@@ -21,14 +24,12 @@ class Auth_Controller
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../view/auth');
         $twig = new Twig_Environment($loader);
 
-        if($user_model->isAdmin()) {
+        if ($user_model->isAdmin()) {
             // render admin page
-			Route::redirect('admin/');
-        }
-        elseif($user_model->isMarker()) {
-			Route::redirect('marker/');
-		}
-        else {
+            Route::redirect('admin/');
+        } elseif ($user_model->isMarker()) {
+            Route::redirect('marker/');
+        } else {
             $error_template = $twig->loadTemplate('403.twig');
             return $error_template->render(array());
         }

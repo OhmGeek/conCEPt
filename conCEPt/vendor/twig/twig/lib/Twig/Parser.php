@@ -47,7 +47,7 @@ class Twig_Parser implements Twig_ParserInterface
      */
     public function getEnvironment()
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 1.27 and will be removed in 2.0.', E_USER_DEPRECATED);
+        @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 1.27 and will be removed in 2.0.', E_USER_DEPRECATED);
 
         return $this->env;
     }
@@ -214,11 +214,54 @@ class Twig_Parser implements Twig_ParserInterface
     }
 
     /**
+     * Gets the current token.
+     *
+     * @return Twig_Token The current token
+     */
+    public function getCurrentToken()
+    {
+        return $this->stream->getCurrent();
+    }
+
+    protected function filterBodyNodes(Twig_NodeInterface $node)
+    {
+        // check that the body does not contain non-empty output nodes
+        if (
+            ($node instanceof Twig_Node_Text && !ctype_space($node->getAttribute('data')))
+            ||
+            (!$node instanceof Twig_Node_Text && !$node instanceof Twig_Node_BlockReference && $node instanceof Twig_NodeOutputInterface)
+        ) {
+            if (false !== strpos((string)$node, chr(0xEF) . chr(0xBB) . chr(0xBF))) {
+                throw new Twig_Error_Syntax('A template that extends another one cannot start with a byte order mark (BOM); it must be removed.', $node->getTemplateLine(), $this->stream->getSourceContext()->getName());
+            }
+
+            throw new Twig_Error_Syntax('A template that extends another one cannot include contents outside Twig blocks. Did you forget to put the contents inside a {% block %} tag?', $node->getTemplateLine(), $this->stream->getSourceContext()->getName());
+        }
+
+        // bypass "set" nodes as they "capture" the output
+        if ($node instanceof Twig_Node_Set) {
+            return $node;
+        }
+
+        if ($node instanceof Twig_NodeOutputInterface) {
+            return;
+        }
+
+        foreach ($node as $k => $n) {
+            if (null !== $n && null === $this->filterBodyNodes($n)) {
+                $node->removeNode($k);
+            }
+        }
+
+        return $node;
+    }
+
+    /**
      * @deprecated since 1.27 (to be removed in 2.0)
      */
     public function addHandler($name, $class)
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 1.27 and will be removed in 2.0.', E_USER_DEPRECATED);
+        @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 1.27 and will be removed in 2.0.', E_USER_DEPRECATED);
 
         $this->handlers[$name] = $class;
     }
@@ -228,7 +271,7 @@ class Twig_Parser implements Twig_ParserInterface
      */
     public function addNodeVisitor(Twig_NodeVisitorInterface $visitor)
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 1.27 and will be removed in 2.0.', E_USER_DEPRECATED);
+        @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 1.27 and will be removed in 2.0.', E_USER_DEPRECATED);
 
         $this->visitors[] = $visitor;
     }
@@ -373,48 +416,5 @@ class Twig_Parser implements Twig_ParserInterface
     public function getStream()
     {
         return $this->stream;
-    }
-
-    /**
-     * Gets the current token.
-     *
-     * @return Twig_Token The current token
-     */
-    public function getCurrentToken()
-    {
-        return $this->stream->getCurrent();
-    }
-
-    protected function filterBodyNodes(Twig_NodeInterface $node)
-    {
-        // check that the body does not contain non-empty output nodes
-        if (
-            ($node instanceof Twig_Node_Text && !ctype_space($node->getAttribute('data')))
-            ||
-            (!$node instanceof Twig_Node_Text && !$node instanceof Twig_Node_BlockReference && $node instanceof Twig_NodeOutputInterface)
-        ) {
-            if (false !== strpos((string) $node, chr(0xEF).chr(0xBB).chr(0xBF))) {
-                throw new Twig_Error_Syntax('A template that extends another one cannot start with a byte order mark (BOM); it must be removed.', $node->getTemplateLine(), $this->stream->getSourceContext()->getName());
-            }
-
-            throw new Twig_Error_Syntax('A template that extends another one cannot include contents outside Twig blocks. Did you forget to put the contents inside a {% block %} tag?', $node->getTemplateLine(), $this->stream->getSourceContext()->getName());
-        }
-
-        // bypass "set" nodes as they "capture" the output
-        if ($node instanceof Twig_Node_Set) {
-            return $node;
-        }
-
-        if ($node instanceof Twig_NodeOutputInterface) {
-            return;
-        }
-
-        foreach ($node as $k => $n) {
-            if (null !== $n && null === $this->filterBodyNodes($n)) {
-                $node->removeNode($k);
-            }
-        }
-
-        return $node;
     }
 }
