@@ -7,7 +7,7 @@ class SaveSubmitModel
 	{
 	}
 	
-    //Inserts a section for a given form
+        //Inserts a section for a given form
 	function sendSection($formID, $sectionOrderID, $mark, $rationale)
 	{
 		$db = DB::getDB();
@@ -306,7 +306,7 @@ class SaveSubmitModel
 		return $result;
 	}
 	
-	//Returns the sections causing conflict in a merged form
+	//Returns the section IDs sections causing conflicts in a merged form
 	function getConflicts($mergedFormID)
 	{
 		$db = DB::getDB();
