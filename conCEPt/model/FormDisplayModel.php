@@ -6,7 +6,7 @@ class FormModel
 	{
 	}
 
-	//Returns an array of inforamtion about the student
+	//Returns an array of inforamtion about the student (Name and year level)
 	function getStudentInformation($formID)
 	{
 		$db = DB::getDB();
@@ -22,7 +22,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	//Returns an array of information about the marker
+	//Returns an array of information about the marker (Name and if they are a supervisor on this form)
 	function getMarkerInformation($formID)
 	{
 		$db = DB::getDB();
@@ -53,7 +53,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	
+	//Returns 1 if if the given marker is the marker for the given form
 	function checkMarkerIndividual($formID, $markerID)
 	{
 		$db = DB::getDB();
@@ -70,6 +70,7 @@ class FormModel
 		return count($statement->fetchAll(PDO::FETCH_ASSOC));
 	}
 	
+	//Returns 1 if the given marker is a contributor to the given merged form
 	function checkMarkerMerged($formID, $markerID)
 	{
 		$db = DB::getDB();
@@ -87,6 +88,7 @@ class FormModel
 		return count($statement->fetchAll(PDO::FETCH_ASSOC));
 	}
 	
+	//Returns 1 if the given user is an admin
 	function checkAdmin($markerID)
 	{
 		$db = DB::getDB();
@@ -133,7 +135,7 @@ class FormModel
 
 	//FUNCTIONS FOR DEALING WITH ANYTHING MERGE RELATED
 
-    //Returns an array of information about the student
+       //Returns an array of information about the student from a merged form (Name and year level)
 	function getStudentInformationMerged($formID)
 	{
 		$db = DB::getDB();
@@ -150,7 +152,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	//Returns an array of information about both markers
+	//Returns an array of information about both markers who contributed to the given merged form
 	function getMarkerInformationMerged($formID)
 	{
 		$db = DB::getDB();
@@ -214,7 +216,7 @@ class FormModel
 		return $statement->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-	//Returns 1 if isEdited
+	//Returns 1 if the given merged from has been edited by the supervisor
 	function isEdited($mergedFormID)
 	{
 		$db = DB::getDB();
