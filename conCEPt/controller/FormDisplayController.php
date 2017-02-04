@@ -7,7 +7,7 @@ Class FormDisplayController
 	//  - Decide how admin staff will view the forms
 	//	- Add some checks to make sure marker has access to the current form
 	
-    function __construct($formID)
+    function __construct()
     {
         //$this->generateForm($formID);
     }
