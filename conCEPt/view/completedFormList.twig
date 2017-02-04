@@ -3,6 +3,6 @@
 {% for student in studentList %}
     {{student.studentInfo}}
     {% for name,form in student.forms %}
-        <a href=index.php?form={{form}}>{{name}}</a>
+        <a href=test.php?form={{form}}>{{name}}</a>
      {% endfor %}
 {% endfor %}

@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../../vendor/autoload.php');
-include '../../model/pdf/pdf_model.php';
+require_once(__DIR__ . '/../vendor/autoload.php');
+include '../model/PDFModel.php';
 
 
 class PDFController
@@ -11,7 +11,7 @@ class PDFController
 
     function __construct()
     {
-    	$this->model = new PDF_Model();
+    	$this->model = new PDFModel();
     	if (isset($_GET['form']))
     	{
             $this->createPDF($_GET['form']);
@@ -31,7 +31,7 @@ class PDFController
  
         header("Content-type:application/pdf");
         header("Content-Disposition:attachment;filename=downloaded.pdf");
-        readfile("./temp.pdf");
+        readfile("../temporaryFiles/temp.pdf");
         exit;
     }
     function displayCompletedForms()
@@ -51,7 +51,7 @@ class PDFController
         }
 
 
-        $loader = new Twig_Loader_Filesystem('../../view/');
+        $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
         $template = $twig->loadTemplate('completedFormList.twig');

@@ -1,8 +1,8 @@
 <?php
 
-include_once(__DIR__ . '/../db.php');
+include 'db.php';
 
-class PDF_Model{
+class PDFModel{
 
     public function __construct() 
     {
@@ -15,7 +15,7 @@ class PDF_Model{
         $pdf = file_get_contents($url . "?html=" . $encoded_html);
         #$pdfHandle = fopen($url . "?html=" . $encoded_html, 'rb');
         #$pdf = fread($pdfHandle, filesize($pdfHandle))
-        file_put_contents("./temp.pdf", $pdf);
+        file_put_contents("../temporaryFiles/temp.pdf", $pdf);
         #fwrite($pdf, './temp.pdf');
         return $pdf;
     }
