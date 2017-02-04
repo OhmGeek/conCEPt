@@ -17,13 +17,18 @@ $route = $_GET["route"];
 if ($route == "send") {
     $test = new SaveSubmitController($_POST);
 } elseif ($route == "receive") {
+    
+
     $formID = $_GET["formid"];
+    if(isset($_GET["id"])) {
+        $formID=$_GET["id"];
+    }
     $test = new FormDisplayController();
-    $test->generatePage($formID);
+    echo $test->generatePage($formID);
 } elseif ($route == "select") {
     $formTypeID = $_GET["typeId"];
     $test = new FormSelectionController();
-    $test->generateSelectionPage($formTypeID);
+    echo $test->generateSelectionPage($formTypeID);
 } elseif ($route == "history") {
     $test = new HistoryController();
 } elseif ($route == "navbar") {
