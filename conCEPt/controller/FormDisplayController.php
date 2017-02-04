@@ -9,7 +9,7 @@ Class FormDisplayController
 	
     function __construct($formID)
     {
-        $this->generateForm($formID);
+        //$this->generateForm($formID);
     }
 	
 	//Returns the current user that is logged in
@@ -22,6 +22,31 @@ Class FormDisplayController
 		//return "kdfv48";
 	}
 
+	//Function to generate the whole page (Navbar and form)
+	function generatePage($formID)
+	{
+		 //Inititalise the Model and Twig objects to use
+		$Model = new FormModel();
+		$loader = new Twig_Loader_Filesystem('../view/formPage');
+        	$twig = new Twig_Environment($loader);
+		
+		//Get general form information (title, isSubmitted, isMerged)
+		$formInformation = $Model->getFormInformation($formID);
+		$formInformation = $formInformation[0];
+		$formTitle = $formInformation["Form_title"];
+		
+		//Get HTML for main form
+		$form = $this->generateForm($formID);
+		
+		//Generat HTML for navbar
+		$navbar = new NavbarController();
+		$navbar = $navbar->generateNavbarHtml();
+		
+		//Generate main page with mainFormPage.twig
+        	$template = $twig->loadTemplate("mainFormPage.twig");
+       		print($template->render(array('title'=>$formTitle,'navbar'=>$navbar,'form'=> $form)));
+	}
+	
 	//Main function to decide how to display the form
     function generateForm($formID)
     {
@@ -41,7 +66,7 @@ Class FormDisplayController
 		//Check if person is admin, they can view all forms in submitted form (non-editable)
 		$admin = $Model->checkAdmin($this->getCurrentMarker());
 		if($admin){
-			$this->displaySubmitted($formID, $twig, $Model, $formTitle);
+			return $this->displaySubmitted($formID, $twig, $Model, $formTitle);
 			exit;
 		}
 		
@@ -54,7 +79,7 @@ Class FormDisplayController
 			$navbar = $navbar->generateNavbarHtml();
 			$template = $twig->loadTemplate("mainFormPage.twig");
 			$invalid = "<h1>Not allowed to view that form, please go back to the main page</h1>";
-			print($template->render(array('title'=>"Not Authorised",'navbar'=>$navbar,'form'=> $invalid)));
+			return ($template->render(array('title'=>"Not Authorised",'navbar'=>$navbar,'form'=> $invalid))));
 			exit;
 		}
 		
@@ -69,7 +94,7 @@ Class FormDisplayController
 		}elseif($isMerged == 1){
 			//Individual form that contributes to a merged form
 			//If submitted, display as non-editable
-			if($isSubmitted){$this->displaySubmitted($formID, $twig, $Model, $formTitle); return;}
+			if($isSubmitted){return $this->displaySubmitted($formID, $twig, $Model, $formTitle); return;}
 			else{
 				//Get formID of merged form that this form contributes to
 				$mergedFormID = $Model->getMergedForm($formID);
@@ -87,17 +112,17 @@ Class FormDisplayController
 					array_push($conflictSections, $sectionOrder); // Check the Param name
 				}
 				//If there are conflicts, display editable form with only conflict sections editable
-				if (count($conflictSections) > 0){$this->displayEditableForm($formID, $twig, $Model, $formTitle, $conflictSections, 0, 0, 1);}
+				if (count($conflictSections) > 0){return $this->displayEditableForm($formID, $twig, $Model, $formTitle, $conflictSections, 0, 0, 1);}
 				//Else, display non-editable form
 				//This should never get called as if there are no conflicts, the form should be marked as submitted and therefore already be displayed
-				else{$this->displaySubmitted($formID, $twig, $Model, $formTitle);}
+				else{return $this->displaySubmitted($formID, $twig, $Model, $formTitle);}
 			}
 		}else{
 			//This is the merged form
 			
 			//If it is submitted, show non-editable version
 			if ($isSubmitted){
-				$this->displaySubmitted($formID, $twig, $Model, $formTitle, array(), 0, 1);
+				return $this->displaySubmitted($formID, $twig, $Model, $formTitle, array(), 0, 1);
 			}else{
 			        //Hasn't been submitted fully, matters who is trying to view it
 				
@@ -113,7 +138,7 @@ Class FormDisplayController
 						$sectionOrder = $Model->getSectionOrderFromID($sectionID);
 						array_push($conflictSections, $sectionOrder); // Check the Param name
 					}
-					$this->displaySubmitted($formID, $twig, $Model, $formTitle, $conflictSections);
+					return $this->displaySubmitted($formID, $twig, $Model, $formTitle, $conflictSections);
 					return;
 				}
 				
@@ -132,9 +157,9 @@ Class FormDisplayController
 					//Else, display submitted version (supervisor has already edited it, waiting for confirmation from examiner)
 					if(!($isEdited)){
 						//See form with editable rationales (could use displayIndividual??)
-						$this->displayEditableForm($formID, $twig, $Model, $formTitle, array(), 1, 1);
+						return $this->displayEditableForm($formID, $twig, $Model, $formTitle, array(), 1, 1);
 					}else{
-						$this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
+						return $this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
 					}
 				}
 				//If the current marker is the examiner
@@ -142,9 +167,9 @@ Class FormDisplayController
 					//If the form has been edited, display submitted version of form with "Confirm" and "Reject" buttons
 					//Else display the submitted form without those buttons (waiting for supervisor to edit the comments)
 					if($isEdited){
-						$this->displaySubmitted($formID, $twig, $Model, $formTitle, 1, 1);
+						return $this->displaySubmitted($formID, $twig, $Model, $formTitle, 1, 1);
 					}else{
-						$this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
+						return $this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
 					}
 				}
 			}
@@ -280,12 +305,13 @@ Class FormDisplayController
 		
 		
 		//Generate the navbar HTML from the NavbarController class
-		$navbar = new NavbarController();
-		$navbar = $navbar->generateNavbarHtml();
+		//$navbar = new NavbarController();
+		//$navbar = $navbar->generateNavbarHtml();
 		
 		//Generate main page with mainFormPage.twig
-        	$template = $twig->loadTemplate("mainFormPage.twig");
-       		print($template->render(array('title'=>$formTitle,'navbar'=>$navbar,'form'=> $form)));
+        	//$template = $twig->loadTemplate("mainFormPage.twig");
+       		//print($template->render(array('title'=>$formTitle,'navbar'=>$navbar,'form'=> $form)));
+		return $form;
     }
 
     /** Function to display a non-editable form
@@ -401,12 +427,13 @@ Class FormDisplayController
 		
 		
 		//Generate navabr from NavbarController class
-		$navbar = new NavbarController();
-		$navbar = $navbar->generateNavbarHtml();
+		//$navbar = new NavbarController();
+		//$navbar = $navbar->generateNavbarHtml();
 		
 		//Generate main page from mainFormPage.twig
-        	$template = $twig->loadTemplate("mainFormPage.twig");
-        	print($template->render(array('title'=>$formTitle,'navbar'=>$navbar,'form'=> $form)));
+        	//$template = $twig->loadTemplate("mainFormPage.twig");
+        	//print($template->render(array('title'=>$formTitle,'navbar'=>$navbar,'form'=> $form)));
+		return $form;
 	}
 	
 	//Returns 1 if the current user logged in is authorised to view this form
