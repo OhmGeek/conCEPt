@@ -36,10 +36,13 @@ Class FormDisplayController
         //Get HTML for main form
         $form = $this->generateForm($formID);
 
+        print_r($form);
         //Generat HTML for navbar
         $navbar = new NavbarController();
         $navbar = $navbar->generateNavbarHtml();
 
+        print_r($navbar);
+        
         //Generate main page with mainFormPage.twig
         $template = $this->twig->loadTemplate("mainFormPage.twig");
         print($template->render(array('title' => $formTitle, 'navbar' => $navbar, 'form' => $form)));
