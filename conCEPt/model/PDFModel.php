@@ -1,5 +1,7 @@
 <?php
-namespace Concept\Model;
+
+namespace Concept\Controller;
+use DB;
 
 class PDFModel{
 
