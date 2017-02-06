@@ -27,7 +27,7 @@ Class FormDisplayController
     {
         //Initialise the model and Twig objects to use
 
-
+        print_r("Generating page");
         //Get general form information (title, isSubmitted, isMerged)
         $formInformation = $this->model->getFormInformation($formID);
         $formInformation = $formInformation[0];
