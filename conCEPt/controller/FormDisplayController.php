@@ -27,7 +27,7 @@ Class FormDisplayController
     {
         //Initialise the model and Twig objects to use
 
-        print_r("Generating page");
+        
         //Get general form information (title, isSubmitted, isMerged)
         $formInformation = $this->model->getFormInformation($formID);
         $formInformation = $formInformation[0];
@@ -36,12 +36,12 @@ Class FormDisplayController
         //Get HTML for main form
         $form = $this->generateForm($formID);
 
-        print_r($form);
+      
         //Generat HTML for navbar
         $navbar = new NavbarController();
         $navbar = $navbar->generateNavbarHtml();
 
-        print_r($navbar);
+        
         
         //Generate main page with mainFormPage.twig
         $template = $this->twig->loadTemplate("mainFormPage.twig");
@@ -52,6 +52,7 @@ Class FormDisplayController
 
     function generateForm($formID)
     {
+	
         //Inititalise the Model and Twig objects to use
         $Model = new FormDisplayModel();
         $loader = new Twig_Loader_Filesystem('../view/formPage');
@@ -91,9 +92,9 @@ Class FormDisplayController
             //Individual form
             //If not submitted, display as editable, else, display as non-editable
             if (!($isSubmitted)) {
-                $this->displayEditableForm($formID, $twig, $Model, $formTitle);
+                return $this->displayEditableForm($formID, $twig, $Model, $formTitle);
             } else {
-                $this->displaySubmitted($formID, $twig, $Model, $formTitle);
+                return $this->displaySubmitted($formID, $twig, $Model, $formTitle);
             }
         } elseif ($isMerged == 1) {
             //Individual form that contributes to a merged form
@@ -325,6 +326,7 @@ Class FormDisplayController
      */
     function displayEditableForm($formID, $twig, $Model, $formTitle, $conflictSections = array(), $marksReadOnly = 0, $isMerged = 0, $addSubmitComment = 0)
     {
+
         //Get student's information
         if ($isMerged) {
             $studentInfo = $Model->getStudentInformationMerged($formID);
@@ -435,8 +437,7 @@ Class FormDisplayController
             'comments' => $comments,               //The text in the General comments section of form)
             'commentsReadOnly' => $commentsReadOnly,       //Set to 1 if the comments section should be readonly
             'displayFormSubmission' => $displayFormSubmission,   //Display the submission buttons
-            'displaySubmissionComment' => $addSubmitComment,));  //Set to 1 if want user to add a submission comment (for dealing with conflicts)
-
+            'displaySubmissionComment' => $addSubmitComment));  //Set to 1 if want user to add a submission comment (for dealing with conflicts)
         return $form;
     }
 }

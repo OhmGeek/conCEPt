@@ -16,10 +16,10 @@ if ($route == "send") {
 } elseif ($route == "receive") {
     $formID = $_GET["formid"];
     if(isset($_GET["id"])) {
-        $formID=$_GET["id"];
+        $formID = $_GET["id"];
     }
     $test = new FormDisplayController();
-    echo $test->generateForm($formID);
+    echo $test->generatePage($formID);
 } elseif ($route == "select") {
     $formTypeID = $_GET["typeId"];
     $test = new FormSelectionController();

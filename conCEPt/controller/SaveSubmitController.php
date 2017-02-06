@@ -2,6 +2,8 @@
 //include model here
 namespace Concept\Controller;
 
+use Concept\Model\SaveSubmitModel;
+
 class SaveSubmitController
 {
     //Requires post variables to work
@@ -15,7 +17,7 @@ class SaveSubmitController
     function retrieveInformation($postVariables)
     {
         //Initialise Model to interact with database
-        $Model = new saveSubmitModel();
+        $Model = new SaveSubmitModel();
 
         //Get the formID and the storeType (Save, Submit, Reject, or Confirm)
         $formID = $postVariables["documentID"];
