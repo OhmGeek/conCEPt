@@ -1,6 +1,7 @@
 <?php
 namespace Concept\Model;
 
+use PDO;
 class PDFModel{
 
     public function __construct() 

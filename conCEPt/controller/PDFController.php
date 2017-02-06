@@ -1,8 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../vendor/autoload.php');
-include '../model/PDFModel.php';
-
+use Concept\Model\PDFModel;
 
 class PDFController
 {
@@ -29,7 +28,8 @@ class PDFController
 
     function createPDF($formID)
     {
-        $baseUrl = 'http://community.dur.ac.uk/cs.seg04/password/conCEPt/conCEPt/public'
+        $baseUrl =
+'http://community.dur.ac.uk/cs.seg04/password/conCEPt/conCEPt/public';
         $pdfContents = $this->model->getFormContentsByID($formID);
         $pdfContentsString = print_r($pdfContents,true);
         ##var_dump($pdfContentsString);
