@@ -6,7 +6,12 @@
  * Date: 09/01/17
  * Time: 12:19
  */
-require_once(__DIR__ . '/../db.php');
+namespace Concept\Controller;
+use Concept\Model\UserAuthModel;
+use Klein\Route;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
+
 class UserAuthModel
 {
 

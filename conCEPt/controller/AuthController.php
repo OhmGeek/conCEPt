@@ -6,9 +6,9 @@
  * Date: 09/01/17
  * Time: 12:22
  */
-require_once(__DIR__ . '/../../vendor/autoload.php');
-require_once(__DIR__ . '/../../model/auth/UserAuthModel.php');
-require_once(__DIR__ . '/../../model/route/Route.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
+require_once(__DIR__ . '/../model/UserAuthModel.php');
+# require_once(__DIR__ . '/../model/Route.php');
 
 // todo move 403 code to route (and redirect)
 class Auth_Controller
@@ -18,7 +18,7 @@ class Auth_Controller
         $user_model = new UserAuthModel($username);
 
         // create a twig loader
-        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../view/auth');
+        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../view/');
         $twig = new Twig_Environment($loader);
 
         if($user_model->isAdmin()) {
