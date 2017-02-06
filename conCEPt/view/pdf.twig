@@ -12,15 +12,22 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<!-- Stylesheet for printing -->
+		<link rel="stylesheet" type="text/css" href="{{baseUrl}}/css/print.css" media="print">
 		<!-- Stylesheet for editing -->
 		<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+		<link rel="stylesheet" type="text/css" href="{{baseUrl}}/css/jquery.notebook.css">
 		<!--Own styling-->
+		<link rel="stylesheet" type="text/css" href="{{baseUrl}}/css/forms.css">
 
 		<!--Own JavaScript-->
+		<script src="{{baseUrl}}/forms.js"></script>
 
 		<!--Code for the Rich Text Editing of forms-->
+		<script src="{{baseUrl}}/js/jquery.notebook.js"></script>
 		<script>
+		$(document).ready(function() {
 				$('.editable').notebook();
+			});
 		</script>
 	</head>
 	<body>
