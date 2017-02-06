@@ -22,18 +22,44 @@ class PDFController
     	}
         
     }
+
+
+
+
+
     function createPDF($formID)
     {
+        $baseUrl = 'http://community.dur.ac.uk/cs.seg04/password/conCEPt/conCEPt/public'
         $pdfContents = $this->model->getFormContentsByID($formID);
+        $pdfContentsString = print_r($pdfContents,true);
+        ##var_dump($pdfContentsString);
 
-        $html = print_r($pdfContents, true);
-        $pdf = $this->model->get_PDF("<html><head></head><body>".$html."</body><html>");
+        $loader = new Twig_Loader_Filesystem('../view/');
+        $twig = new Twig_Environment($loader);
+
+        $tableData = array();
+        foreach ($pdfContents as $each)
+        {
+            $tableData[] = array('criteria' => $each['Sec_Criteria'], 'mark' => $each['Mark'], 'rationale' => $each['Comment']);
+        }
+        ##var_dump($tableData);
+
+        $template = $twig->loadTemplate('pdf.twig');
+        $html = $template->render(array('rows' => $tableData, 'baseUrl' => $baseUrl));
+
+        /*Writes to generated PDF from $html variable to temporaryFiles folder*/
+        $this->model->getPDF($html);
  
         header("Content-type:application/pdf");
         header("Content-Disposition:attachment;filename=downloaded.pdf");
         readfile("../temporaryFiles/temp.pdf");
         exit;
     }
+
+
+
+
+
     function displayCompletedForms()
     {
         $completedFormInformation = $this->model->getAllCompletedFormIDs();

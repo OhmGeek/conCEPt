@@ -9,7 +9,7 @@ class PDFModel{
 
     }
 
-    public function get_PDF($html_input) {
+    public function getPDF($html_input) {
         $url = "http://test.ohmgeek.co.uk/PDFGenerator/generate_pdf.php";
         $encoded_html = rawurlencode($html_input);
         $pdf = file_get_contents($url . "?html=" . $encoded_html);
