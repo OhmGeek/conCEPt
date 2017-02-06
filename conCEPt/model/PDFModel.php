@@ -3,6 +3,7 @@
 namespace Concept\Controller;
 use DB;
 
+use PDO;
 class PDFModel{
 
     public function __construct() 
