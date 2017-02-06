@@ -20,20 +20,6 @@ class HttpStatus
 {
 
     /**
-     * The HTTP status code
-     *
-     * @type int
-     */
-    protected $code;
-
-    /**
-     * The HTTP status message
-     *
-     * @type string
-     */
-    protected $message;
-
-    /**
      * HTTP 1.1 status messages based on code
      *
      * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
@@ -91,7 +77,18 @@ class HttpStatus
         504 => 'Gateway Timeout',
         505 => 'HTTP Version Not Supported',
     );
-
+    /**
+     * The HTTP status code
+     *
+     * @type int
+     */
+    protected $code;
+    /**
+     * The HTTP status message
+     *
+     * @type string
+     */
+    protected $message;
 
     /**
      * Constructor
@@ -111,6 +108,24 @@ class HttpStatus
     }
 
     /**
+     * Get our HTTP 1.1 message from our passed code
+     *
+     * Returns null if no corresponding message was
+     * found for the passed in code
+     *
+     * @param int $int
+     * @return string|null
+     */
+    public static function getMessageFromCode($int)
+    {
+        if (isset(static::$http_messages[$int])) {
+            return static::$http_messages[$int];
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Get the HTTP status code
      *
      * @return int
@@ -118,6 +133,18 @@ class HttpStatus
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * Set the HTTP status code
+     *
+     * @param int $code
+     * @return HttpStatus
+     */
+    public function setCode($code)
+    {
+        $this->code = (int)$code;
+        return $this;
     }
 
     /**
@@ -131,18 +158,6 @@ class HttpStatus
     }
 
     /**
-     * Set the HTTP status code
-     *
-     * @param int $code
-     * @return HttpStatus
-     */
-    public function setCode($code)
-    {
-        $this->code = (int) $code;
-        return $this;
-    }
-
-    /**
      * Set the HTTP status message
      *
      * @param string $message
@@ -150,24 +165,8 @@ class HttpStatus
      */
     public function setMessage($message)
     {
-        $this->message = (string) $message;
+        $this->message = (string)$message;
         return $this;
-    }
-
-    /**
-     * Get a string representation of our HTTP status
-     *
-     * @return string
-     */
-    public function getFormattedString()
-    {
-        $string = (string) $this->code;
-
-        if (null !== $this->message) {
-            $string = $string . ' ' . $this->message;
-        }
-
-        return $string;
     }
 
     /**
@@ -185,20 +184,18 @@ class HttpStatus
     }
 
     /**
-     * Get our HTTP 1.1 message from our passed code
+     * Get a string representation of our HTTP status
      *
-     * Returns null if no corresponding message was
-     * found for the passed in code
-     *
-     * @param int $int
-     * @return string|null
+     * @return string
      */
-    public static function getMessageFromCode($int)
+    public function getFormattedString()
     {
-        if (isset(static::$http_messages[ $int ])) {
-            return static::$http_messages[ $int ];
-        } else {
-            return null;
+        $string = (string)$this->code;
+
+        if (null !== $this->message) {
+            $string = $string . ' ' . $this->message;
         }
+
+        return $string;
     }
 }

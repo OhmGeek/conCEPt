@@ -86,13 +86,13 @@ class ResponseCookie
     /**
      * Constructor
      *
-     * @param string  $name         The name of the cookie
-     * @param string  $value        The value to set the cookie with
-     * @param int     $expire       The time that the cookie should expire
-     * @param string  $path         The path of which to restrict the cookie
-     * @param string  $domain       The domain of which to restrict the cookie
-     * @param boolean $secure       Flag of whether the cookie should only be sent over a HTTPS connection
-     * @param boolean $http_only    Flag of whether the cookie should only be accessible over the HTTP protocol
+     * @param string $name The name of the cookie
+     * @param string $value The value to set the cookie with
+     * @param int $expire The time that the cookie should expire
+     * @param string $path The path of which to restrict the cookie
+     * @param string $domain The domain of which to restrict the cookie
+     * @param boolean $secure Flag of whether the cookie should only be sent over a HTTPS connection
+     * @param boolean $http_only Flag of whether the cookie should only be accessible over the HTTP protocol
      */
     public function __construct(
         $name,
@@ -102,7 +102,8 @@ class ResponseCookie
         $domain = null,
         $secure = false,
         $http_only = false
-    ) {
+    )
+    {
         // Initialize our properties
         $this->setName($name);
         $this->setValue($value);
@@ -131,7 +132,7 @@ class ResponseCookie
      */
     public function setName($name)
     {
-        $this->name = (string) $name;
+        $this->name = (string)$name;
 
         return $this;
     }
@@ -155,7 +156,7 @@ class ResponseCookie
     public function setValue($value)
     {
         if (null !== $value) {
-            $this->value = (string) $value;
+            $this->value = (string)$value;
         } else {
             $this->value = $value;
         }
@@ -185,7 +186,7 @@ class ResponseCookie
     public function setExpire($expire)
     {
         if (null !== $expire) {
-            $this->expire = (int) $expire;
+            $this->expire = (int)$expire;
         } else {
             $this->expire = $expire;
         }
@@ -212,7 +213,7 @@ class ResponseCookie
     public function setPath($path)
     {
         if (null !== $path) {
-            $this->path = (string) $path;
+            $this->path = (string)$path;
         } else {
             $this->path = $path;
         }
@@ -239,7 +240,7 @@ class ResponseCookie
     public function setDomain($domain)
     {
         if (null !== $domain) {
-            $this->domain = (string) $domain;
+            $this->domain = (string)$domain;
         } else {
             $this->domain = $domain;
         }
@@ -265,7 +266,7 @@ class ResponseCookie
      */
     public function setSecure($secure)
     {
-        $this->secure = (boolean) $secure;
+        $this->secure = (boolean)$secure;
 
         return $this;
     }
@@ -288,7 +289,7 @@ class ResponseCookie
      */
     public function setHttpOnly($http_only)
     {
-        $this->http_only = (boolean) $http_only;
+        $this->http_only = (boolean)$http_only;
 
         return $this;
     }

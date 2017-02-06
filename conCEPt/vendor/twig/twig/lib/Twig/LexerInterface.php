@@ -22,7 +22,7 @@ interface Twig_LexerInterface
      * Tokenizes a source code.
      *
      * @param string|Twig_Source $code The source code
-     * @param string             $name A unique identifier for the source code
+     * @param string $name A unique identifier for the source code
      *
      * @return Twig_TokenStream A token stream instance
      *

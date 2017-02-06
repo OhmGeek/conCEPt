@@ -53,8 +53,8 @@ abstract class AbstractKleinTest extends PHPUnit_Framework_TestCase
      * This is mostly useful, since the tests would otherwise have to make a bunch of calls
      * concerning the argument order and constants. DRY, bitch. ;)
      *
-     * @param Request $request      Custom Klein "Request" object
-     * @param Response $response    Custom Klein "Response" object
+     * @param Request $request Custom Klein "Request" object
+     * @param Response $response Custom Klein "Response" object
      * @return mixed The output of the dispatch call
      */
     protected function dispatchAndReturnOutput($request = null, $response = null)

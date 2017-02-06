@@ -25,6 +25,6 @@ main %d.%dms/%d%
     └ included.twig
 
 EOF
-        , $dumper->dump($this->getProfile()));
+            , $dumper->dump($this->getProfile()));
     }
 }

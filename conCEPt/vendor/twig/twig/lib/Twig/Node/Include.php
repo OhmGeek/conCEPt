@@ -24,7 +24,7 @@ class Twig_Node_Include extends Twig_Node implements Twig_NodeOutputInterface
             $nodes['variables'] = $variables;
         }
 
-        parent::__construct($nodes, array('only' => (bool) $only, 'ignore_missing' => (bool) $ignoreMissing), $lineno, $tag);
+        parent::__construct($nodes, array('only' => (bool)$only, 'ignore_missing' => (bool)$ignoreMissing), $lineno, $tag);
     }
 
     public function compile(Twig_Compiler $compiler)
@@ -34,8 +34,7 @@ class Twig_Node_Include extends Twig_Node implements Twig_NodeOutputInterface
         if ($this->getAttribute('ignore_missing')) {
             $compiler
                 ->write("try {\n")
-                ->indent()
-            ;
+                ->indent();
         }
 
         $this->addGetTemplate($compiler);
@@ -53,22 +52,20 @@ class Twig_Node_Include extends Twig_Node implements Twig_NodeOutputInterface
                 ->indent()
                 ->write("// ignore missing template\n")
                 ->outdent()
-                ->write("}\n\n")
-            ;
+                ->write("}\n\n");
         }
     }
 
     protected function addGetTemplate(Twig_Compiler $compiler)
     {
         $compiler
-             ->write('$this->loadTemplate(')
-             ->subcompile($this->getNode('expr'))
-             ->raw(', ')
-             ->repr($this->getTemplateName())
-             ->raw(', ')
-             ->repr($this->getTemplateLine())
-             ->raw(')')
-         ;
+            ->write('$this->loadTemplate(')
+            ->subcompile($this->getNode('expr'))
+            ->raw(', ')
+            ->repr($this->getTemplateName())
+            ->raw(', ')
+            ->repr($this->getTemplateLine())
+            ->raw(')');
     }
 
     protected function addTemplateArguments(Twig_Compiler $compiler)
@@ -79,8 +76,7 @@ class Twig_Node_Include extends Twig_Node implements Twig_NodeOutputInterface
             $compiler
                 ->raw('array_merge($context, ')
                 ->subcompile($this->getNode('variables'))
-                ->raw(')')
-            ;
+                ->raw(')');
         } else {
             $compiler->subcompile($this->getNode('variables'));
         }

@@ -1,6 +1,5 @@
 <?php
-
-include 'db.php';
+namespace Concept\Model;
 
 class PDFModel{
 

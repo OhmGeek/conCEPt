@@ -15,10 +15,8 @@ use Klein\DataCollection\HeaderDataCollection;
 use Klein\DataCollection\ResponseCookieDataCollection;
 use Klein\Exceptions\LockedResponseException;
 use Klein\HttpStatus;
-use Klein\Klein;
 use Klein\Response;
 use Klein\ResponseCookie;
-use Klein\Tests\Mocks\MockRequestFactory;
 
 /**
  * ResponsesTest
@@ -182,6 +180,14 @@ class ResponsesTest extends AbstractKleinTest
     }
 
     /**
+     * @runInSeparateProcess
+     */
+    public function testSendHeadersInIsolateProcess()
+    {
+        $this->testSendHeaders();
+    }
+
+    /**
      * Testing headers is a pain in the ass. ;)
      *
      * Technically... we can't. So, yea.
@@ -203,9 +209,9 @@ class ResponsesTest extends AbstractKleinTest
     /**
      * @runInSeparateProcess
      */
-    public function testSendHeadersInIsolateProcess()
+    public function testSendCookiesInIsolateProcess()
     {
-        $this->testSendHeaders();
+        $this->testSendCookies();
     }
 
     /**
@@ -221,14 +227,6 @@ class ResponsesTest extends AbstractKleinTest
         $response->sendCookies();
 
         $this->expectOutputString(null);
-    }
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testSendCookiesInIsolateProcess()
-    {
-        $this->testSendCookies();
     }
 
     public function testSendBody()
@@ -294,12 +292,12 @@ class ResponsesTest extends AbstractKleinTest
         $response->chunk($content[2]);
 
         $this->expectOutputString(
-            dechex(strlen($content[0]))."\r\n"
-            ."$content[0]\r\n"
-            .dechex(strlen($content[1]))."\r\n"
-            ."$content[1]\r\n"
-            .dechex(strlen($content[2]))."\r\n"
-            ."$content[2]\r\n"
+            dechex(strlen($content[0])) . "\r\n"
+            . "$content[0]\r\n"
+            . dechex(strlen($content[1])) . "\r\n"
+            . "$content[1]\r\n"
+            . dechex(strlen($content[2])) . "\r\n"
+            . "$content[2]\r\n"
         );
     }
 
@@ -335,12 +333,12 @@ class ResponsesTest extends AbstractKleinTest
     public function testCookie()
     {
         $test_cookie_data = array(
-            'name'      => 'name',
-            'value'    => 'value',
-            'expiry'   => null,
-            'path'     => '/path',
-            'domain'   => 'whatever.com',
-            'secure'   => true,
+            'name' => 'name',
+            'value' => 'value',
+            'expiry' => null,
+            'path' => '/path',
+            'domain' => 'whatever.com',
+            'secure' => true,
             'httponly' => true
         );
 
@@ -551,7 +549,7 @@ class ResponsesTest extends AbstractKleinTest
     public function testJSON()
     {
         // Create a test object to be JSON encoded/decoded
-        $test_object = (object) array(
+        $test_object = (object)array(
             'cheese',
             'dog' => 'bacon',
             1.5 => 'should be 1 (thanks PHP casting...)',
@@ -607,7 +605,7 @@ class ResponsesTest extends AbstractKleinTest
 
         // Expect our output to match our json encoded test object
         $this->expectOutputString(
-            'dogma('. json_encode($test_object) .');'
+            'dogma(' . json_encode($test_object) . ');'
         );
 
         // Assert headers were passed
