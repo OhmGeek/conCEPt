@@ -1,6 +1,6 @@
 <?php
 
-class navbarAdminModel
+class linkingModel
 {
 	function __construct()
 	{

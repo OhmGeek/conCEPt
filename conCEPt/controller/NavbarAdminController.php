@@ -1,8 +1,8 @@
 <?php
 
-include '../model/NavbarModel.php';
+require_once(__DIR__ . '/../model/NavbarAdminModel.php');
 
-class NavbarController
+class NavbarAdminController
 {
 	function __construct()
 	{
@@ -13,7 +13,7 @@ class NavbarController
 	function generateNavbarHtml()
 	{
 	
-		$Model = new navbarAdminModel();
+		$model = new NavbarAdminModel();
 		
 		$loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);

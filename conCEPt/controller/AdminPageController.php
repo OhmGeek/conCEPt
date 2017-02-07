@@ -1,15 +1,12 @@
 <?php
 require_once(__DIR__ . '/../model/AdminPageModel.php');
-require_once(__DIR__ . '/NavbarAdminController.php');
-require_once(__DIR__ . '/../view/adminpage/adder.twig');
-require_once(__DIR__ . '/../view/adminpage/linker.twig');
 
 class AdminPageController
 {
 	private function generateAddingPane($twig,$model) {
-		$adding_pane = $twig->loadTemplate('adder.twig');
-		$twig_data = array();
-		return $adding_pane->render($twig_data);
+		$content = new AddingController();
+		$content = $content->generatePage();
+		return $content;
 	}
 
 	private function generateLinkingPane($twig, $model){
@@ -21,29 +18,17 @@ class AdminPageController
 	{
 		$model = new AdminPageModel();
 		
-		$navbar = new navbarController();		
-		//Get info
-		
 		$loader = new Twig_Loader_Filesystem('../view/adminpage/');
         $twig = new Twig_Environment($loader);
 
-		// student pane
-		$student_pane = $this->generateAddingPane($twig,$model);
-		$linking_pane = $this->generateLinkingPane($twig, $model);
+		/*
+		$adding_pane = $this->generateAddingPane($twig,$model);
 		$template = $twig->loadTemplate('adminPage.twig');
 		return $template->render(array(
-			'navbar'=> $navbar->generateNavbarHtml(),
-			'addingTab' => $student_pane,
-			'linkingTab' => $linking_pane,
-			'printingTab' => "<div>Incomplete</div>",
+			'content'=>$adding_pane
 		));
-		//Generate pending pane
-
 		return $template;	
-		//Generate  submitted pane
-		
-		//Generate clashes pane
-
-		//Generate main page
+		*/
+		return $this->generateAddingPane($twig, $model);
 	}
 }

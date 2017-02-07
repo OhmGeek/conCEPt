@@ -9,6 +9,9 @@ if(ltrim($base,'/')) {
     $_SERVER['REQUEST_URI'] = substr($_SERVER['REQUEST_URI'],strlen($base));
 }
 
+	
+	
+	
 // main routing
 $router = new \Klein\Klein();
 
@@ -56,16 +59,16 @@ $router->respond('POST', '/Staff_makeMarker', function(){
 
 $router->respond('POST', '/Staff_makeStudent', function(){
 		
-	if(!isset($_POST["Student_ID"])){
+	if(!strcmp($_POST["Student_ID"], "")){
 		return json_encode(array("error" => "Student ID was not set"));
 	} 
-	else if(!isset($_POST['Lname'])){
+	else if(!strcmp($_POST['Lname'],"")){
 		return json_encode(array("error" => "Surname was not set"));
 	} 
-	else if(!isset($_POST["Fname"])){
+	else if(!strcmp($_POST["Fname"], "")){
 		return json_encode(array("error" => "Forename was not set"));
 	}
-	else if(!isset($_POST["Year_Level"])){
+	else if(!strcmp($_POST["Year_Level"], "")){
 		return json_encode(array("error" => "Year of study was not set"));
 	}
 	$student = $_POST['Student_ID'];
@@ -135,7 +138,6 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 		$sql_result_student = mysqli_query($link, $sql_query);
 		if(mysqli_num_rows($sql_result_student) == 0){
 			return json_encode(array("error" => "No student exists for the given information"));
-			//return json_encode($sql_query);
 		}
 		else if(mysqli_num_rows($sql_result_student) > 1){
 			return json_encode(array("error" => "Information supplied for student was not specific enough"));
@@ -262,7 +264,7 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 					WHERE `MS_Form`.`Form_ID` IS NULL AND `IsMerged` = 0
 					GROUP BY `Form`.`BForm_ID`
 				) AS Table_B;";
-				#return $sql_query_link2;
+				# return $sql_query_link2;
 				if(mysqli_query($link, $sql_query_link2)){
 					$sql_query_link3 = "INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`)(
 					SELECT `Section`.`Sec_ID`, `Form`.`Form_ID`
@@ -281,7 +283,7 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 						$sql_query_link3 = $sql_query_link3 . "'" . $final_supervisor_id . "'";
 					}
 					$sql_query_link3 = $sql_query_link3 . ") " . " AND `MS`.`Student_ID` = '" . $final_student_id . "');";
-					# return $sql_query_link3;
+					return $sql_query_link3;
 					if(!mysqli_query($link, $sql_query_link3)){
 						return json_encode(array("error" => "Forms could not be built after creation (this might be because they already exist)"));
 					}
