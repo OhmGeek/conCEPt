@@ -1,11 +1,13 @@
 <?php
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+namespace Concept\Controller;
+
 use Concept\Model\PDFModel;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 class PDFController
 {
-	/*store model globally*/
 	private $model;
 
     function __construct()
@@ -28,30 +30,36 @@ class PDFController
 
     function createPDF($formID)
     {
-        $baseUrl = 'http://community.dur.ac.uk/cs.seg04/password/conCEPt/conCEPt/public';
+        $loader = new Twig_Loader_Filesystem('../view/');
+        $twig = new Twig_Environment($loader);
         
         $pdfContents = $this->model->getFormContentsByID($formID);
         $pdfContentsString = print_r($pdfContents,true);
-        ##var_dump($pdfContentsString);
-
-        $loader = new Twig_Loader_Filesystem('../view/');
-        $twig = new Twig_Environment($loader);
 
         $tableData = array();
         foreach ($pdfContents as $each)
         {
             $tableData[] = array('criteria' => $each['Sec_Criteria'], 'mark' => $each['Mark'], 'rationale' => $each['Comment']);
         }
-        ##var_dump($tableData);
+        $printCSS = file_get_contents('../public/css/print.css');
+        $jqueryNotebookCSS = file_get_contents('../public/css/jquery.notebook.css');
+        $formsCSS = file_get_contents('../public/css/forms.css');
+        $formsJS = file_get_contents('../public/js/forms.js');
+        $jqueryNotebookJS = file_get_contents('../public/js/jquery.notebook.js');
 
         $template = $twig->loadTemplate('pdf.twig');
-        $html = $template->render(array('rows' => $tableData, 'baseUrl' => $baseUrl));
+        $html = $template->render(array('rows' => $tableData, 
+                                        'printCSS' => $printCSS,
+                                        'jqueryNotebookCSS' => $jqueryNotebookCSS,
+                                        'formsCSS' => $formsCSS,
+                                        'formsJS' => $formsJS,
+                                        'jqueryNotebookJS' => $jqueryNotebookJS));
 
         /*Writes to generated PDF from $html variable to temporaryFiles folder*/
         $this->model->getPDF($html);
  
-        header("Content-type:application/pdf");
-        header("Content-Disposition:attachment;filename=downloaded.pdf");
+        #header("Content-type:application/pdf");
+        #header("Content-Disposition:attachment;filename=downloaded.pdf");
         readfile("../temporaryFiles/temp.pdf");
         exit;
     }

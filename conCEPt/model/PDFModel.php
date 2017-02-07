@@ -1,25 +1,38 @@
 <?php
 
-namespace Concept\Controller;
-use DB;
+namespace Concept\Model;
 
+use Concept\Model\DB;
 use PDO;
-class PDFModel{
 
+class PDFModel
+{
     public function __construct() 
     {
 
     }
 
-    public function getPDF($html_input) {
-        $url = "http://test.ohmgeek.co.uk/PDFGenerator/generate_pdf.php";
+    public function getPDF($html_input)
+    {
+        file_put_contents("../temporaryFiles/temp.html", $html_input);
         $encoded_html = rawurlencode($html_input);
-        $pdf = file_get_contents($url . "?html=" . $encoded_html);
-        #$pdfHandle = fopen($url . "?html=" . $encoded_html, 'rb');
-        #$pdf = fread($pdfHandle, filesize($pdfHandle))
-        file_put_contents("../temporaryFiles/temp.pdf", $pdf);
-        #fwrite($pdf, './temp.pdf');
-        return $pdf;
+        $postdata = http_build_query(array('html' => $encoded_html));
+
+        $url = 'http://test.ohmgeek.co.uk/PDFGenerator/generate_pdf.php';
+        //$url = 'http://searchtest.xyxthris.xyz/PDFGenerator/generate_pdf.php';
+
+        $options = array(
+            'http' => array(
+                'header' => 'Content-type: application/x-www-form-urlencoded',
+                'method'  => 'POST',
+                'content' => $postdata
+            )
+        );
+
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+
+        file_put_contents("../temporaryFiles/temp.pdf", $result);
     }
 
     public function getFormContentsByID($formID)
@@ -74,8 +87,6 @@ class PDFModel{
                                    WHERE `Form`.`IsSubmitted` = 1 AND `Form`.`IsMerged` = -1
                                    ORDER BY `Student`.`Student_ID` ASC");
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
-        
+        return $statement->fetchAll(PDO::FETCH_ASSOC); 
     }
-
 }

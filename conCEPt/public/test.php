@@ -1,6 +1,5 @@
 <?php
-
-namespace Concept\Controller;
+require_once(__DIR__ . '/../vendor/autoload.php');
 
 use Concept\Controller\PDFController;
 
