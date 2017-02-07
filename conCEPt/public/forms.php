@@ -12,7 +12,6 @@ $route = $_GET["route"];
 
 if ($route == "send") {
     $test = new SaveSubmitController($_POST);
-    echo $test;
 } elseif ($route == "receive") {
     $formID = $_GET["formid"];
     if(isset($_GET["id"])) {
