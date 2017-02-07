@@ -1,6 +1,6 @@
 <?php
-
-class linkingModel
+namespace Concept\Model;
+class LinkingModel
 {
 	function __construct()
 	{

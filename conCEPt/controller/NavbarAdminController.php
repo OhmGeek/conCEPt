@@ -1,6 +1,9 @@
 <?php
 
-require_once(__DIR__ . '/../model/NavbarAdminModel.php');
+namespace Concept\Controller;
+use Concept\Model\NavbarAdminModel;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 class NavbarAdminController
 {

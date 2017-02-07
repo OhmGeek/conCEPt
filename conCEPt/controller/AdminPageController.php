@@ -1,6 +1,11 @@
 <?php
-require_once(__DIR__ . '/../model/AdminPageModel.php');
-require_once(__DIR__ . '/AddingController.php');
+namespace Concept\Controller;
+
+use Concept\Controller\AddingController;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
+use Concept\Model\AdminPageModel;
+
 class AdminPageController
 {
 	private function generateAddingPane($twig,$model) {

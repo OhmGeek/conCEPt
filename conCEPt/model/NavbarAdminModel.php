@@ -1,6 +1,6 @@
 <?php
-
-class navbarAdminModel
+namespace Concept\Model;
+class NavbarAdminModel
 {
 	function __construct()
 	{

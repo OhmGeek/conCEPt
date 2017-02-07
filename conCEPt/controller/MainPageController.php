@@ -14,13 +14,13 @@ class MainPageController
         $navbar = new NavbarController();
         //Get info
 
-        $loader = new Twig_Loader_Filesystem('../view/homepage/');
+        $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
         // student pane
         $student_pane = $this->generateStudentPane($twig, $model);
         // for now we shall just return the student pane
-        $template = $twig->loadTemplate('homePage.twig');
+        $template = $twig->loadTemplate('homepage/homePage.twig');
         return $template->render(array(
             'navbar' => $navbar->generateNavbarHtml(),
             'studentTab' => $student_pane,

@@ -1,5 +1,5 @@
 <?php
-
+namespace Concept\Model;
 class AdminPageModel
 {
 

@@ -1,6 +1,6 @@
 <?php
-
-class addingModel
+namespace Concept\Model;
+class AddingModel
 {
 	function __construct()
 	{

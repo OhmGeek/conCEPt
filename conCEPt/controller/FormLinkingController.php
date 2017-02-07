@@ -1,5 +1,8 @@
 <?php
-include '../model/LinkingModel.php';
+
+namespace Concept\Controller;
+use Concept\Model\LinkingModel;
+
 class LinkingController
 {
 
@@ -16,12 +19,12 @@ class LinkingController
 	//Displays the History page for the current marker
 	function generatePage()
 	{
-		$Model = new linkingModel();
+		$Model = new LinkingModel();
 		
 		$loader = new Twig_Loader_Filesystem('../view/adminpage');
-        $twig = new Twig_Environment($loader);
+         	$twig = new Twig_Environment($loader);
 		
-		$navbar = new navbarAdminController();
+		$navbar = new NavbarAdminController();
 		$navbar = $navbar->generateNavbarHtml();
 		
 		$template = $twig->loadTemplate("linker.twig");

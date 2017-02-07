@@ -13,10 +13,6 @@ $user_model = new UserAuthModel($_SERVER['REMOTE_USER']);
 $loader = new Twig_Loader_Filesystem(__DIR__ . '/../view/');
 $twig = new Twig_Environment($loader);
 
-$admin_page = new AdminPageController();
-	echo $admin_page->generatePage();
-/*
-// deal with routing:
 // admin goes to the admin page
 if($user_model->isAdmin()) {
 	$admin_page = new AdminPageController();
@@ -33,4 +29,3 @@ else {
 	$error_template = $twig->loadTemplate('403.twig');
 	echo $error_template->render(array());
 }
-*/

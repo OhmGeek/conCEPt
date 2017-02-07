@@ -1,5 +1,9 @@
 <?php
-include '../model/AddingModel.php';
+namespace Concept\Controller;
+use Concept\Model\AddingModel;
+use Concept\Controller\NavbarAdminController;
+
+
 class AddingController
 {
 
@@ -15,12 +19,12 @@ class AddingController
 
 	function generatePage()
 	{
-		$Model = new addingModel();
+		$Model = new AddingModel();
 		
 		$loader = new Twig_Loader_Filesystem('../view/adminpage');
         $twig = new Twig_Environment($loader);
 		
-		$navbar = new navbarAdminController();
+		$navbar = new NavbarAdminController();
 		$navbar = $navbar->generateNavbarHtml();
 		
 		$template = $twig->loadTemplate("adder.twig");
