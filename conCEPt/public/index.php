@@ -33,4 +33,4 @@ else {
 	$error_template = $twig->loadTemplate('403.twig');
 	echo $error_template->render(array());
 }
-
+*/

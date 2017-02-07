@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . '/../model/AdminPageModel.php');
-
+require_once(__DIR__ . '/AddingController.php');
 class AdminPageController
 {
 	private function generateAddingPane($twig,$model) {
