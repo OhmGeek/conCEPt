@@ -2,6 +2,8 @@
 
 namespace Concept\Controller;
 
+use Concept\Model\HistoryModel;
+
 class HistoryController
 {
 
@@ -18,7 +20,7 @@ class HistoryController
         $markerID = $this->getCurrentMarker();
 
         //Create object to get information
-        $Model = new historyModel();
+        $Model = new HistoryModel();
 
         //Get all documents that the current marker has submitted
         $rows = $Model->getAllDocuments($markerID);
