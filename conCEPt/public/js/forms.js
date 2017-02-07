@@ -17,7 +17,7 @@ $(document).ready(function(){
 		$("form").append($("<input type = 'hidden'>").attr({name:$(this).attr('name'),value:$(this).attr('value')}));
 		
 		$('div').each(function() {
-			$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).attr('html')}));
+			$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).html()}));
 		});
 	});
 
