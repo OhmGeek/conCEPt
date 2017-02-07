@@ -217,7 +217,7 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 			}
 		}
 	}
-	
+	$super_set = "";
 	if(!($examiner_given || $supervisor_given)){
 		return json_encode(array("error" => "No information was supplied for markers' information"));
 	}
@@ -233,68 +233,108 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 			$sql_query_marker = $sql_query_marker . "('" .$final_supervisor_id . "','" . $final_student_id . "',1)";
 		}
 		$sql_query_marker = $sql_query_marker . " ON DUPLICATE KEY UPDATE Marker_ID = VALUES(Marker_ID), Student_ID = VALUES(Student_ID), IsSupervisor = VALUES(IsSupervisor);";
+		
+		
+		
 		if(mysqli_query($link, $sql_query_marker)){
 			/* create a blank form for each base */
-			$sql_query_link1 = "INSERT INTO `Form`(`BForm_ID`) SELECT `BForm_ID` FROM `BaseForm`";
-			if(mysqli_query($link, $sql_query_link1)){
-				/* connect the marker-student pair to the 5 form types (forms previously created but not used) - based on student and marker id */
-				$sql_query_link2 = "
-				INSERT INTO `MS_Form`(`MS_ID`, `Form_ID`) 
-				SELECT (
-				SELECT `MS`.`MS_ID`
-				FROM `MS`
-				LEFT JOIN `MS_Form` ON `MS_Form`.`MS_ID` = `MS`.`MS_ID`
-				WHERE `MS_Form`.`MS_ID` IS NULL AND `MS`.`Marker_ID` IN (";
-				if($examiner_given){
-					$sql_query_link2 = $sql_query_link2 . "'" . $final_examiner_id . "'";
-				}
-				if($examiner_given && $supervisor_given){
-					$sql_query_link2 = $sql_query_link2.",";
-				}
-				if($supervisor_given){
-					$sql_query_link2 = $sql_query_link2 . "'" . $final_supervisor_id . "'";
-				}
-				$sql_query_link2 = $sql_query_link2 . ") " . " AND `MS`.`Student_ID` = '" . $final_student_id . "'
-				) AS MS_ID, Form_ID
-				FROM
-				(
-					SELECT `Form`.`Form_ID`, `Form`.`BForm_ID`
-					FROM `Form`
-					LEFT JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
-					WHERE `MS_Form`.`Form_ID` IS NULL AND `IsMerged` = 0
-					GROUP BY `Form`.`BForm_ID`
-				) AS Table_B;";
-				# return $sql_query_link2;
-				if(mysqli_query($link, $sql_query_link2)){
-					$sql_query_link3 = "INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`)(
-					SELECT `Section`.`Sec_ID`, `Form`.`Form_ID`
-					FROM `Form`
-					JOIN `Section` ON `Section`.`BForm_ID` = `Form`.`BForm_ID`
-					JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
-					JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
-					WHERE `MS`.`Marker_ID` IN (";
-					if($examiner_given){
-					$sql_query_link3 = $sql_query_link3 . "'" . $final_examiner_id . "'";
+			
+			if($examiner_given){
+				$sql_query_link1 = "INSERT INTO `Form`(`BForm_ID`) SELECT `BForm_ID` FROM `BaseForm`";
+				$super_set = $super_set . $sql_query_link1;
+				if(mysqli_query($link, $sql_query_link1)){
+					/* connect the marker-student pair to the 5 form types (forms previously created but not used) - based on student and marker id */
+					$sql_query_link2 = "
+					INSERT INTO `MS_Form`(`MS_ID`, `Form_ID`) 
+					SELECT (
+					SELECT `MS`.`MS_ID`
+					FROM `MS`
+					LEFT JOIN `MS_Form` ON `MS_Form`.`MS_ID` = `MS`.`MS_ID`
+					WHERE `MS_Form`.`MS_ID` IS NULL AND `MS`.`Marker_ID` = '" . $final_examiner_id .
+					"' AND `MS`.`Student_ID` = '" . $final_student_id . "'
+					) AS MS_ID, Form_ID
+					FROM
+					(
+						SELECT `Form`.`Form_ID`, `Form`.`BForm_ID`
+						FROM `Form`
+						LEFT JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
+						WHERE `MS_Form`.`Form_ID` IS NULL AND `IsMerged` = 0
+						GROUP BY `Form`.`BForm_ID`
+					) AS Table_B;";
+					$super_set = $super_set . $sql_query_link2;
+					# return $sql_query_link2;
+					if(mysqli_query($link, $sql_query_link2)){
+						
+						$sql_query_link3 = "INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`)(
+						SELECT `Section`.`Sec_ID`, `Form`.`Form_ID`
+						FROM `Form`
+						JOIN `Section` ON `Section`.`BForm_ID` = `Form`.`BForm_ID`
+						JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
+						JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+						WHERE `MS`.`Marker_ID` = '" . $final_examiner_id . "' AND `MS`.`Student_ID` = '" . $final_student_id . "');";
+						# return $sql_query_link3_examiner;
+						if(!mysqli_query($link, $sql_query_link3)){
+							return json_encode(array("error" => "Forms could not be built after creation (this might be because they already exist)"));
+						}
+					
 					}
-					if($examiner_given && $supervisor_given){
-						$sql_query_link3 = $sql_query_link3.",";
-					}
-					if($supervisor_given){
-						$sql_query_link3 = $sql_query_link3 . "'" . $final_supervisor_id . "'";
-					}
-					$sql_query_link3 = $sql_query_link3 . ") " . " AND `MS`.`Student_ID` = '" . $final_student_id . "');";
-					return $sql_query_link3;
-					if(!mysqli_query($link, $sql_query_link3)){
-						return json_encode(array("error" => "Forms could not be built after creation (this might be because they already exist)"));
+					else{
+						return json_encode(array("error" => "Forms could not be linked after creation (this might be because they already exist)"));
 					}
 				}
 				else{
-					return json_encode(array("error" => "Forms could not be linked after creation (this might be because they already exist)"));
+					return json_encode(array("error" => "Forms could not be created after creating relationship (this might be because they already exist)"));
 				}
 			}
-			else{
-				return json_encode(array("error" => "Forms could not be created after creating relationship (this might be because they already exist)"));
+			
+			if($supervisor_given){
+				$sql_query_link1 = "INSERT INTO `Form`(`BForm_ID`) SELECT `BForm_ID` FROM `BaseForm`";
+				$super_set = $super_set . $sql_query_link1;
+				if(mysqli_query($link, $sql_query_link1)){
+					/* connect the marker-student pair to the 5 form types (forms previously created but not used) - based on student and marker id */
+					$sql_query_link2 = "
+					INSERT INTO `MS_Form`(`MS_ID`, `Form_ID`) 
+					SELECT (
+					SELECT `MS`.`MS_ID`
+					FROM `MS`
+					LEFT JOIN `MS_Form` ON `MS_Form`.`MS_ID` = `MS`.`MS_ID`
+					WHERE `MS_Form`.`MS_ID` IS NULL AND `MS`.`Marker_ID` = '" . $final_supervisor_id .
+					"' AND `MS`.`Student_ID` = '" . $final_student_id . "'
+					) AS MS_ID, Form_ID
+					FROM
+					(
+						SELECT `Form`.`Form_ID`, `Form`.`BForm_ID`
+						FROM `Form`
+						LEFT JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
+						WHERE `MS_Form`.`Form_ID` IS NULL AND `IsMerged` = 0
+						GROUP BY `Form`.`BForm_ID`
+					) AS Table_B;";
+					$super_set = $super_set . $sql_query_link2;
+					# return $sql_query_link2;
+					if(mysqli_query($link, $sql_query_link2)){
+						
+						$sql_query_link3 = "INSERT INTO `SectionMarking`(`Sec_ID`, `Form_ID`)(
+						SELECT `Section`.`Sec_ID`, `Form`.`Form_ID`
+						FROM `Form`
+						JOIN `Section` ON `Section`.`BForm_ID` = `Form`.`BForm_ID`
+						JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `Form`.`Form_ID`
+						JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+						WHERE `MS`.`Marker_ID` = '" . $final_supervisor_id . "' AND `MS`.`Student_ID` = '" . $final_student_id . "');";
+						# return $sql_query_link3_supervisor;
+						if(!mysqli_query($link, $sql_query_link3)){
+							return json_encode(array("error" => "Forms could not be built after creation (this might be because they already exist)"));
+						}
+					
+					}
+					else{
+						return json_encode(array("error" => "Forms could not be linked after creation (this might be because they already exist)"));
+					}
+				}
+				else{
+					return json_encode(array("error" => "Forms could not be created after creating relationship (this might be because they already exist)"));
+				}
 			}
+			
 			if($examiner_given && $supervisor_given){
 				return json_encode(array("success" => "Relationship created successfully between both markers and student(may have already existed)"));
 			}
