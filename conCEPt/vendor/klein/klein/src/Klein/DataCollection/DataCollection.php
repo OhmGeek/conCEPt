@@ -60,8 +60,8 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      * If an optional mask array is passed, this only
      * returns the keys that match the mask
      *
-     * @param array $mask               The parameter mask array
-     * @param boolean $fill_with_nulls  Whether or not to fill the returned array with
+     * @param array $mask The parameter mask array
+     * @param boolean $fill_with_nulls Whether or not to fill the returned array with
      *  values to match the given mask, even if they don't exist in the collection
      * @return array
      */
@@ -102,8 +102,8 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      * If an optional mask array is passed, this only
      * returns the keys that match the mask
      *
-     * @param array $mask               The parameter mask array
-     * @param boolean $fill_with_nulls  Whether or not to fill the returned array with
+     * @param array $mask The parameter mask array
+     * @param boolean $fill_with_nulls Whether or not to fill the returned array with
      *  values to match the given mask, even if they don't exist in the collection
      * @return array
      */
@@ -139,51 +139,6 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
     }
 
     /**
-     * Return an attribute of the collection
-     *
-     * Return a default value if the key doesn't exist
-     *
-     * @param string $key           The name of the parameter to return
-     * @param mixed  $default_val   The default value of the parameter if it contains no value
-     * @return mixed
-     */
-    public function get($key, $default_val = null)
-    {
-        if (isset($this->attributes[$key])) {
-            return $this->attributes[$key];
-        }
-
-        return $default_val;
-    }
-
-    /**
-     * Set an attribute of the collection
-     *
-     * @param string $key   The name of the parameter to set
-     * @param mixed  $value The value of the parameter to set
-     * @return DataCollection
-     */
-    public function set($key, $value)
-    {
-        $this->attributes[$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Replace the collection's attributes
-     *
-     * @param array $attributes The attributes to replace the collection's with
-     * @return DataCollection
-     */
-    public function replace(array $attributes = array())
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    /**
      * Merge attributes with the collection's attributes
      *
      * Optionally allows a second boolean parameter to merge the attributes
@@ -191,7 +146,7 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      * method instead of the usual "array_merge" method
      *
      * @param array $attributes The attributes to merge into the collection
-     * @param boolean $hard     Whether or not to make the merge "hard"
+     * @param boolean $hard Whether or not to make the merge "hard"
      * @return DataCollection
      */
     public function merge(array $attributes = array(), $hard = false)
@@ -213,41 +168,6 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
         }
 
         return $this;
-    }
-
-    /**
-     * See if an attribute exists in the collection
-     *
-     * @param string $key   The name of the parameter
-     * @return boolean
-     */
-    public function exists($key)
-    {
-        // Don't use "isset", since it returns false for null values
-        return array_key_exists($key, $this->attributes);
-    }
-
-    /**
-     * Remove an attribute from the collection
-     *
-     * @param string $key   The name of the parameter
-     * @return void
-     */
-    public function remove($key)
-    {
-        unset($this->attributes[$key]);
-    }
-
-    /**
-     * Clear the collection's contents
-     *
-     * Semantic alias of a no-argument `$this->replace` call
-     *
-     * @return DataCollection
-     */
-    public function clear()
-    {
-        return $this->replace();
     }
 
     /**
@@ -274,10 +194,30 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
         return $clone;
     }
 
-
-    /*
-     * Magic method implementations
+    /**
+     * Clear the collection's contents
+     *
+     * Semantic alias of a no-argument `$this->replace` call
+     *
+     * @return DataCollection
      */
+    public function clear()
+    {
+        return $this->replace();
+    }
+
+    /**
+     * Replace the collection's attributes
+     *
+     * @param array $attributes The attributes to replace the collection's with
+     * @return DataCollection
+     */
+    public function replace(array $attributes = array())
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
 
     /**
      * Magic "__get" method
@@ -286,7 +226,7 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      * this instance while treating it as an instance property
      *
      * @see get()
-     * @param string $key   The name of the parameter to return
+     * @param string $key The name of the parameter to return
      * @return mixed
      */
     public function __get($key)
@@ -301,8 +241,8 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      * this instance while treating it as an instance property
      *
      * @see set()
-     * @param string $key   The name of the parameter to set
-     * @param mixed  $value The value of the parameter to set
+     * @param string $key The name of the parameter to set
+     * @param mixed $value The value of the parameter to set
      * @return void
      */
     public function __set($key, $value)
@@ -311,18 +251,67 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
     }
 
     /**
+     * Return an attribute of the collection
+     *
+     * Return a default value if the key doesn't exist
+     *
+     * @param string $key The name of the parameter to return
+     * @param mixed $default_val The default value of the parameter if it contains no value
+     * @return mixed
+     */
+    public function get($key, $default_val = null)
+    {
+        if (isset($this->attributes[$key])) {
+            return $this->attributes[$key];
+        }
+
+        return $default_val;
+    }
+
+    /**
+     * Set an attribute of the collection
+     *
+     * @param string $key The name of the parameter to set
+     * @param mixed $value The value of the parameter to set
+     * @return DataCollection
+     */
+    public function set($key, $value)
+    {
+        $this->attributes[$key] = $value;
+
+        return $this;
+    }
+
+
+    /*
+     * Magic method implementations
+     */
+
+    /**
      * Magic "__isset" method
      *
      * Allows the ability to arbitrarily check the existence of an attribute
      * from this instance while treating it as an instance property
      *
      * @see exists()
-     * @param string $key   The name of the parameter
+     * @param string $key The name of the parameter
      * @return boolean
      */
     public function __isset($key)
     {
         return $this->exists($key);
+    }
+
+    /**
+     * See if an attribute exists in the collection
+     *
+     * @param string $key The name of the parameter
+     * @return boolean
+     */
+    public function exists($key)
+    {
+        // Don't use "isset", since it returns false for null values
+        return array_key_exists($key, $this->attributes);
     }
 
     /**
@@ -332,12 +321,23 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      * this instance while treating it as an instance property
      *
      * @see remove()
-     * @param string $key   The name of the parameter
+     * @param string $key The name of the parameter
      * @return void
      */
     public function __unset($key)
     {
         $this->remove($key);
+    }
+
+    /**
+     * Remove an attribute from the collection
+     *
+     * @param string $key The name of the parameter
+     * @return void
+     */
+    public function remove($key)
+    {
+        unset($this->attributes[$key]);
     }
 
 
@@ -365,7 +365,7 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      *
      * @see \ArrayAccess::offsetGet()
      * @see get()
-     * @param string $key   The name of the parameter to return
+     * @param string $key The name of the parameter to return
      * @return mixed
      */
     public function offsetGet($key)
@@ -380,8 +380,8 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      *
      * @see \ArrayAccess::offsetSet()
      * @see set()
-     * @param string $key   The name of the parameter to set
-     * @param mixed  $value The value of the parameter to set
+     * @param string $key The name of the parameter to set
+     * @param mixed $value The value of the parameter to set
      * @return void
      */
     public function offsetSet($key, $value)
@@ -396,7 +396,7 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      *
      * @see \ArrayAccess::offsetExists()
      * @see exists()
-     * @param string $key   The name of the parameter
+     * @param string $key The name of the parameter
      * @return boolean
      */
     public function offsetExists($key)
@@ -411,7 +411,7 @@ class DataCollection implements IteratorAggregate, ArrayAccess, Countable
      *
      * @see \ArrayAccess::offsetUnset()
      * @see remove()
-     * @param string $key   The name of the parameter
+     * @param string $key The name of the parameter
      * @return void
      */
     public function offsetUnset($key)

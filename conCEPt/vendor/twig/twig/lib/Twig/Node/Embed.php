@@ -38,7 +38,6 @@ class Twig_Node_Embed extends Twig_Node_Include
             ->repr($this->getTemplateLine())
             ->raw(', ')
             ->string($this->getAttribute('index'))
-            ->raw(')')
-        ;
+            ->raw(')');
     }
 }

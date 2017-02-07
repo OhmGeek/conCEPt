@@ -42,7 +42,8 @@ class MockRequestFactory
         $server = array(),
         $files = array(),
         $body = null
-    ) {
+    )
+    {
         // Create a new Request object
         $request = new Request(
             array(),

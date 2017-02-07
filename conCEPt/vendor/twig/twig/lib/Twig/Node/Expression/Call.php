@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 abstract class Twig_Node_Expression_Call extends Twig_Node_Expression
 {
     private $reflector;
@@ -43,6 +44,38 @@ abstract class Twig_Node_Expression_Call extends Twig_Node_Expression
         if ($closingParenthesis) {
             $compiler->raw(')');
         }
+    }
+
+    private function reflectCallable($callable)
+    {
+        if (null !== $this->reflector) {
+            return $this->reflector;
+        }
+
+        if (is_array($callable)) {
+            if (!method_exists($callable[0], $callable[1])) {
+                // __call()
+                return array(null, array());
+            }
+            $r = new ReflectionMethod($callable[0], $callable[1]);
+        } elseif (is_object($callable) && !$callable instanceof Closure) {
+            $r = new ReflectionObject($callable);
+            $r = $r->getMethod('__invoke');
+            $callable = array($callable, '__invoke');
+        } elseif (is_string($callable) && false !== $pos = strpos($callable, '::')) {
+            $class = substr($callable, 0, $pos);
+            $method = substr($callable, $pos + 2);
+            if (!method_exists($class, $method)) {
+                // __staticCall()
+                return array(null, array());
+            }
+            $r = new ReflectionMethod($callable);
+            $callable = array($class, $method);
+        } else {
+            $r = new ReflectionFunction($callable);
+        }
+
+        return $this->reflector = array($r, $callable);
     }
 
     protected function compileArguments(Twig_Compiler $compiler)
@@ -148,8 +181,8 @@ abstract class Twig_Node_Expression_Call extends Twig_Node_Expression
 
                 if (!empty($missingArguments)) {
                     throw new Twig_Error_Syntax(sprintf(
-                        'Argument "%s" could not be assigned for %s "%s(%s)" because it is mapped to an internal PHP function which cannot determine default value for optional argument%s "%s".',
-                        $name, $callType, $callName, implode(', ', $names), count($missingArguments) > 1 ? 's' : '', implode('", "', $missingArguments))
+                            'Argument "%s" could not be assigned for %s "%s(%s)" because it is mapped to an internal PHP function which cannot determine default value for optional argument%s "%s".',
+                            $name, $callType, $callName, implode(', ', $names), count($missingArguments) > 1 ? 's' : '', implode('", "', $missingArguments))
                     );
                 }
 
@@ -245,7 +278,7 @@ abstract class Twig_Node_Expression_Call extends Twig_Node_Expression
             } else {
                 $callableName = $r->name;
                 if ($r instanceof ReflectionMethod) {
-                    $callableName = $r->getDeclaringClass()->name.'::'.$callableName;
+                    $callableName = $r->getDeclaringClass()->name . '::' . $callableName;
                 }
 
                 throw new LogicException(sprintf('The last parameter of "%s" for %s "%s" must be an array with default value, eg. "array $arg = array()".', $callableName, $this->getAttribute('type'), $this->getAttribute('name')));
@@ -253,37 +286,5 @@ abstract class Twig_Node_Expression_Call extends Twig_Node_Expression
         }
 
         return $parameters;
-    }
-
-    private function reflectCallable($callable)
-    {
-        if (null !== $this->reflector) {
-            return $this->reflector;
-        }
-
-        if (is_array($callable)) {
-            if (!method_exists($callable[0], $callable[1])) {
-                // __call()
-                return array(null, array());
-            }
-            $r = new ReflectionMethod($callable[0], $callable[1]);
-        } elseif (is_object($callable) && !$callable instanceof Closure) {
-            $r = new ReflectionObject($callable);
-            $r = $r->getMethod('__invoke');
-            $callable = array($callable, '__invoke');
-        } elseif (is_string($callable) && false !== $pos = strpos($callable, '::')) {
-            $class = substr($callable, 0, $pos);
-            $method = substr($callable, $pos + 2);
-            if (!method_exists($class, $method)) {
-                // __staticCall()
-                return array(null, array());
-            }
-            $r = new ReflectionMethod($callable);
-            $callable = array($class, $method);
-        } else {
-            $r = new ReflectionFunction($callable);
-        }
-
-        return $this->reflector = array($r, $callable);
     }
 }

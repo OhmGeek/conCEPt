@@ -1,10 +1,9 @@
 <?php
 
 
-require_once(__DIR__ . '/../controller/AuthController.php');
-require_once(__DIR__ . '/../model/PDFModel.php');
-require_once(__DIR__ . '/../controller/MainPageController.php');
-require_once(__DIR__ . '/../controller/FormSelectionController.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
+use Concept\Controller\MainPageController;
+use Concept\Model\UserAuthModel;
 
 
 // create a user model
@@ -35,4 +34,3 @@ else {
 	echo $error_template->render(array());
 }
 
-*/

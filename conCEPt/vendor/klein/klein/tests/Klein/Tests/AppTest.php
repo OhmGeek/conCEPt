@@ -25,19 +25,6 @@ class AppTest extends AbstractKleinTest
 
     const TEST_CALLBACK_MESSAGE = 'yay';
 
-
-    /**
-     * Helpers
-     */
-
-    protected function getTestCallable($message = self::TEST_CALLBACK_MESSAGE)
-    {
-        return function () use ($message) {
-            return $message;
-        };
-    }
-
-
     /**
      * Tests
      */
@@ -54,6 +41,17 @@ class AppTest extends AbstractKleinTest
             'app' => $app,
             'func_name' => $func_name,
         );
+    }
+
+    /**
+     * Helpers
+     */
+
+    protected function getTestCallable($message = self::TEST_CALLBACK_MESSAGE)
+    {
+        return function () use ($message) {
+            return $message;
+        };
     }
 
     /**

@@ -1,18 +1,21 @@
 <?php
+namespace Concept\Model;
+
+use PDO;
 
 class HistoryModel
 {
 
-	function __construct()
-	{
-	}
+    function __construct()
+    {
+    }
 
-	//Returns an array of all forms submitted by the given marker, along with the associated comment and timestamp
-	function getAllDocuments($markerID)
-	{
-		$db = DB::getDB();
+    //Returns an array of all forms submitted by the given marker, along with the associated comment and timestamp
+    function getAllDocuments($markerID)
+    {
+        $db = DB::getDB();
 
-		$statement = $db->prepare("SELECT Form.Form_ID, Form.comment, Form.Time_Stamp, BaseForm.Form_Title, Student.Fname, Student.Lname, Student.Year_Level
+        $statement = $db->prepare("SELECT Form.Form_ID, Form.comment, Form.Time_Stamp, BaseForm.Form_Title, Student.Fname, Student.Lname, Student.Year_Level
 									FROM Form
 									JOIN MS_Form ON MS_Form.Form_ID = Form.Form_ID
 									JOIN MS ON MS_Form.MS_ID = MS.MS_ID
@@ -22,15 +25,14 @@ class HistoryModel
 									AND Form.IsSubmitted = 1
 									AND Form.IsMerged != -1
 									ORDER BY Form.Time_Stamp DESC;");
-								
-								
-		
-		$statement->bindValue(':markerID',$markerID, PDO::PARAM_STR);	
-		
-		$statement->execute();
 
-		return $statement->fetchAll(PDO::FETCH_ASSOC);
-	}
+
+        $statement->bindValue(':markerID', $markerID, PDO::PARAM_STR);
+
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 

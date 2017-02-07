@@ -21,21 +21,6 @@ class Twig_Profiler_Dumper_Text
         return $this->dumpProfile($profile);
     }
 
-    protected function formatTemplate(Twig_Profiler_Profile $profile, $prefix)
-    {
-        return sprintf('%s└ %s', $prefix, $profile->getTemplate());
-    }
-
-    protected function formatNonTemplate(Twig_Profiler_Profile $profile, $prefix)
-    {
-        return sprintf('%s└ %s::%s(%s)', $prefix, $profile->getTemplate(), $profile->getType(), $profile->getName());
-    }
-
-    protected function formatTime(Twig_Profiler_Profile $profile, $percent)
-    {
-        return sprintf('%.2fms/%.0f%%', $profile->getDuration() * 1000, $percent);
-    }
-
     private function dumpProfile(Twig_Profiler_Profile $profile, $prefix = '', $sibling = false)
     {
         if ($profile->isRoot()) {
@@ -53,7 +38,7 @@ class Twig_Profiler_Dumper_Text
         $percent = $this->root ? $profile->getDuration() / $this->root * 100 : 0;
 
         if ($profile->getDuration() * 1000 < 1) {
-            $str = $start."\n";
+            $str = $start . "\n";
         } else {
             $str = sprintf("%s %s\n", $start, $this->formatTime($profile, $percent));
         }
@@ -64,5 +49,20 @@ class Twig_Profiler_Dumper_Text
         }
 
         return $str;
+    }
+
+    protected function formatTemplate(Twig_Profiler_Profile $profile, $prefix)
+    {
+        return sprintf('%s└ %s', $prefix, $profile->getTemplate());
+    }
+
+    protected function formatNonTemplate(Twig_Profiler_Profile $profile, $prefix)
+    {
+        return sprintf('%s└ %s::%s(%s)', $prefix, $profile->getTemplate(), $profile->getType(), $profile->getName());
+    }
+
+    protected function formatTime(Twig_Profiler_Profile $profile, $percent)
+    {
+        return sprintf('%.2fms/%.0f%%', $profile->getDuration() * 1000, $percent);
     }
 }
