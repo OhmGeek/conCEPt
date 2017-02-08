@@ -86,7 +86,7 @@
 		$("#submitButton").click(function(){
 			var data = ($("#mainform").serialize());
 			$.ajax({
-				url: {{add_student|raw}},
+				url: "{{add_student|raw}}",
 				type:"POST",
 				data: data,
 				complete: function(){
@@ -94,6 +94,7 @@
 				},
 				success: function(resp){
 					console.log("Student request: successful");
+					console.log(this.url);
 					console.log(resp);
 					var js_resp = JSON.parse(resp);
 					console.log("Student request: Success!");
@@ -121,7 +122,7 @@
 			var data = ($("#secondform").serialize());
 			
 			$.ajax({
-				url: {{add_marker|raw}},
+				url: "{{add_marker|raw}}",
 				type:"POST",
 				data: data,
 				complete: function(){

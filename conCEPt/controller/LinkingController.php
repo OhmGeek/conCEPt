@@ -1,6 +1,9 @@
 <?php
 
+
 namespace Concept\Controller;
+use Twig_Loader_Filesystem;
+use Twig_Environment;
 use Concept\Model\LinkingModel;
 use Concept\Controller\NavbarAdminController;
 
@@ -30,7 +33,7 @@ class LinkingController
 		$navbar = $navbar->generateNavbarHtml();
 		
 		$template = $twig->loadTemplate("linker.twig");
-		return $template->render(array("navbar"=>$navbar, "link_marker_student_pair"=>__DIR__ . "/../public/adminpage.php/Staff_makeRelationship"));
+		return $template->render(array("navbar"=>$navbar, "link_marker_student_pair"=>substr("http://community.dur.ac.uk/cs.seg04/" . strstr(__DIR__, "password/"), 0, -11) . "/public/admin.php/Staff_makeRelationship"));
 	}
 
 }

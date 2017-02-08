@@ -142,7 +142,7 @@
 			console.log(argument_set);
 			
 			$.ajax({
-				url: {{link_marker_student_pair|raw}},
+				url: "{{link_marker_student_pair|raw}}",
 				type:"POST",
 				data: argument_set,
 				complete: function(){
@@ -150,6 +150,7 @@
 				},
 				success: function(resp){
 					console.log("success stuff here");
+					console.log(this.url);
 					console.log(resp);
 					console.log("about to json parse");
 					js_resp = JSON.parse(resp);
@@ -171,7 +172,7 @@
 				error: function(resp){
 					console.log("Failed to complete collection of data from the database")
 					console.log(resp);
-					$('#box_alert_failure').text('<strong>Failure: </strong> Something went wrong');
+					$('#box_alert_failure').html('<strong>Failure: </strong> Something went wrong');
 					$("#box_alert_failure").fadeTo(10000, 500).slideUp(500, function(){
 						$("#box_alert_failure").slideUp(500);
 					});

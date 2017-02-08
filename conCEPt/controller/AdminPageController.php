@@ -1,10 +1,12 @@
 <?php
+
 namespace Concept\Controller;
 
 use Concept\Controller\AddingController;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
 use Concept\Model\AdminPageModel;
+use \Twig_Environment;
+use \Twig_Loader_Filesystem;
+
 
 class AdminPageController
 {
@@ -29,3 +31,5 @@ class AdminPageController
 		return $this->generateAddingPane($twig, $model);
 	}
 }
+
+?>

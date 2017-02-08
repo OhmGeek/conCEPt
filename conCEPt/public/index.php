@@ -1,8 +1,9 @@
 <?php
 
-require_once(__DIR__ . '/../controller/AdminPageController.php');
+
 require_once(__DIR__ . '/../vendor/autoload.php');
 use Concept\Controller\MainPageController;
+use Concept\Controller\AdminPageController;
 use Concept\Model\UserAuthModel;
 
 

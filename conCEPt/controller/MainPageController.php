@@ -79,7 +79,7 @@ class MainPageController
         }
         // now go through all the data gathered, rendering the page itself
 
-        $student_pane = $twig->loadTemplate('studentPanel.twig');
+        $student_pane = $twig->loadTemplate('homepage/studentPanel.twig');
         return $student_pane->render($twig_data);
     }
 }

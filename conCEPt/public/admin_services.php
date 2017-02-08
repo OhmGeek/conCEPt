@@ -1,7 +1,9 @@
 <?php
-	require_once(__DIR__ . '/../controller/AddingController.php');
-	require_once(__DIR__ . '/../controller/LinkingController.php');
+	
+require_once(__DIR__ . '/../vendor/autoload.php');
 
+	use Concept\Controller\AddingController;
+	use Concept\Controller\LinkingController;
 	$route = $_GET["route"];
 
 	if($route == "adding"){
