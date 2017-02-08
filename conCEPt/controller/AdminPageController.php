@@ -1,10 +1,12 @@
 <?php
+
 namespace Concept\Controller;
 
 use Concept\Controller\AddingController;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
 use Concept\Model\AdminPageModel;
+use \Twig_Environment;
+use \Twig_Loader_Filesystem;
+
 
 class AdminPageController
 {
@@ -15,9 +17,9 @@ class AdminPageController
 	}
 
 	private function generateLinkingPane($twig, $model){
-		$linking_pane = $twig->loadTemplate('linker.twig');
-		$twig_data = array();
-		return $linking_pane->render($twig_data);
+		$content = new LinkingController();
+		$content = $content->generatePage();
+		return $content;
 	}
 	function generatePage()
 	{
@@ -26,14 +28,8 @@ class AdminPageController
 		$loader = new Twig_Loader_Filesystem('../view/adminpage/');
         $twig = new Twig_Environment($loader);
 
-		/*
-		$adding_pane = $this->generateAddingPane($twig,$model);
-		$template = $twig->loadTemplate('adminPage.twig');
-		return $template->render(array(
-			'content'=>$adding_pane
-		));
-		return $template;	
-		*/
 		return $this->generateAddingPane($twig, $model);
 	}
 }
+
+?>
