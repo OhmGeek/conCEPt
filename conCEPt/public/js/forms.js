@@ -24,13 +24,17 @@ $(document).ready(function(){
 	$("form").submit(function(){
 		var sendData = true; //if this is false, don't send data
 		event.preventDefault();
-		console.log("STOPPED SENDING");
+		console.log("Sending stopped to run a script");
 		var data = $(this).serializeArray();
+		console.log("Array serialised");
 		console.log(data);
+
 		var jsonData = {};
 		var numberOfSections = 0;
+		console.log("Go through each section");
 		$.each(data, function(){
 			numberOfSections += 1;
+			console.log("section " + numberOfSections);
 			var name = this.name;
 			var name = this.name.split("-");
 			var type = name[0];
@@ -40,11 +44,24 @@ $(document).ready(function(){
 					sendData = false;
 					return;
 				}else{
-					console.log("else statement");
+					console.log("Now add the rationale");
 					jsonData[this.name]=this.value;
+					var rationaleName = "rationale-" + name[1];
+					//also add the rationale
+					console.log(rationaleName);
+					var rationale = $('#' + rationaleName).html();
+					// we need to go through the rationale, to make everything
+					// non-editable. go through each p
+					$(rationale).filter('p').removeAttr('contenteditable');
+
+					// now log and save rationale
+					console.log(rationale);
+					jsonData[rationaleName] = rationale;
+
 				}
 			}
-			jsonData[this.name]=this.value;
+			
+			//jsonData[this.name]=this.value;
 		});
 		
 		if (!sendData){

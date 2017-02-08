@@ -3,8 +3,8 @@ namespace Concept\Controller;
 
 use Concept\Model\MainPageModel;
 use Concept\Controller\NavbarController;
-use \Twig_Loader_FileSystem;
-use \Twig_Environment;
+use Twig_Loader_FileSystem;
+use Twig_Environment;
 class MainPageController
 {
     function generatePage()
@@ -79,7 +79,7 @@ class MainPageController
         }
         // now go through all the data gathered, rendering the page itself
 
-        $student_pane = $twig->loadTemplate('studentPanel.twig');
+        $student_pane = $twig->loadTemplate('homepage/studentPanel.twig');
         return $student_pane->render($twig_data);
     }
 }

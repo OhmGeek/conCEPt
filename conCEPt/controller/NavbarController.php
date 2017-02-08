@@ -3,8 +3,9 @@
 namespace Concept\Controller;
 
 use Concept\Model\NavbarModel;
-use \Twig_Loader_Filesystem;
-use \Twig_Environment;
+use Twig_Loader_Filesystem;
+use Twig_Environment;
+
 class NavbarController
 {
     function __construct()
