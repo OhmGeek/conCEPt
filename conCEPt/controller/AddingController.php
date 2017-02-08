@@ -28,7 +28,7 @@ class AddingController
 		$navbar = $navbar->generateNavbarHtml();
 		
 		$template = $twig->loadTemplate("adder.twig");
-		return $template->render(array("navbar"=>$navbar));
+		return $template->render(array("navbar"=>$navbar,"add_marker"=>__DIR__ . '/../public/admin.php/Staff_makeMarker', "add_student"=>__DIR__ . '/../public/admin.php/Staff_makeStudent'));
 	}
 
 }
