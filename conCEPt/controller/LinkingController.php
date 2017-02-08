@@ -30,7 +30,7 @@ class LinkingController
 		$navbar = $navbar->generateNavbarHtml();
 		
 		$template = $twig->loadTemplate("linker.twig");
-		return $template->render(array("navbar"=>$navbar));
+		return $template->render(array("navbar"=>$navbar, "link_marker_student_pair"=>__DIR__ . "/../public/adminpage.php/Staff_makeRelationship"));
 	}
 
 }
