@@ -70,7 +70,7 @@ $(document).ready(function(){
 			return;
 		}
 		// now add the general comments	
-		jsonData["submitComment"] = $('.comments').children().html();
+		jsonData["comments"] = $('.comments').children().html();
 		jsonData["documentID"] = $("form").attr("id");
 		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
 		
