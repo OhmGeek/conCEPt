@@ -49,7 +49,7 @@ $(document).ready(function(){
 					var rationaleName = "rationale-" + name[1];
 					//also add the rationale
 					console.log(rationaleName);
-					var rationale = $('#' + rationaleName).html();
+					var rationale = $('#' + rationaleName).children().html();
 					// we need to go through the rationale, to make everything
 					// non-editable. go through each p
 					$(rationale).filter('p').each(function(index, elem) {
@@ -70,7 +70,7 @@ $(document).ready(function(){
 			return;
 		}
 		// now add the general comments	
-		jsonData["submitComments"] = $('#comments').html();
+		jsonData["submitComment"] = $('.comments').children().html();
 		jsonData["documentID"] = $("form").attr("id");
 		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
 		
