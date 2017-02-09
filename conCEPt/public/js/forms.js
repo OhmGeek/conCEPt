@@ -54,7 +54,7 @@ i
 					// non-editable. go through each p
 					$(rationale).filter('p').each(function(index, elem) {
 						$(elem).removeAttr('contenteditable');	
-					}
+					});
 					// now log and save rationale
 					console.log(rationale);
 					jsonData[rationaleName] = rationale;
