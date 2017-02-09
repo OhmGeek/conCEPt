@@ -20,7 +20,7 @@ $(document).ready(function(){
 			$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).html()}));
 		});
 	});
-i
+
 	$("form").submit(function(){
 		var sendData = true; //if this is false, don't send data
 		event.preventDefault();
@@ -53,7 +53,7 @@ i
 					// we need to go through the rationale, to make everything
 					// non-editable. go through each p
 					$(rationale).filter('p').each(function(index, elem) {
-						$(elem).removeAttr('contenteditable');	
+						$(elem).removeAttr('contenteditable',false);	
 					});
 					// now log and save rationale
 					console.log(rationale);
@@ -69,7 +69,8 @@ i
 			displayError("Invalid mark input");
 			return;
 		}
-		
+		// now add the general comments	
+		jsonData["submitComments"] = $('#comments').html();
 		jsonData["documentID"] = $("form").attr("id");
 		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
 		

@@ -28,12 +28,15 @@
 <div class = "general-comments">
 	General comments<br>
 	<div class = "comments form-txt-area  {% if commentsReadOnly %}
-no-edit {% endif %}"><div class="{% if not commentsReadOnly %}editable{% endif %}" form="{{formID}}" name="comments"> {{comments|raw}} </div></div>
+no-edit {% endif %}"><div class="{% if not commentsReadOnly
+%}editable{% endif %}" form="{{formID}}" name="comments"
+%id="comments"> {{comments|raw}} </div></div>
 </div>
 {% if displaySubmissionComment %}
 	<div style="padding-top:10px;">
 			<label>Submission comment</label>
-			<input type = "text" form="{{formID}}" name = "submitComment" Placeholder="Reason for change" style="width:100%;"></input>
+			<input type = "text" form="{{formID}}"
+id = "submitComment" name = "submitComment" Placeholder="Reason for change" style="width:100%;"></input>
 	</div>	
 {% endif %}
 <!-- Change these to buttons instead? -->
