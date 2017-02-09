@@ -20,7 +20,7 @@ $(document).ready(function(){
 			$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).html()}));
 		});
 	});
-
+i
 	$("form").submit(function(){
 		var sendData = true; //if this is false, don't send data
 		event.preventDefault();
@@ -52,8 +52,9 @@ $(document).ready(function(){
 					var rationale = $('#' + rationaleName).html();
 					// we need to go through the rationale, to make everything
 					// non-editable. go through each p
-					$(rationale).filter('p').removeAttr('contenteditable');
-
+					$(rationale).filter('p').each(function(index, elem) {
+						$(elem).removeAttr('contenteditable');	
+					}
 					// now log and save rationale
 					console.log(rationale);
 					jsonData[rationaleName] = rationale;
