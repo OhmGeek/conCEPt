@@ -49,7 +49,7 @@ $(document).ready(function(){
 					var rationaleName = "rationale-" + name[1];
 					//also add the rationale
 					console.log(rationaleName);
-					var rationale = $('#' + rationaleName).children().html();
+					var rationale = $('#' + rationaleName).html();
 					// we need to go through the rationale, to make everything
 					// non-editable. go through each p
 					$(rationale).filter('p').each(function(index, elem) {
@@ -125,6 +125,7 @@ $(document).ready(function(){
 	
 	function displayError(e)
 	{
+		console.log(e);
 		var alertDiv = $("#alerts");
 		alertDiv.removeClass("alert alert-success alert-dismissable");
 		alertDiv.attr("class", "alert alert-danger alert-dismissable");
@@ -134,6 +135,7 @@ $(document).ready(function(){
 	
 	function displaySuccess(s)
 	{
+		console.log(s);
 		var alertDiv = $("#alerts");
 		alertDiv.removeClass("alert alert-success alert-dismissable");
 		alertDiv.attr("class", "alert alert-success alert-dismissable");
