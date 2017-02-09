@@ -29,7 +29,7 @@
 	General comments<br>
 	<div class = "comments form-txt-area  {% if commentsReadOnly %}
 no-edit {% endif %}"><div class="{% if not commentsReadOnly
-%}editable{% endif %}" form="{{formID}}" name="comments"
+%}editable {% else %} no-edit{% endif %}" form="{{formID}}" name="comments"
 %id="comments"> {{comments|raw}} </div></div>
 </div>
 {% if displaySubmissionComment %}
