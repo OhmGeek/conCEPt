@@ -54,7 +54,7 @@ class SaveSubmitController
         $numberOfSections = $postVariables["numberOfSections"];
 
         // Iterate through all sections in the form (except comments section)
-        for ($n = 1; $n < $numberOfSections - 1; $n++) {
+        for ($n = 1; $n < $numberOfSections; $n++) {
             $sectionNumber = $n; //Section number in ordering on form
             //Get mark for this secion if it exists
             if (!(empty($postVariables["mark-" . $n]))) {
@@ -78,7 +78,7 @@ class SaveSubmitController
         // Add comments section to sections array (treated as a normal section with a mark of 0)
         if (isset($postVariables["comments"])) {
             $comments = stripslashes(trim($postVariables["comments"]));
-            $section = array("sectionNumber" => ($numberOfSections - 1), "mark" => 0, "rationale" => $comments);
+            $section = array("sectionNumber" => ($numberOfSections), "mark" => 0, "rationale" => $comments);
             array_push($sections, $section);
         }
 
