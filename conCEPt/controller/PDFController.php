@@ -13,7 +13,13 @@ class PDFController
     function __construct()
     {
     	$this->model = new PDFModel();
-    	if (isset($_GET['form']))
+        if (isset($_POST['pdf']))
+        {
+            header("Content-type:application/pdf");
+            header("Content-Disposition:attachment;filename=downloaded.pdf");
+            readfile($_POST['pdf']);
+        }
+    	elseif (isset($_GET['form']))
     	{
             $this->createPDF($_GET['form']);
     	}
@@ -39,11 +45,24 @@ class PDFController
         $formDetails = $this->model->getFormTitleFromID($formID);
         $totalMark = $this->model->getTotalFormMarkByID($formID);
         
+        /*Find marker names*/
+        foreach ($markerDetails as $marker)
+        {
+            if($marker['IsSupervisor'] === 1)
+            {
+                $supervisorName = $marker['Fname'].' '.$marker['Lname'];
+            }
+            else
+            {
+                $examinerName = $marker['Fname'].' '.$marker['Lname'];
+            }
+        }
+        
+        /*Find student name and from title*/
         $studentName = $studentDetails[0]['Fname'].' '.$studentDetails[0]['Lname'];
-        $supervisorName = print_r($markerDetails, true);
-        $examinerName = "TODO, determine which marker is examiner and supervisor";
         $title = $formDetails[0]['Form_title'];
 
+        /*Find form contents (criteria, comments etc.)*/
         $generalComments = "";
         $tableData = array();
         foreach ($formContents as $each)
@@ -72,7 +91,7 @@ class PDFController
             } 
         }
 
-
+        /* get all necissary CSS and JS and render page*/
         $printCSS = file_get_contents('../public/css/print.css');
         $jqueryNotebookCSS = file_get_contents('../public/css/jquery.notebook.css');
         $formsCSS = file_get_contents('../public/css/forms.css');
@@ -97,12 +116,13 @@ class PDFController
                                         'jqueryNotebookJS' => $jqueryNotebookJS));
         
         /*Writes to generated PDF from $html variable to temporaryFiles folder*/
-        print($html);
-        //$this->model->getPDF($html);
+        $this->model->getPDF($html);
+
+        $filename = '"'.$studentDetails[0]['Student_ID'].' '.$formDetails[0]['Form_title'].'.pdf"';
  
-        #header("Content-type:application/pdf");
-        #header("Content-Disposition:attachment;filename=downloaded.pdf");
-        //readfile("../temporaryFiles/temp.pdf");
+        header("Content-type:application/pdf");
+        header("Content-Disposition:attachment;filename=".$filename);
+        readfile("../temporaryFiles/temp.pdf");
         exit;
     }
 

@@ -12,11 +12,34 @@ class PDFModel
 
     }
 
+    public function getPDF($html_input)
+    {
+        $postdata = http_build_query(array('html' => $html_input));
+
+        $url = 'http://test.ohmgeek.co.uk/PDFGenerator/generate_pdf.php';
+
+        $options = array(
+            'http' => array(
+                'header' => 'Content-type: application/x-www-form-urlencoded',
+                'method'  => 'POST',
+                'content' => $postdata
+            )
+        );
+
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+
+        file_put_contents("../temporaryFiles/temp.pdf", $result);
+    }
+
+
+
+
     function getMarkersFromID($formID)
     {
         /*TODO return marker/supervisor as well*/
         $db = DB::getDB();
-        $statement = $db->prepare("SELECT `Marker`.`Fname`, `Marker`.`Lname`
+        $statement = $db->prepare("SELECT `Marker`.`Fname`, `Marker`.`Lname`, `MS`.`IsSupervisor`
                                    FROM `MergedForm`
                                    JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID` OR `MS_Form`.`Form_ID` = `MergedForm`.`SForm_ID`
                                    JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
@@ -31,7 +54,7 @@ class PDFModel
     public function getStudentFromID($formID)
     {
         $db = DB::getDB();
-        $statement = $db->prepare("SELECT `Student`.`Fname` , `Student`.`Lname` , `Student`.`Year_Level`
+        $statement = $db->prepare("SELECT `Student`.`Fname` , `Student`.`Lname` , `Student`.`Student_ID`
                                    FROM `MergedForm`
                                    JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID`
                                    JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
@@ -56,28 +79,7 @@ class PDFModel
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getPDF($html_input)
-    {
-        file_put_contents("../temporaryFiles/temp.html", $html_input);
-        $encoded_html = rawurlencode($html_input);
-        $postdata = http_build_query(array('html' => $encoded_html));
 
-        $url = 'http://test.ohmgeek.co.uk/PDFGenerator/generate_pdf.php';
-        //$url = 'http://searchtest.xyxthris.xyz/PDFGenerator/generate_pdf.php';
-
-        $options = array(
-            'http' => array(
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'method'  => 'POST',
-                'content' => $postdata
-            )
-        );
-
-        $context  = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-
-        file_put_contents("../temporaryFiles/temp.pdf", $result);
-    }
 
     public function getFormContentsByID($formID)
     {
