@@ -44,7 +44,7 @@ class MainPageModel
     {
         $marker = $this->getMarkerID();
         $statement = $this->db->prepare(
-            "SELECT Student.Student_ID, Student.Fname, Student.Lname
+            "SELECT Student.Student_ID, Student.Fname, Student.Lname, MS.IsSupervisor
 				 FROM MS_Form
 				 JOIN MS ON MS.MS_ID = MS_Form.MS_ID
 				 JOIN Marker ON Marker.Marker_ID = MS.Marker_ID
@@ -58,5 +58,21 @@ class MainPageModel
 
         return $statement->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
     }
+	
+	public function getMergedFormFromIndividual($formID)
+	{
+		$marker = $this->getMarkerID();
+		$statement = $this->db->prepare("SELECT MForm_ID
+										FROM MergedForm
+										WHERE EForm_ID = :formID OR SForm_ID = :formID2;");
+		
+		$statement->bindValue(':formID', $formID, PDO::PARAM_INT);
+		$statement->bindValue(':formID2', $formID, PDO::PARAM_INT);
+		
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+		
+	}
 
 }

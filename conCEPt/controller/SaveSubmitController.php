@@ -76,9 +76,9 @@ class SaveSubmitController
         }
 
         // Add comments section to sections array (treated as a normal section with a mark of 0)
-        if (isset($postVariables["comments"])) {
+        if (isset($postVariables["comments"])) {         
             $comments = stripslashes(trim($postVariables["comments"]));
-            $section = array("sectionNumber" => ($numberOfSections), "mark" => 0, "rationale" => $comments);
+            $section = array("sectionNumber" => ($numberOfSections-1), "mark" => 0, "rationale" => $comments);
             array_push($sections, $section);
         }
 
