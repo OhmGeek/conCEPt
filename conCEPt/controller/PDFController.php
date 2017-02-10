@@ -48,7 +48,7 @@ class PDFController
         /*Find marker names*/
         foreach ($markerDetails as $marker)
         {
-            if($marker['IsSupervisor'] === 1)
+            if($marker['IsSupervisor'] === "1")
             {
                 $supervisorName = $marker['Fname'].' '.$marker['Lname'];
             }
