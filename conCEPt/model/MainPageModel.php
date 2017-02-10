@@ -59,7 +59,7 @@ class MainPageModel
         return $statement->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
     }
 	
-	public	function getMergedFormIsEdited($mergedFormID) {
+	public function isMergedFormEdited($mergedFormID) {
 		$statement = $this->db->prepare(
 				"SELECT MergedForm.IsEdited
 				 FROM MergedForm
@@ -76,4 +76,23 @@ class MainPageModel
 	
 		return False;
 	}
+
+	public function isFormSubmitted($formID) {
+		$statement = $this->db->prepare(
+				"SELECT Form.IsSubmitted
+				 FROM Form
+				 WHERE Form.Form_ID = :formID
+		");
+
+		$statement->bindValue(":formID",$formID,PDO::PARAM_INT);
+		$statement->execute();
+		$results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+		if($results[0] === 1) {
+			return True;
+		}
+		return False;
+	}
+
+
 }
