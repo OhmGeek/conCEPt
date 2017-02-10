@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 $(document).ready(function(){
 	allowSubmit();
 	$("input").keyup(function(){allowSubmit()});
@@ -158,3 +159,4 @@ $(document).ready(function(){
 	}
 	
 });
+

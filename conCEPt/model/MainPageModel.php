@@ -59,20 +59,39 @@ class MainPageModel
         return $statement->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
     }
 	
-	public function getMergedFormFromIndividual($formID)
-	{
-		$marker = $this->getMarkerID();
-		$statement = $this->db->prepare("SELECT MForm_ID
-										FROM MergedForm
-										WHERE EForm_ID = :formID OR SForm_ID = :formID2;");
-		
-		$statement->bindValue(':formID', $formID, PDO::PARAM_INT);
-		$statement->bindValue(':formID2', $formID, PDO::PARAM_INT);
-		
-        $statement->execute();
+public function isMergedFormEdited($mergedFormID) {
+		$statement = $this->db->prepare(
+				"SELECT MergedForm.IsEdited
+				 FROM MergedForm
+				 WHERE MergedForm.MForm_ID = :mformID
+			 ");
 
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+		$statement->bindValue(':mformID',$mergedFormID,PDO::PARAM_INT);
+		$statement->execute();
+		$results = $statement->fetchAll(PDO::FETCH_ASSOC);
 		
+		if($results[0] === 1) {
+			return True;
+		}	
+	
+		return False;
+	}
+
+	public function isFormSubmitted($formID) {
+		$statement = $this->db->prepare(
+				"SELECT Form.IsSubmitted
+				 FROM Form
+				 WHERE Form.Form_ID = :formID
+		");
+
+		$statement->bindValue(":formID",$formID,PDO::PARAM_INT);
+		$statement->execute();
+		$results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+		if($results[0] === 1) {
+			return True;
+		}
+		return False;
 	}
 
 }
