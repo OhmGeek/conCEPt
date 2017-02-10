@@ -42,7 +42,11 @@ class MainPageController
     {
         //Generate Student pane
         $student_forms = $model->getStudentForms();
+		print_r($student_forms);
+		print_r("\n");
         $students = $model->getStudentInformation();
+		//print_r($students);
+		//print_r("\n");
         $twig_data = array('students' => array());
         foreach ($student_forms as $studentID => $data) {
             $forms = array();
@@ -55,14 +59,13 @@ class MainPageController
                 $merged_link = "";
                 if ($value['IsMerged'] == 1) {
                     $merged_text = "Merged";
-		    $merged_form_id = 20; //Get merged form (I have a query for this in SaveSubmitController I think)
-		    //Get merged form here
-                    $merged_link = "forms.php?route=receive&formid=" . $merged_form_id;
+					//Get merged form here
+                    $merged_link = "#merged";
                 }
                 $form_id = $value['Form_ID'];
                 $form = array(
                     'title' => $value['Form_title'],
-                    'submitted' => $value['IsSubmitted'],
+                    'submitted' => $submitted_msg,
                     'submitted_link' =>
                         "forms.php?route=receive&formid=$form_id",
                     'merged' => $merged_text,
@@ -72,6 +75,8 @@ class MainPageController
                 // now add this form to the list of forms for the student
                 array_push($forms, $form);
 				
+				//print_r($forms);
+				//print_r("\n");
 
             }
             $student = array(
@@ -82,6 +87,7 @@ class MainPageController
         }
         // now go through all the data gathered, rendering the page itself
 	
+		//print_r($twig_data);
         $student_pane = $twig->loadTemplate('homepage/studentPanel.twig');
         return $student_pane->render($twig_data);
     }

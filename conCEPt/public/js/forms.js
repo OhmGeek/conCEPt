@@ -3,7 +3,12 @@ $(document).ready(function(){
 	$("input").keyup(function(){allowSubmit()});
 	$("textarea").keyup(function(){allowSubmit()});
 
-	
+	// make everything not editable
+	$(".no-edit").attr('contenteditable','false');
+	$(".no-edit").children().each(function() {
+		attr('contenteditable','false');	
+	});
+
 	//Deal with expanding textareas in table
 	$('textarea').each(function () {
 		  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
@@ -16,9 +21,9 @@ $(document).ready(function(){
 	$("form input").click(function(){
 		$("form").append($("<input type = 'hidden'>").attr({name:$(this).attr('name'),value:$(this).attr('value')}));
 		
-		$('div').each(function() {
-			$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).html()}));
-		});
+	//	$('div').each(function() {
+	//		$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).html()}));
+	//	});
 	});
 
 	$("form").submit(function(){
@@ -52,7 +57,10 @@ $(document).ready(function(){
 					var rationale = $('#' + rationaleName).html();
 					// we need to go through the rationale, to make everything
 					// non-editable. go through each p
-					$(rationale).filter('p').each(function(index, elem) {
+					// get all from the html (this is god awful)
+					$(rationale).filter(function(index) {
+						return true;
+					}).each(function(index, elem) {
 						$(elem).removeAttr('contenteditable',false);	
 					});
 					// now log and save rationale
@@ -62,18 +70,19 @@ $(document).ready(function(){
 				}
 			}
 			
-			//jsonData[this.name]=this.value;
+			jsonData[this.name]=this.value;
 		});
+			
 		
 		if (!sendData){
 			displayError("Invalid mark input");
 			return;
 		}
 		// now add the general comments	
-		jsonData["comments"] = $('.comments').children().html();
 		jsonData["documentID"] = $("form").attr("id");
 		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
 		
+		jsonData["comments"] = $('.comments').children().html();
 		console.log(jsonData);
  		$.post("forms.php?route=send", jsonData, function(response){
 			console.log("Retrieved");

@@ -24,7 +24,7 @@ class MainPageModel
 				 JOIN Form ON Form.Form_ID=MS_Form.Form_ID
 				 JOIN BaseForm ON BaseForm.BForm_ID=Form.BForm_ID
 				 WHERE Marker.Marker_ID = :markerID
-				 GROUP BY Student.Student_ID");
+				 ORDER BY Student.Student_ID, BaseForm.BForm_ID;");
 
         $statement->bindValue(':markerID', $marker, PDO::PARAM_STR);
         $statement->execute();

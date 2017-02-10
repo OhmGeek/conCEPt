@@ -21,9 +21,9 @@ href="#{{student.studentName}}">{{student.studentName}}</a>
 					<tr class = "{{doc.type}}"> 
 						<td>{{doc.title}}</td>
 							<td><a
-href="{{doc.submitted_link}}">{{doc.submitted}}</a></td>
+href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
 							<td><a
-href="{{doc.linkMerged}}">{{doc.merged}}</a></td>
+href="{{doc.linkMerged}}">{% if doc.merged %} Merged{% endif %}</a></td>
 					</tr>
 					{% endfor %}
 				</tbody>
