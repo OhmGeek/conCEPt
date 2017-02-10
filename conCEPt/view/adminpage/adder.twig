@@ -23,53 +23,67 @@
 		<div class = "container">
 			<div class = "row">
 				<div class= "col-md-6">
-					<div class = "panel panel-default">
+					<div class = "panel panel-primary">
 						<div class = "panel-heading">Add Student Form</div>
 						<div class = "panel-body">
 							<form id ="mainform">
 								<div class= "form-group">
-									<label for = "Student_ID"> Student ID : </label>
-									<input type="text" name="Student_ID" id = "Student_ID">
+									<label for = "Student_ID" class="label label-primary">Student ID : </label>
+									<input type="text" name="Student_ID" id = "Student_ID" class="form-control">
 								</div>
 								<div class= "form-group">
-									<label for = "Fname"> First Name : </label>
-									<input type="text" name="Fname" id = "Fname">
+									<label for = "Fname" class="label label-primary"> First Name : </label>
+									<input type="text" name="Fname" id = "Fname" class="form-control">
 								</div>
 								<div class= "form-group">
-									<label for = "Lname"> Last Name : </label>
-									<input type="text" name="Lname" id = "Lname">
+									<label for = "Lname" class="label label-primary"> Last Name : </label>
+									<input type="text" name="Lname" id = "Lname" class="form-control">
 								</div>
 								<div class= "form-group">
-									<label for = "Year_Level"> Year : </label>
-									<input type="int" name="Year_Level" id = "Year_Level">
+									<label for = "Year_Level" class="label label-primary"> Year : </label>
+									<input type="int" name="Year_Level" id = "Year_Level" class="form-control">
 								</div>
-								<button id = "submitButton">submit</button>
+								<button id = "submit_student" class="btn btn-lg btn-primary text-center">Add Student</button>
+								<br>
+								<div id="alert_section_student" class="text-center">
+									<br>
+									<div id="box_alert_success_student" class="alert alert-dismissable alert-success" style="display:none"></div>
+									<br>
+									<div id="box_alert_failure_student" class="alert alert-dismissable alert-danger" style="display:none"></div>
+								</div>
 							</form>
 							<span class = "thick" id= "student-span"></span>
 						</div>
 					</div>
 				</div>
 				<div class= "col-md-6">
-					<div class = "panel panel-default">
+					<div class = "panel panel-primary">
 						<div class = "panel-heading">
 							Add Marker Form
 						</div>
 						<div class = "panel-body">
 							<form id ="secondform">
 								<div class= "form-group">
-									<label for = "Marker_ID"> Marker ID : </label>
-									<input type="text" name="Marker_ID" id = "Marker_ID">
+									<label for = "Marker_ID" class="label label-primary"> Marker ID : </label>
+									<input type="text" name="Marker_ID" id = "Marker_ID" class="form-control">
 								</div>
 								<div class= "form-group">
-									<label for = "Fname"> First Name : </label>
-									<input type="text" name="Fname" id = "Fname">
+									<label for = "Fname" class="label label-primary"> First Name : </label>
+									<input type="text" name="Fname" id = "Fname" class="form-control">
 								</div>
 								<div class= "form-group">
-									<label for = "Lname"> Last Name : </label>
-									<input type="text" name="Lname" id = "Lname">
+									<label for = "Lname" class="label label-primary"> Last Name : </label>
+									<input type="text" name="Lname" id = "Lname" class="form-control">
 								</div>
 								<br>
-								<button id = "subButton">submit</button>
+								<button id = "submit_marker" class="btn btn-lg btn-primary text-center">Add Marker</button>
+								<br>
+								<div id="alert_section_marker" class="text-center">
+									<br>
+									<div id="box_alert_success_marker" class="alert alert-dismissable alert-success" style="display:none"></div>
+									<br>
+									<div id="box_alert_failure_marker" class="alert alert-dismissable alert-danger" style="display:none"></div>
+								</div>
 							</form>
 							<span class = "thick" id= "marker-span"></span>
 						</div>
@@ -83,7 +97,7 @@
 		$("#mainform").submit(function(){
 			return false;
 		});
-		$("#submitButton").click(function(){
+		$("#submit_student").click(function(){
 			var data = ($("#mainform").serialize());
 			$.ajax({
 				url: "{{add_student|raw}}",
@@ -100,14 +114,21 @@
 					console.log("Student request: Success!");
 					if("success" in js_resp){
 						console.log("Student request: Proper Success!");
-						$("#student-span").html(js_resp["success"]);
+						$('#box_alert_success_student').html('<strong>Success: </strong>' + js_resp["success"]);
+						console.log($('#box_alert').html());
+						$("#box_alert_success_student").fadeTo(10000, 500).slideUp(500, function(){
+							$("#box_alert_success_student").slideUp(500);
+						});
 					}
 					else if("error" in js_resp){
 						console.log("Student request: Actually a failure");
-						$("#student-span").html(js_resp["error"]);
+						$('#box_alert_failure_student').html('<strong>Failure: </strong>' + js_resp["error"]);
+						$("#box_alert_failure_student").fadeTo(10000, 500).slideUp(500, function(){
+							$("#box_alert_failure_student").slideUp(500);
+						});
 					}
 					else{
-						console.log("Student request: Something horribly wrong with the PHP output");
+						console.log("Student request: Something went horribly wrong with the PHP output");
 					}
 				},
 				error: function(resp){
@@ -118,7 +139,7 @@
 		$("#secondform").submit(function(){
 			return false;
 		});
-		$("#subButton").click(function(){
+		$("#submit_marker").click(function(){
 			var data = ($("#secondform").serialize());
 			
 			$.ajax({
@@ -134,11 +155,18 @@
 					console.log("marker request: Success!");
 					if("success" in js_resp){
 						console.log("marker request: Proper Success!");
-						$("#marker-span").html(js_resp["success"]);
+						$('#box_alert_success_marker').html('<strong>Success: </strong>' + js_resp["success"]);
+						console.log($('#box_alert').html());
+						$("#box_alert_success_marker").fadeTo(10000, 500).slideUp(500, function(){
+							$("#box_alert_success_marker").slideUp(500);
+						});
 					}
 					else if("error" in js_resp){
 						console.log("marker request: Actually a failure");
-						$("#marker-span").html(js_resp["error"]);
+						$('#box_alert_failure_marker').html('<strong>Failure: </strong>' + js_resp["error"]);
+						$("#box_alert_failure_marker").fadeTo(10000, 500).slideUp(500, function(){
+							$("#box_alert_failure_marker").slideUp(500);
+						});
 					}
 					else{
 						console.log("marker request: Something horribly wrong with the PHP output");

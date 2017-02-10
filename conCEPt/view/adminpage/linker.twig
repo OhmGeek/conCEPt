@@ -27,60 +27,72 @@
 	
 	<body>
 	{{navbar|raw}}
-		<div id="intro" class="text-center">
+		<!--<div id="intro" class="text-center">
 			<H1>Create a Relationship<small>(both individuals must already be entered into the system) </small></H1>
 		</div>
-		<form id="form_staff_linker" onsubmit="makeRelationship();" class=".container-fluid">
+		-->
+		<form id="form_staff_linker" onsubmit="makeRelationship();" class="container">
 			<div id="row1" class="row">
-				<div id="student_section" class="col-xs-4">
-					<H2 class="text-center"> Student </H2>
-					<label for="label_box_student_id" class=".label-info"> ID </label>
-					<input type="text" id="box_student_id" class="form-control">
-					
-					<label for="label_box_student_forename" class=".label-info"> Forename </label>
-					<input type="text" id="box_student_forename" class="form-control">
-					
-					<label for="label_box_student_surname" class=".label-info"> Surname </label>
-					<input type="text" id="box_student_surname" class="form-control">
-					
-					<label for="label_box_student_year" class=".label-info"> Year of Course </label>
-					<input type="text" id="box_student_year_of_study" class="form-control">
-				</div>
-				<div id="staff_section">
-					<div id="supervisor_section" class="col-xs-4">
-						<H2 class="text-center" > Supervisor </H2>
-						<label for="label_box_marker_id" class=".label-info"> ID </label>
-						<input type="text" id="box_supervisor_id" class="form-control">
-						
-						<label for="label_box_supervisor__forename" class=".label-info"> Forename </label>
-						<input type="text" id="box_supervisor_forename" class="form-control">
-						
-						<label for="label_box_supervisor_surname" class=".label-info"> Surname </label>
-						<input type="text" id="box_supervisor_surname" class="form-control">
+				<div class="panel-group">
+				<div id="col1" class="col-md-4">
+					<div id="student_panel" class="panel panel-primary">
+						<div id="student_panel_heading" class="panel-heading">Student</div>
+						<div id="student_section" class="panel-body">
+							<label for="label_box_student_id" class="label label-primary"> ID </label>
+							<input type="text" id="box_student_id" class="form-control">
+							
+							<label for="label_box_student_forename" class="label label-info"> Forename </label>
+							<input type="text" id="box_student_forename" class="form-control">
+							
+							<label for="label_box_student_surname" class="label label-info"> Surname </label>
+							<input type="text" id="box_student_surname" class="form-control">
+							
+							<label for="label_box_student_year" class="label label-info"> Year of Course </label>
+							<input type="text" id="box_student_year_of_study" class="form-control">
+						</div>
 					</div>
-
-					<div id="examiner_section" class="col-xs-4">
-						<H2 class="text-center" > Examiner </H2>
-						<label for="label_box_marker_id" class=".label-info"> ID </label>
-						<input type="text" id="box_examiner_id" class="form-control">
-						
-						<label for="label_box_examiner__forename" class=".label-info"> Forename </label>
-						<input type="text" id="box_examiner_forename" class="form-control">
-						
-						<label for="label_box_examiner_surname" class=".label-info"> Surname </label>
-						<input type="text" id="box_examiner_surname" class="form-control">
+				</div>
+				<div id="col2" class="col-md-4">
+					<div id="supervisor_panel" class="panel panel-primary">
+						<div id="supervisor_panel_heading" class="panel-heading">Supervisor</div>
+						<div id="supervisor_section" class="panel-body">
+							<label for="label_box_marker_id" class="label label-primary"> ID </label>
+							<input type="text" id="box_supervisor_id" class="form-control">
+							
+							<label for="label_box_supervisor__forename" class="label label-info"> Forename </label>
+							<input type="text" id="box_supervisor_forename" class="form-control">
+							
+							<label for="label_box_supervisor_surname" class="label label-info"> Surname </label>
+							<input type="text" id="box_supervisor_surname" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div id="col3" class="col-md-4">
+					<div id="examiner_panel" class="panel panel-primary">
+					<div id="examiner_panel_heading" class="panel-heading">Examiner</div>
+						<div id="examiner_section" class="panel-body">
+							<label for="label_box_marker_id" class="label label-primary"> ID </label>
+							<input type="text" id="box_examiner_id" class="form-control">
+							
+							<label for="label_box_examiner__forename" class="label label-info"> Forename </label>
+							<input type="text" id="box_examiner_forename" class="form-control">
+							
+							<label for="label_box_examiner_surname" class="label label-info"> Surname </label>
+							<input type="text" id="box_examiner_surname" class="form-control">
+						</div>
 					</div>
 				</div>
 			</div>
+			</div>
 			<div id="row2" class="row">
-				<div id="submission_section" class="col-xs-12 text-center">
+				<div id="submission_section" class="col-md-12 text-center">
 					<H1>
-					<input type="submit" class="btn-large btn-primary text-center" value="Add relationship" id="form_staff_linker_submit">
+					<input type="submit" class="btn btn-lg btn-primary text-center" value="Add Relationship" id="form_staff_linker_submit">
 					</H1>
 				</div>
 			</div>
 			<div id="row3" class="row">
-				<div id="alert_section" class="col-xs-12 text-center">
+				<div id="alert_section" class="col-md-12 text-center">
 					<div id="box_alert_success" class="alert alert-dismissable alert-success" style="display:none"></div>
 					<div id="box_alert_failure" class="alert alert-dismissable alert-danger" style="display:none"></div>
 				</div>
