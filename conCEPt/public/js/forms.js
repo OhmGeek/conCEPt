@@ -38,6 +38,7 @@ $(document).ready(function(){
 		var numberOfSections = 0;
 		console.log("Go through each section");
 		$.each(data, function(){
+			console.log(this);
 			numberOfSections += 1;
 			console.log("section " + numberOfSections);
 			var name = this.name;
