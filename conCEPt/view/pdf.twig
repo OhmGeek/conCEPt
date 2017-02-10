@@ -35,7 +35,8 @@
 		<!-- MAIN DOCUMENT STARTS HERE -->
 			<div class="document-container">
 				<h1>{{title}}</h1> 
-			    <h2>{{subtitle}}</h2>
+			    {# <h2>{{subtitle}}</h2> #} {# Potentially not needed #}
+			    <br>
 				<div class = "header-details">
 					<div class = "header-input">
 						<h4><strong>Student name:</strong> {{studentName}}</h4>
@@ -62,13 +63,17 @@
 						</tr>
 						{% for row in rows %}
 							<tr>
-								<td class = "padding">{{row.criteria|raw}}</td>
+								<td class = "padding">{{row.criteria|raw}}</td> {# Takes raw output of criteria.twig #}
 								<td class = "padding">{{row.mark}}</td>
 								<td class = "padding">{{row.rationale}}</td>
 							</tr>
 						{% endfor %}
 					</table>
 	            </div>
+	            <div class = "general-comments">
+					General comments<br>
+					<div class = "comments padding">{{generalComments}}</div>
+				</div>
 			</div>
 		</div>
 	</body>

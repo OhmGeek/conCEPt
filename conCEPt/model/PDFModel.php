@@ -12,6 +12,50 @@ class PDFModel
 
     }
 
+    function getMarkersFromID($formID)
+    {
+        /*TODO return marker/supervisor as well*/
+        $db = DB::getDB();
+        $statement = $db->prepare("SELECT `Marker`.`Fname`, `Marker`.`Lname`
+                                   FROM `MergedForm`
+                                   JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID` OR `MS_Form`.`Form_ID` = `MergedForm`.`SForm_ID`
+                                   JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+                                   JOIN `Marker` ON `Marker`.`Marker_ID` = `MS`.`Marker_ID`
+                                   WHERE `MergedForm`.`MForm_ID` = :formID");
+        $statement->bindValue(":formID", $formID,PDO::PARAM_STR);
+
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getStudentFromID($formID)
+    {
+        $db = DB::getDB();
+        $statement = $db->prepare("SELECT `Student`.`Fname` , `Student`.`Lname` , `Student`.`Year_Level`
+                                   FROM `MergedForm`
+                                   JOIN `MS_Form` ON `MS_Form`.`Form_ID` = `MergedForm`.`EForm_ID`
+                                   JOIN `MS` ON `MS`.`MS_ID` = `MS_Form`.`MS_ID`
+                                   JOIN  `Student` ON  `Student`.`Student_ID` =  `MS`.`Student_ID` 
+                                   WHERE `MergedForm`.`MForm_ID` = :formID");
+        $statement->bindValue(":formID", $formID,PDO::PARAM_STR);
+
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getFormTitleFromID($formID)
+    {
+        $db = DB::getDB();
+        $statement = $db->prepare("SELECT `BaseForm`.`Form_title` , `Form`.`IsSubmitted` , `Form`.`IsMerged`
+                                   FROM `Form` 
+                                   JOIN `BaseForm` ON `BaseForm`.`BForm_ID` = `Form`.`BForm_ID`
+                                   WHERE `Form`.`Form_ID` = :formID");
+        $statement->bindValue(":formID", $formID,PDO::PARAM_STR);
+
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getPDF($html_input)
     {
         file_put_contents("../temporaryFiles/temp.html", $html_input);
@@ -61,9 +105,9 @@ class PDFModel
         $statement->execute();
 
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if (is_numeric($result['Total']))
+        if (is_numeric($result[0]['Total']))
         {
-            $num = floatval($result['Total']);
+            $num = floatval($result[0]['Total']);
             return intval(round($num));
         }
         else

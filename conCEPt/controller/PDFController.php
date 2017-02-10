@@ -33,14 +33,46 @@ class PDFController
         $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
         
-        $pdfContents = $this->model->getFormContentsByID($formID);
-        $pdfContentsString = print_r($pdfContents,true);
+        $formContents = $this->model->getFormContentsByID($formID);
+        $studentDetails = $this->model->getStudentFromID($formID);
+        $markerDetails = $this->model->getMarkersFromID($formID);
+        $formDetails = $this->model->getFormTitleFromID($formID);
+        $totalMark = $this->model->getTotalFormMarkByID($formID);
+        
+        $studentName = $studentDetails[0]['Fname'].' '.$studentDetails[0]['Lname'];
+        $supervisorName = print_r($markerDetails, true);
+        $examinerName = "TODO, determine which marker is examiner and supervisor";
+        $title = $formDetails[0]['Form_title'];
 
+        $generalComments = "";
         $tableData = array();
-        foreach ($pdfContents as $each)
+        foreach ($formContents as $each)
         {
-            $tableData[] = array('criteria' => $each['Sec_Criteria'], 'mark' => $each['Mark'], 'rationale' => $each['Comment']);
+            if ($each["Sec_Name"] === "General Comments")
+            {
+               $generalComments = $each['Comment'];
+
+            }
+            else
+            {
+                $sectionName = $each["Sec_Name"];
+                $sectionWeight = $each["Sec_Percent"];
+                $sectionCriteria = $each["Sec_Criteria"];
+
+                $criteriaList = explode("\n", $sectionCriteria); //WHY??
+                $template = $twig->loadTemplate("criteria.twig");
+                $criteria = $template->render(array('criteriaName' => $sectionName,
+                    'criteriaWeighting' => $sectionWeight,
+                    'criteriaList' => $criteriaList));
+
+
+                $tableData[] = array('criteria' => $criteria,
+                                     'mark' => $each['Mark'],
+                                     'rationale' => $each['Comment']);
+            } 
         }
+
+
         $printCSS = file_get_contents('../public/css/print.css');
         $jqueryNotebookCSS = file_get_contents('../public/css/jquery.notebook.css');
         $formsCSS = file_get_contents('../public/css/forms.css');
@@ -48,21 +80,32 @@ class PDFController
         $jqueryNotebookJS = file_get_contents('../public/js/jquery.notebook.js');
 
         $template = $twig->loadTemplate('pdf.twig');
-        $html = $template->render(array('rows' => $tableData, 
+        $html = $template->render(array(/*Form Contents*/
+                                        'rows' => $tableData,
+                                        'generalComments' => $generalComments,
+                                        /*Form Information*/
+                                        'studentName' => $studentName,
+                                        'examinerName' => $examinerName,
+                                        'supervisorName' => $supervisorName,
+                                        'title' => $title,
+                                        'totalMark' => $totalMark,
+                                        /*CSS and JS*/
                                         'printCSS' => $printCSS,
                                         'jqueryNotebookCSS' => $jqueryNotebookCSS,
                                         'formsCSS' => $formsCSS,
                                         'formsJS' => $formsJS,
                                         'jqueryNotebookJS' => $jqueryNotebookJS));
-
+        
         /*Writes to generated PDF from $html variable to temporaryFiles folder*/
-        $this->model->getPDF($html);
+        print($html);
+        //$this->model->getPDF($html);
  
         #header("Content-type:application/pdf");
         #header("Content-Disposition:attachment;filename=downloaded.pdf");
-        readfile("../temporaryFiles/temp.pdf");
+        //readfile("../temporaryFiles/temp.pdf");
         exit;
     }
+
 
 
 
