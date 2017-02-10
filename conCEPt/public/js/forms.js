@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 $(document).ready(function(){
 	allowSubmit();
 	$("input").keyup(function(){allowSubmit()});

@@ -23,20 +23,26 @@ class MainPageController
 	
 	
         // student pane
-        $student_pane = $this->generateStudentPane($twig, $model, $student_forms, $students);
-        // for now we shall just return the student pane
-        $template = $twig->loadTemplate('homepage/homePage.twig');
+        //$student_pane = $this->generateStudentPane($twig, $model, $student_forms, $students);
+        
+		$separatedForms = $this->separateIntoArrays($student_forms, $students);
+		$studentTab = $this->generateStudentPane($twig, $model, $student_forms, $students);
+		$submittedTab = $this->generateStudentPane($twig, $model, $separatedForms["submitted"], $students);
+		$pendingTab = $this->generateStudentPane($twig, $model, $separateForms["pending"], $students);
+		
+		// for now we shall just return the student pane
+		$template = $twig->loadTemplate('homepage/homePage.twig');
         return $template->render(array(
             'navbar' => $navbar->generateNavbarHtml(),
             'studentTab' => $student_pane,
-            'pendingTab' => "<div>HI</div>",
-            'submittedTab' => "<div>SI</div>",
+            'pendingTab' => $pendingTab,
+            'submittedTab' => $submittedTab,
             'clashesTab' => "<div>BI</div>"
         ));
-        //Generate pending pane
+        
 
         return $template;
-        //Generate  submitted pane
+        
 
         //Generate clashes pane
 
@@ -44,11 +50,36 @@ class MainPageController
     
 	}
 	
+	private function separateIntoArrays($student_forms, $students)
+	{
+		$pending = array();
+		$submitted = array();
+		$merged = array();
+		
+		foreach ($student_forms as $studentID => $data) {
+			//Get merged form
+			//If it exists
+			//Put in merged array
+			if(0){
+				return;
+			}
+			else{
+				if ($data['IsSubmitted']){
+					$submitted[$studentID] = $data;
+				}else{
+					$pending[$studentID] = $data;
+				}
+			}
+		}
+		
+		return array("submitted"=>$submitted, "pending"=>$pending, "merged"=>$merged);
+		
+	}
 
     private function generateStudentPane($twig, $model, $student_forms, $students)
     {
         //Generate Student pane
- 
+		print_r($student_forms);
         $twig_data = array('ExaminedStudents' => array(), 'SupervisedStudents' => array());
         foreach ($student_forms as $studentID => $data) {
             $forms = array();
