@@ -1,33 +1,74 @@
-{% for student in students %}
-<div class = "panel">
-	<div class = "panel-heading">
-		<h4 class = "panel-title">
-			<a class = ""
-href="#{{student.studentName}}">{{student.studentName}}</a>
-		</h4>
-	<div>
-	<div id="{{student.studentName}}" class = "panel">
-		<div class = "panel-body">
-			<table class ="table text-center">
-				<thead>
-					<tr>
-						<th class="text-center">Document</th>
-						<th class="text-center">Submitted</th>
-						<th class="text-center">Merged</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for doc in student.forms %}
-					<tr class = "{{doc.type}}"> 
-						<td>{{doc.title}}</td>
-							<td><a
-href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
-							<td><a
-href="{{doc.linkMerged}}">{% if doc.merged %} Merged{% endif %}</a></td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+<div class = "examined">
+	<h4 class = "page-header">Examined</h4>
+	<div class = "panel-group">
+		{% for student in ExaminedStudents %}
+		<div class = "panel">
+			<div class = "panel-heading">
+				<h4 class = "panel-title">
+					<a class = ""
+		href="#{{student.studentName}}">{{student.studentName}}</a>
+				</h4>
+			</div>
+			<div id="{{student.studentName}}" class = "panel">
+				<div class = "panel-body">
+					<table class ="table text-center">
+						<thead>
+							<tr>
+								<th class="text-center">Document</th>
+								<th class="text-center">Submitted</th>
+								<th class="text-center">Merged</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for doc in student.forms %}
+							<tr class = "{{doc.type}}"> 
+								<td>{{doc.title}}</td>
+									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
+									<td><a href="{{doc.linkMerged}}">{% if doc.merged %} Merged {% endif %}</a></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+
+<div class = "Supervised">
+	<h4 class = "page-header">Supervised</h4>
+	<div class = "panel-group">
+		{% for student in SupervisedStudents %}
+		<div class = "panel">
+			<div class = "panel-heading">
+				<h4 class = "panel-title">
+					<a class = ""
+		href="#{{student.studentName}}">{{student.studentName}}</a>
+				</h4>
+			</div>
+			<div id="{{student.studentName}}" class = "panel">
+				<div class = "panel-body">
+					<table class ="table text-center">
+						<thead>
+							<tr>
+								<th class="text-center">Document</th>
+								<th class="text-center">Submitted</th>
+								<th class="text-center">Merged</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for doc in student.forms %}
+							<tr class = "{{doc.type}}"> 
+								<td>{{doc.title}}</td>
+									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
+									<td><a href="{{doc.linkMerged}}">{% if doc.merged %} Merged {% endif %}</a></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

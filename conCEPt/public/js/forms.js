@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 $(document).ready(function(){
 	allowSubmit();
 	$("input").keyup(function(){allowSubmit()});
@@ -30,7 +31,7 @@ $(document).ready(function(){
 		var sendData = true; //if this is false, don't send data
 		event.preventDefault();
 		console.log("Sending stopped to run a script");
-		var data = $(this).serializeArray();
+		var data = $(this).serializeArray(); 
 		console.log("Array serialised");
 		console.log(data);
 
@@ -38,6 +39,7 @@ $(document).ready(function(){
 		var numberOfSections = 0;
 		console.log("Go through each section");
 		$.each(data, function(){
+			console.log("Name: "+this.name);
 			numberOfSections += 1;
 			console.log("section " + numberOfSections);
 			var name = this.name;
@@ -50,11 +52,11 @@ $(document).ready(function(){
 					return;
 				}else{
 					console.log("Now add the rationale");
-					jsonData[this.name]=this.value;
-					var rationaleName = "rationale-" + name[1];
+					jsonData[this.name]=this.value;  //Sets mark-n value
+					var rationaleName = "rationale-" + name[1]; //Gets rationale name
 					//also add the rationale
 					console.log(rationaleName);
-					var rationale = $('#' + rationaleName).html();
+					var rationale = $('#' + rationaleName).html(); //Get rationale div
 					// we need to go through the rationale, to make everything
 					// non-editable. go through each p
 					// get all from the html (this is god awful)
@@ -70,7 +72,7 @@ $(document).ready(function(){
 				}
 			}
 			
-			jsonData[this.name]=this.value;
+			jsonData[this.name]=this.value; //Reset the mark value (or input submission comment)
 		});
 			
 		
@@ -80,10 +82,14 @@ $(document).ready(function(){
 		}
 		// now add the general comments	
 		jsonData["documentID"] = $("form").attr("id");
-		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
+		console.log(numberOfSections);
+		jsonData["numberOfSections"] = (numberOfSections) + 1 //number of mark/rationale sections + the general comments section
+		
 		
 		jsonData["comments"] = $('.comments').children().html();
+		console.log("Comments: " + jsonData["comments"]);
 		console.log(jsonData);
+		console.log(jsonData["numberOfSections"]);
  		$.post("forms.php?route=send", jsonData, function(response){
 			console.log("Retrieved");
 			response = $.trim(response);
@@ -153,3 +159,4 @@ $(document).ready(function(){
 	}
 	
 });
+

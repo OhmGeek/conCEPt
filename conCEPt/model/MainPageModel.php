@@ -44,7 +44,7 @@ class MainPageModel
     {
         $marker = $this->getMarkerID();
         $statement = $this->db->prepare(
-            "SELECT Student.Student_ID, Student.Fname, Student.Lname
+            "SELECT Student.Student_ID, Student.Fname, Student.Lname, MS.IsSupervisor
 				 FROM MS_Form
 				 JOIN MS ON MS.MS_ID = MS_Form.MS_ID
 				 JOIN Marker ON Marker.Marker_ID = MS.Marker_ID
@@ -58,5 +58,40 @@ class MainPageModel
 
         return $statement->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
     }
+	
+public function isMergedFormEdited($mergedFormID) {
+		$statement = $this->db->prepare(
+				"SELECT MergedForm.IsEdited
+				 FROM MergedForm
+				 WHERE MergedForm.MForm_ID = :mformID
+			 ");
+
+		$statement->bindValue(':mformID',$mergedFormID,PDO::PARAM_INT);
+		$statement->execute();
+		$results = $statement->fetchAll(PDO::FETCH_ASSOC);
+		
+		if($results[0] === 1) {
+			return True;
+		}	
+	
+		return False;
+	}
+
+	public function isFormSubmitted($formID) {
+		$statement = $this->db->prepare(
+				"SELECT Form.IsSubmitted
+				 FROM Form
+				 WHERE Form.Form_ID = :formID
+		");
+
+		$statement->bindValue(":formID",$formID,PDO::PARAM_INT);
+		$statement->execute();
+		$results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+		if($results[0] === 1) {
+			return True;
+		}
+		return False;
+	}
 
 }
