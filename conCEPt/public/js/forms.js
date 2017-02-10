@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 $(document).ready(function(){
 	allowSubmit();
 	$("input").keyup(function(){allowSubmit()});
 	$("textarea").keyup(function(){allowSubmit()});
 
-	
+	// make everything not editable
+	$(".no-edit").attr('contenteditable','false');
+	$(".no-edit").children().each(function() {
+		attr('contenteditable','false');	
+	});
+
 	//Deal with expanding textareas in table
 	$('textarea').each(function () {
 		  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
@@ -16,21 +22,26 @@ $(document).ready(function(){
 	$("form input").click(function(){
 		$("form").append($("<input type = 'hidden'>").attr({name:$(this).attr('name'),value:$(this).attr('value')}));
 		
-		$('div').each(function() {
-			$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).attr('html')}));
-		});
+	//	$('div').each(function() {
+	//		$("form").append($("<textarea type = 'hidden'>").attr({name:$(this).attr('id'),value:$(this).html()}));
+	//	});
 	});
 
 	$("form").submit(function(){
 		var sendData = true; //if this is false, don't send data
 		event.preventDefault();
-		console.log("STOPPED SENDING");
-		var data = $(this).serializeArray();
+		console.log("Sending stopped to run a script");
+		var data = $(this).serializeArray(); 
+		console.log("Array serialised");
 		console.log(data);
+
 		var jsonData = {};
 		var numberOfSections = 0;
+		console.log("Go through each section");
 		$.each(data, function(){
+			console.log("Name: "+this.name);
 			numberOfSections += 1;
+			console.log("section " + numberOfSections);
 			var name = this.name;
 			var name = this.name.split("-");
 			var type = name[0];
@@ -40,22 +51,45 @@ $(document).ready(function(){
 					sendData = false;
 					return;
 				}else{
-					console.log("else statement");
-					jsonData[this.name]=this.value;
+					console.log("Now add the rationale");
+					jsonData[this.name]=this.value;  //Sets mark-n value
+					var rationaleName = "rationale-" + name[1]; //Gets rationale name
+					//also add the rationale
+					console.log(rationaleName);
+					var rationale = $('#' + rationaleName).html(); //Get rationale div
+					// we need to go through the rationale, to make everything
+					// non-editable. go through each p
+					// get all from the html (this is god awful)
+					$(rationale).filter(function(index) {
+						return true;
+					}).each(function(index, elem) {
+						$(elem).removeAttr('contenteditable',false);	
+					});
+					// now log and save rationale
+					console.log(rationale);
+					jsonData[rationaleName] = rationale;
+
 				}
 			}
-			jsonData[this.name]=this.value;
+			
+			jsonData[this.name]=this.value; //Reset the mark value (or input submission comment)
 		});
+			
 		
 		if (!sendData){
 			displayError("Invalid mark input");
 			return;
 		}
-		
+		// now add the general comments	
 		jsonData["documentID"] = $("form").attr("id");
-		jsonData["numberOfSections"] = Math.ceil((numberOfSections+1)/2)
+		console.log(numberOfSections);
+		jsonData["numberOfSections"] = (numberOfSections) + 1 //number of mark/rationale sections + the general comments section
 		
+		
+		jsonData["comments"] = $('.comments').html();
+		console.log("Comments: " + jsonData["comments"]);
 		console.log(jsonData);
+		console.log(jsonData["numberOfSections"]);
  		$.post("forms.php?route=send", jsonData, function(response){
 			console.log("Retrieved");
 			response = $.trim(response);
@@ -106,6 +140,7 @@ $(document).ready(function(){
 	
 	function displayError(e)
 	{
+		console.log(e);
 		var alertDiv = $("#alerts");
 		alertDiv.removeClass("alert alert-success alert-dismissable");
 		alertDiv.attr("class", "alert alert-danger alert-dismissable");
@@ -115,6 +150,7 @@ $(document).ready(function(){
 	
 	function displaySuccess(s)
 	{
+		console.log(s);
 		var alertDiv = $("#alerts");
 		alertDiv.removeClass("alert alert-success alert-dismissable");
 		alertDiv.attr("class", "alert alert-success alert-dismissable");
@@ -123,3 +159,4 @@ $(document).ready(function(){
 	}
 	
 });
+

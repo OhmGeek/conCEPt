@@ -6,6 +6,7 @@
  * Date: 09/01/17
  * Time: 12:22
  */
+
 namespace Concept\Controller;
 
 
@@ -22,6 +23,7 @@ class Auth_Controller
         $user_model = new UserAuthModel($username);
 
         // create a twig loader
+
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../view');
         $twig = new Twig_Environment($loader);
 

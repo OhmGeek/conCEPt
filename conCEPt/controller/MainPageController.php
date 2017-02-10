@@ -3,8 +3,8 @@ namespace Concept\Controller;
 
 use Concept\Model\MainPageModel;
 use Concept\Controller\NavbarController;
-use \Twig_Loader_FileSystem;
-use \Twig_Environment;
+use Twig_Loader_FileSystem;
+use Twig_Environment;
 class MainPageController
 {
     function generatePage()
@@ -14,13 +14,18 @@ class MainPageController
         $navbar = new NavbarController();
         //Get info
 
-        $loader = new Twig_Loader_Filesystem('../view/homepage/');
+        $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
+		//Individual forms
+		$student_forms = $model->getStudentForms();
+        $students = $model->getStudentInformation();
+	
+	
         // student pane
-        $student_pane = $this->generateStudentPane($twig, $model);
+        $student_pane = $this->generateStudentPane($twig, $model, $student_forms, $students);
         // for now we shall just return the student pane
-        $template = $twig->loadTemplate('homePage.twig');
+        $template = $twig->loadTemplate('homepage/homePage.twig');
         return $template->render(array(
             'navbar' => $navbar->generateNavbarHtml(),
             'studentTab' => $student_pane,
@@ -36,50 +41,59 @@ class MainPageController
         //Generate clashes pane
 
         //Generate main page
-    }
+    
+	}
+	
 
-    private function generateStudentPane($twig, $model)
+    private function generateStudentPane($twig, $model, $student_forms, $students)
     {
         //Generate Student pane
-        $student_forms = $model->getStudentForms();
-        $students = $model->getStudentInformation();
-        $twig_data = array('students' => array());
+ 
+        $twig_data = array('ExaminedStudents' => array(), 'SupervisedStudents' => array());
         foreach ($student_forms as $studentID => $data) {
             $forms = array();
             foreach ($data as $value) {
-                $submitted_msg = "Not Submitted";
-                if ($value['IsSubmitted'] == 1) {
-                    $submitted_msg = "Submitted";
-                }
-                $merged_text = "";
                 $merged_link = "";
                 if ($value['IsMerged'] == 1) {
-                    $merged_text = "Merged";
-                    $merged_link = "#merged";
+                    //$merged_text = "Merged";
+		    $merged_form_id = 20; //Get merged form (I have a query for this in SaveSubmitController I think)
+		    //Get merged form here
+                    $merged_link = "forms.php?route=receive&formid=" . $merged_form_id;
                 }
                 $form_id = $value['Form_ID'];
                 $form = array(
                     'title' => $value['Form_title'],
-                    'submitted' => $submitted_msg,
+                    'submitted' => $value['IsSubmitted'],
                     'submitted_link' =>
                         "forms.php?route=receive&formid=$form_id",
-                    'merged' => $merged_text,
+                    'merged' => $value['IsMerged'],
                     'linkMerged' => $merged_link,
                     'type' => 'submitted'
                 );
                 // now add this form to the list of forms for the student
                 array_push($forms, $form);
-
+				
             }
-            $student = array(
+			
+			$isSupervisor = $students[$studentID][0]['IsSupervisor'];
+		
+			
+			$student = array(
                 'studentName' => $students[$studentID][0]['Fname'] . " " . $students[$studentID][0]['Lname'],
                 'forms' => $forms
             );
-            array_push($twig_data['students'], $student);
+			
+			if($isSupervisor){
+				array_push($twig_data['SupervisedStudents'], $student);
+			}else{
+				array_push($twig_data['ExaminedStudents'], $student);
+			}
+           
+            
         }
         // now go through all the data gathered, rendering the page itself
-
-        $student_pane = $twig->loadTemplate('studentPanel.twig');
+	
+        $student_pane = $twig->loadTemplate('homepage/studentPanel.twig');
         return $student_pane->render($twig_data);
     }
 }

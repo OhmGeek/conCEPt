@@ -476,7 +476,6 @@
                 contentArea.css({
                     position: 'absolute',
                     left: -1000000,
-		    display: none
                 });
                 contentArea.attr('id', 'jquery-notebook-content-' + id);
                 body.append(contentArea);

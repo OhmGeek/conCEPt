@@ -6,9 +6,11 @@
  * Date: 09/01/17
  * Time: 12:19
  */
+
 namespace Concept\Model;
 use PDO;
 use Concept\Model\DB;
+
 class UserAuthModel
 {
 

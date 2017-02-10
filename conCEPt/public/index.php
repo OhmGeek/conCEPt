@@ -3,8 +3,8 @@
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 use Concept\Controller\MainPageController;
+use Concept\Controller\AdminPageController;
 use Concept\Model\UserAuthModel;
-
 
 
 // create a user model
@@ -14,7 +14,6 @@ $user_model = new UserAuthModel($_SERVER['REMOTE_USER']);
 $loader = new Twig_Loader_Filesystem(__DIR__ . '/../view/');
 $twig = new Twig_Environment($loader);
 
-// deal with routing:
 // admin goes to the admin page
 if($user_model->isAdmin()) {
 	$admin_page = new AdminPageController();
@@ -29,6 +28,5 @@ elseif($user_model->isMarker()) {
 else {
 	// 403 Error: Not Authorised
 	$error_template = $twig->loadTemplate('403.twig');
-        echo $error_template->render(array());
+	echo $error_template->render(array());
 }
-

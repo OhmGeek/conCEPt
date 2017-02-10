@@ -19,15 +19,15 @@
 	{% if totalMark != -1 %}
 		<div class="header-input">
 			<h4><strong>Total mark: </strong> {{totalMark}}</h4>
-		</div<
+		</div>
 	{% endif %}
 </div>
 
 {{table|raw}}
 
-<div class = "general-comments">
+<div class = "general-comments" style="padding-bottom:10px;">
 	General comments<br>
-	<div class = "comments padding">{{comments}}</div>
+	<div class = "comments padding">{{comments|raw}}</div>
 </div>
 
 {% if confirmButton %}
@@ -36,4 +36,7 @@
 	<input type="submit" name = "action" value="Reject"  />
 </form>
 {% endif %}
+<script>
+	$('*').attr('contenteditable','false');
+</script>
 

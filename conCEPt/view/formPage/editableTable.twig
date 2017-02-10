@@ -13,7 +13,7 @@
 			<td class = "padding">{{row.criteria|raw}}</td>
 			<td {% if row.markReadOnly %} class="no-edit" {% endif %}><textarea form="{{formID}}" name= "mark-{{row.markID}}" {% if row.markReadOnly %} readonly {% endif %}>{{row.mark}} </textarea></td>
 			<td {% if row.rationaleReadOnly  %} class="no-edit" {% endif %}><div
-class="{% if not row.rationaleReadOnly %}editable{% endif %}" form="{{formID}}" id = "rationale-{{row.rationaleID}}"> {{row.rationale | raw}} </div></td>
+class="form-txt-area {% if not row.rationaleReadOnly %}editable {% else %} no-edit{% endif %}" form="{{formID}}" id = "rationale-{{row.rationaleID}}"> {{row.rationale | raw}} </div></td>
 		</tr>
 	{% endfor %}
 </table>
