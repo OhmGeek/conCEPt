@@ -20,50 +20,30 @@
 		.form-inline{text-align:center;}
 		body{padding-top:60px;}
 	</style>
-
-	<script src="js/pdfExportPage.js"></script>
 </head>
 
-
-{% for student in studentList %}
-	<div class = "panel">
-		<div class = "panel-heading">
-			<h2>
-				<div class = "panel-title">
-					{{student.studentInfo}}
+<body>
+	<div class="container">
+		{% for student in studentList %}
+			<div class ="row" style="border-bottom: 0.2em solid black;">
+				<div class = "col-xs-3">
+					<h3>{{student.studentID}}</h3>
 				</div>
-				
-			</h2>
-		<div>
-		<div class = "panel">
-			<div class = "panel-body">
-				<table class ="table text-center">
-					<thead>
-						<tr>
-							<th class="text-center">Documents</th>
-						</tr>
-					</thead>
-					<tbody>
-						    {% for name,form in student.forms %}
-								<tr class = "{{doc.type}}"> 
-									<td><a href=test.php?form={{form}}>{{name}}</a></td>
-					         	</tr>
-						    {% endfor %}
-
-					</tbody>
-				</table>
+				<div class = "text-center col-xs-6">
+					<h3>{{student.studentName}}</h3>
+				</div>
+				<div class = "col-xs-3">
+				</div>
 			</div>
-		</div>
+			<div class = "row" style="padding-bottom: 0.2em;">
+			</div>
+			{% for name,form in student.forms %}
+				<div class = "row" >
+					<div class = "text-center col-xs-12">
+						<th><a  href=test.php?form={{form}}>{{name}}</a></th>
+					</div>
+				</div>
+			{% endfor %}
+		{% endfor %}
 	</div>
-{% endfor %}
-
-{# <body>
-
-{% for student in studentList %}
-    {{student.studentInfo}}
-    {% for name,form in student.forms %}
-        <a href=test.php?form={{form}}>{{name}}</a>
-    {% endfor %}
-{% endfor %}
-
-</body> #}
+</body>

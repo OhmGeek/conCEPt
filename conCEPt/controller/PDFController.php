@@ -139,14 +139,15 @@ class PDFController
         foreach($completedFormInformation as $row)
         {
             $id = $row['Student_ID'];
-            $student = $row['Student_ID'] . " " . $row['Fname'] . " " . $row['Lname'];
+            $studentName = $row['Fname'] . " " . $row['Lname'];
+            $studentID = $row['Student_ID'];
             $formTitle = $row['Form_Title'] . " Marks";
 
-            $formInformationByStudent[$id]['studentInfo'] = $student;
+            $formInformationByStudent[$id]['studentName'] = $studentName;
+            $formInformationByStudent[$id]['studentID'] = $studentID;
             $formInformationByStudent[$id]['forms'][$formTitle] = $row['Form_ID'];
 
         }
-
 
         $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
@@ -156,6 +157,5 @@ class PDFController
         $output = $template->render(array('studentList' => $formInformationByStudent));
 
         print($output);
-
     }
 }
