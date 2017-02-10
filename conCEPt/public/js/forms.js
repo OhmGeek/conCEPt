@@ -59,13 +59,7 @@ $(document).ready(function(){
 					// we need to go through the rationale, to make everything
 					// non-editable. go through each p
 					// get all from the html (this is god awful)
-					$(rationale).filter(function(index) {
-						return true;
-					}).each(function(index, elem) {
-						$(elem).removeAttr('contenteditable',false);	
-					});
-					// now log and save rationale
-					console.log(rationale);
+										// now log and save rationale
 					jsonData[rationaleName] = rationale;
 
 				}
