@@ -34,6 +34,16 @@ class PDFController
         $markerDetails = $this->model->getMarkersFromID($formID);
         $formDetails = $this->model->getFormTitleFromID($formID);
         $totalMark = $this->model->getTotalFormMarkByID($formID);
+
+        if ($formDetails['IsSubmitted'] && $formDetails['IsMerged'])
+        {
+            continue;
+        }
+        else
+        {
+            $errorTemplate = $twig->loadTemplate('403.twig');
+            print($errorTemplate->render(array()));
+        }
         
         /*Find marker names*/
         foreach ($markerDetails as $marker)
