@@ -24,6 +24,13 @@
 
 <body>
 	<div class="container">
+
+		{{navbar|raw}}
+
+        {% if isEmpty == true %}
+            <h1>No student forms to print</h1>
+        {% endif %}
+
 		{% for student in studentList %}
 			<div class ="row" style="border-bottom: 0.2em solid black;">
 				<div class = "col-xs-3">

@@ -13,13 +13,7 @@ class PDFController
     function __construct()
     {
     	$this->model = new PDFModel();
-        if (isset($_POST['pdf']))
-        {
-            header("Content-type:application/pdf");
-            header("Content-Disposition:attachment;filename=downloaded.pdf");
-            readfile($_POST['pdf']);
-        }
-    	elseif (isset($_GET['form']))
+    	if (isset($_GET['form']))
     	{
             $this->createPDF($_GET['form']);
     	}
@@ -29,10 +23,6 @@ class PDFController
     	}
         
     }
-
-
-
-
 
     function createPDF($formID)
     {
@@ -126,11 +116,6 @@ class PDFController
         exit;
     }
 
-
-
-
-
-
     function displayCompletedForms()
     {
         $completedFormInformation = $this->model->getAllCompletedFormIDs();
@@ -146,15 +131,18 @@ class PDFController
             $formInformationByStudent[$id]['studentName'] = $studentName;
             $formInformationByStudent[$id]['studentID'] = $studentID;
             $formInformationByStudent[$id]['forms'][$formTitle] = $row['Form_ID'];
-
         }
-
         $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
+        $navbarTemplate = $twig->loadTemplate('navbarAdmin.twig');
+        $navbar = $navbarTemplate->render(array());
+
         $template = $twig->loadTemplate('completedFormList.twig');
 
-        $output = $template->render(array('studentList' => $formInformationByStudent));
+        $output = $template->render(array('navbar' => $navbar,
+                                          'studentList' => $formInformationByStudent,
+                                          'isEmpty' => empty($formInformationByStudent)));
 
         print($output);
     }
