@@ -47,8 +47,8 @@ class AdminPageController
 				'numberOfStudents' => $model->getNumberOfStudents(),
 				'numberOfMarkers' => $model->getNumberOfMarkers(),
 				'username' => $_SERVER['REMOTE_USER'],
-				'formsSubmitted' => $model->countSubmittedForms(1),
-				'formsNotSubmitted' => $model->countSubmittedForms(0)
+				'submittedFormCount' => $model->countSubmittedForms(1),
+				'unSubmittedFormCount' => $model->countSubmittedForms(0)
 		));
 
 	}

@@ -29,7 +29,7 @@
 	{{navbar|raw}}
 	<div class="jumbotron">
 		<h1>Hello {{username}}</h1>
-		<p>There are currently {{numberOfStudents}} students, {{numberOfSupervisors}} supervisors, and {{numberOfMarkers}} markers.</p>
+		<p>There are currently {{numberOfStudents}} students and {{numberOfMarkers}} markers.</p>
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
@@ -63,7 +63,7 @@
 				],
 				datasets: [
 				{
-					data: [submittedFormNum, unsubmittedFormNum],
+						data: [{{submittedFormCount}}, {{unSubmittedFormCount}}],
 					backgroundColor: [
 						'#FF6384',
 						'#36A2EB'
