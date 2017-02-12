@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Stylesheet for printing -->
+	<link rel="stylesheet" type="text/css" href="../public/css/print.css" media="print">
+	
+	<!--Own styling-->
+	<link rel="stylesheet" type="text/css" href="../public/css/forms.css">
+	<style>
+		.form-inline{text-align:center;}
+		body{padding-top:60px;}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+
+		{{navbar|raw}}
+
+        {% if isEmpty == true %}
+            <h1>No student forms to print</h1>
+        {% endif %}
+
+		{% for student in studentList %}
+			<div class ="row" style="border-bottom: 0.2em solid black;">
+				<div class = "col-xs-3">
+					<h3>{{student.studentID}}</h3>
+				</div>
+				<div class = "text-center col-xs-6">
+					<h3>{{student.studentName}}</h3>
+				</div>
+				<div class = "col-xs-3">
+				</div>
+			</div>
+			<div class = "row" style="padding-bottom: 0.2em;">
+			</div>
+			{% for name,form in student.forms %}
+				<div class = "row" >
+					<div class = "text-center col-xs-12">
+						<th><a  href=admin_services.php?route=printing&form={{form}}>{{name}}</a></th>
+					</div>
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+</body>

@@ -4,6 +4,8 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 
 	use Concept\Controller\AddingController;
 	use Concept\Controller\LinkingController;
+    use Concept\Controller\PDFController;
+
 	$route = $_GET["route"];
 
 	if($route == "adding"){
@@ -15,8 +17,7 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 		print_r($test->generatePage());
 	}
 	elseif($route == "printing"){
-		$test = new PrintingController();
-		print_r($test->generatePage());
-		//this path will break if executed
+		/*File will print to screen of its own accord. Handles the Printing page and PDF generation*/
+		$test = new PDFController();
 	}
 ?>
