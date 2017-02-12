@@ -44,6 +44,7 @@ class AdminPageController
 		$template = $twig->loadTemplate('index.html');
 
 		return $template->render(array(
+				'navbar' => $navbar,
 				'numberOfStudents' => $model->getNumberOfStudents(),
 				'numberOfMarkers' => $model->getNumberOfMarkers(),
 				'username' => $_SERVER['REMOTE_USER'],
