@@ -43,6 +43,7 @@ class PDFController
         {
             $errorTemplate = $twig->loadTemplate('403.twig');
             print($errorTemplate->render(array()));
+            exit;
         }
         
         /*Find marker names*/
