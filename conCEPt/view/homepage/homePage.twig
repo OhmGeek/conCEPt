@@ -13,25 +13,7 @@
 		
 		<!-- Stylesheet for printing -->
 		<link rel="stylesheet" type="text/css" href="./css/print.css" media="print">
-		<script>
-			jQuery(document).ready(function ($) {
-    			$('.nav-tabs').tab();
-			});
-		
-
-			$("a[role=tab]").click(function(){
-    				if($(this).parent('li').hasClass('active')){
-        				$(this).parent('li').removeClass('active');
-        				$(".tab-content").addClass('hidden');        
-   				 } else{
-        				$("#tab-custom li").removeClass('active');
-        				$(this).parent('li').addClass('active');
-       					$(".tab-content").removeClass('tab-content-hidden');
-        				$(".tab-content .tab-pane").hide();	//hide all
-        				$($(this).attr('href')).show();		//show the selected one;
-    }
-});
-		</script>		
+			
 		<style>
 			body { padding-top: 80px }
 		</style>
@@ -45,10 +27,11 @@
 			
 			<!-- Main tab section here -->
 			<ul class ="nav nav-tabs" data-tabs="tabs">
-				<li class="active navselector"><a data-toggle="tab" role="tab" href="#tab_student">Students</a></li>
-				<li class="navselector"><a data-toggle="tab" role="tab" href="#tab_pending">Pending</a></li>
-				<li class="navselector"><a data-toggle="tab" role="tab" href="#tab_submitted">Submitted</a></li>
-				<li class="navselector"><a data-toggle="tab" role="tab" href="#tab_clashes">Clashes</a></li>
+				<li><a data-toggle="tab" role="tab" href="#tab_student">Students</a></li>
+				<li><a data-toggle="tab" role="tab" href="#tab_pending">Pending</a></li>
+				<li><a data-toggle="tab" role="tab" href="#tab_submitted">Submitted</a></li>
+				<li><a data-toggle="tab" role="tab" href="#tab_clashes">Clashes</a></li>
+				<li><a data-toggle="tab" role="tab" href="#tab_merged">Merged</a></li>
 			</ul>
 			<div class = "tab-content">
 				<div id="tab_student" class="tab-pane fade in active">
@@ -62,6 +45,9 @@
 				</div>
 				<div id="tab_clashes" class="tab-pane fade">
 					{{clashesTab|raw}}
+				</div>
+				<div id="tab_merged" class="tab-pane fade">
+					{{mergedTab|raw}}
 				</div>
 			</div>
 		</div>
