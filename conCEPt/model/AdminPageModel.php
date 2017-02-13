@@ -21,7 +21,7 @@ class AdminPageModel
 		$statement->bindValue(":sub", $isSubmitted, PDO::PARAM_INT);
 		$statement->execute();
 		$data = $statement->fetchAll(PDO::FETCH_ASSOC);
-		return $data['total'];
+		return $data[0]['total'];
 	}
 
 	public function getNumberOfStudents() {
@@ -30,7 +30,7 @@ class AdminPageModel
 
 		$statement->execute();
 		$data = $statement->fetchAll(PDO::FETCH_ASSOC);
-		return $data['stu'];
+		return $data[0]['stu'];
 	}
 
 	public function getNumberOfMarkers() {
@@ -39,7 +39,7 @@ class AdminPageModel
 
 		$statement->execute();
 		$data = $statement->fetchAll(PDO::FETCH_ASSOC);
-		return $data['mark'];
+		return $data[0]['mark'];
 	}
 
 }

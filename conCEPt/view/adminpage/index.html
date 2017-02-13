@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+
+		<meta charset="UTF-8"> 
 		<link rel="stylesheet" href="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/css/bootstrap.min.css">
 		<title>ODR Admin</title>
 		<!-- jQuery library -->
@@ -8,7 +10,6 @@
 
 		<!-- Latest compiled JavaScript -->
 		<script src="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/js/bootstrap.min.js"></script>
-		
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<!-- Stylesheet for printing -->
@@ -18,7 +19,6 @@
 					font-weight: bold;
 			}
 			body { padding-top: 80px }
-
 		</style>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
 		
@@ -27,7 +27,7 @@
 	<body>
 	{{navbar|raw}}
 	<div class="jumbotron">
-		<h1>Hello {{username}}</h1>
+		<h1>Hello, {{username}}.</h1>
 		<p>There are currently {{numberOfStudents}} students and {{numberOfMarkers}} markers.</p>
 	</div>
 	<div class="panel panel-primary">
@@ -36,8 +36,10 @@
 		</div>
 		<div class="panel-body">
 			<ul class="nav nav-pills">
-					<li role="presentation"><a href="#">Assign supervisors and examiners</a></li>
-					<li role="presentation"><a href="#">Add Forms</a></li>
+					<li role="presentation"><a href="admin_services.php?route=adding">Assign supervisors and examiners</a></li>
+					<li role="presentation"><a href="admin_services.php?route=linking">Add Forms</a></li>
+					<li role="presentation"><a
+href="admin_services.php?route=printing">Print Student Forms</a></li>
 			</ul>
 		</div>
 	</div>
@@ -47,22 +49,30 @@
 				Statistics
 			</div>
 			<div class="panel-body">
-				<canvas id="initial-forms-chart" width=400 height=400></canvas>
+				<canvas id="initial-forms-chart" width="300px" height="300px"></canvas>
 			</div>
 	</div>
 
 	<script>
 		var formsChart = document.getElementById('initial-forms-chart');
-		var submittedFormNum = 100;
-		var unsubmittedFormNum = 10;
-		var formsData = {
+		var submittedFormNum = parseInt("{{ submittedFormCount }}");
+		var unsubmittedFormNum = parseInt("{{ unSubmittedFormCount }}");
+		if(!submittedFormNum) {
+			submittedFormNum = 0;
+		}
+		if(!unsubmittedFormNum) {
+			unsubmittedFormNum = 0;
+		}
+
+	var formsData = {
 			labels: [
 				"Submitted",
 				"Unsubmitted"
 				],
 				datasets: [
 				{
-						data: [{{submittedFormCount}}, {{unSubmittedFormCount}}],
+						data: [submittedFormNum,
+unsubmittedFormNum],
 					backgroundColor: [
 						'#FF6384',
 						'#36A2EB'
