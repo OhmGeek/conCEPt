@@ -1,7 +1,7 @@
 <?php
 namespace Concept\Model;
 
-use DB;
+use PDO;
 
 class AdminPageModel
 {
