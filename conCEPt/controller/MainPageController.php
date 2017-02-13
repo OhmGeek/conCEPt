@@ -84,14 +84,7 @@ class MainPageController
 				
 				$mergedForm = $model->getMergedFormFromIndividual($formID);
 				if(count($mergedForm) > 0){
-print_r("======================================================================================");
-print_r("Merged form exists");
-print_r($mergedForm);
-$mergedForm = $mergedForm[0];
-$mergedForm = $mergedForm[MForm_ID];
 					$hasClashes = $model->checkClashes($mergedForm);
-print_r($hasClashes);
-print_r("=====================================================================================");
 					if($hasClashes > 0){
 						array_push($studentMergedClashed,$value);
 					}else{
@@ -145,6 +138,17 @@ print_r("=======================================================================
 		    //Get merged form here
                     $merged_link = "forms.php?route=receive&formid=" . $merged_form_id;
                 }
+
+		$mergedTextValue = $value['IsMerged'];
+
+		$mergedForm = $model->getMergedFormFromIndividual($formID);
+		f(count($mergedForm) > 0){
+			$hasClashes = $model->checkClashes($mergedForm);
+		if($hasClashes > 0){
+			$mergedTextValue = 2;
+		}
+
+					
                 $form_id = $value['Form_ID'];
                 $form = array(
                     'title' => $value['Form_title'],
