@@ -325,7 +325,7 @@ class SaveSubmitModel
         $db = DB::getDB();
         //Change comment to duplicate
         $statement = $db->prepare("INSERT INTO `Form`(`BForm_ID`, `IsSubmitted`, `IsMerged`, `Comment`, `Time_Stamp`) 
-									SELECT `BForm_ID`, `IsSubmitted`, `IsMerged`, 'comment', `Time_Stamp`
+									SELECT `BForm_ID`, `IsSubmitted`, `IsMerged`, `Comment`, `Time_Stamp`
 									FROM `Form`
 									WHERE `Form_ID` = :formID;
 
