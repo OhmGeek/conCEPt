@@ -83,6 +83,9 @@ class MainPageController
 				$formID = $value["Form_ID"];
 				
 				$mergedForm = $model->getMergedFormFromIndividual($formID);
+				$mergedForm = $mergedForm[0];
+				$mergedForm = $mergedForm["MForm_ID"];
+
 				if(count($mergedForm) > 0){
 					$hasClashes = $model->checkClashes($mergedForm);
 					if($hasClashes > 0){
@@ -140,22 +143,29 @@ class MainPageController
                 }
 
 		$mergedTextValue = $value['IsMerged'];
-
-		$mergedForm = $model->getMergedFormFromIndividual($formID);
-		f(count($mergedForm) > 0){
-			$hasClashes = $model->checkClashes($mergedForm);
-		if($hasClashes > 0){
-			$mergedTextValue = 2;
-		}
+		
+		
 
 					
                 $form_id = $value['Form_ID'];
+		$mergedForm = $model->getMergedFormFromIndividual($formID);
+		print_r($mergedForm);
+		if(count($mergedForm) > 0){
+			$mergedForm = $model->getMergedFormFromIndividual($formID);
+			$mergedForm = $mergedForm[0];
+			$mergedForm = $mergedForm["MForm_ID"];
+			$hasClashes = $model->checkClashes($mergedForm);
+			//print_r($hasClashes);
+			if($hasClashes > 0){
+				$mergedTextValue = 2;
+			}
+		}
                 $form = array(
                     'title' => $value['Form_title'],
                     'submitted' => $value['IsSubmitted'],
                     'submitted_link' =>
                         "forms.php?route=receive&formid=$form_id",
-                    'merged' => $value['IsMerged'],
+                    'merged' => $mergedTextValue,
                     'linkMerged' => $merged_link,
                     'type' => 'submitted'
                 );

@@ -47,7 +47,7 @@ class AdminPageController
 				'navbar' => $navbar,
 				'numberOfStudents' => $model->getNumberOfStudents(),
 				'numberOfMarkers' => $model->getNumberOfMarkers(),
-				'username' => $_SERVER['REMOTE_USER'],
+				'username' => $model->getStaffName(),
 				'submittedFormCount' => $model->countSubmittedForms(1),
 				'unSubmittedFormCount' => $model->countSubmittedForms(0)
 		));
