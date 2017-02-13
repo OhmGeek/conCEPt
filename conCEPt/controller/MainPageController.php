@@ -37,8 +37,6 @@ class MainPageController
 		$submittedTab = $this->generateStudentPane($twig, $model, $submitted, $students);
 		$pendingTab = $this->generateStudentPane($twig, $model, $pending, $students);
 		
-		print_r("Clashes");
-		print_r($clashes);
 		
 		$clashesTab = $this->generateStudentPane($twig, $model, $clashes, $students);
 		

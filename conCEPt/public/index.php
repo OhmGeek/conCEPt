@@ -17,7 +17,7 @@ $twig = new Twig_Environment($loader);
 // admin goes to the admin page
 if($user_model->isAdmin()) {
 	$admin_page = new AdminPageController();
-	echo $admin_page->generatePage();
+	echo $admin_page->generateIndexPage();
 }
 
 elseif($user_model->isMarker()) {
