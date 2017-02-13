@@ -17,8 +17,8 @@ class MainPageController
         $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
-		//Individual forms
-		$student_forms = $model->getStudentForms();
+	//Individual forms
+	$student_forms = $model->getStudentForms();
         $students = $model->getStudentInformation();
 	
 	
@@ -32,16 +32,14 @@ class MainPageController
 		$clashes = $merged["clashes"];
 		$normalMerged = $merged["normal"];
 		
-		//print_r($submitted);
+		print_r($separatedForms);
 		$studentTab = $this->generateStudentPane($twig, $model, $student_forms, $students);
 		$submittedTab = $this->generateStudentPane($twig, $model, $submitted, $students);
 		$pendingTab = $this->generateStudentPane($twig, $model, $pending, $students);
 		
 		
 		$clashesTab = $this->generateStudentPane($twig, $model, $clashes, $students);
-		
-		print_r("Merged");
-		print_r($normalMerged);
+
 		$mergedTab = $this->generateMergedPane($twig, $model, $normalMerged, $students);
 		
 		
@@ -86,7 +84,14 @@ class MainPageController
 				
 				$mergedForm = $model->getMergedFormFromIndividual($formID);
 				if(count($mergedForm) > 0){
+print_r("======================================================================================");
+print_r("Merged form exists");
+print_r($mergedForm);
+$mergedForm = $mergedForm[0];
+$mergedForm = $mergedForm[MForm_ID];
 					$hasClashes = $model->checkClashes($mergedForm);
+print_r($hasClashes);
+print_r("=====================================================================================");
 					if($hasClashes > 0){
 						array_push($studentMergedClashed,$value);
 					}else{

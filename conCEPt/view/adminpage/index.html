@@ -3,6 +3,9 @@
 	<head>
 		<meta charset="UTF-8"> 
 		<link rel="stylesheet" href="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/css/bootstrap.min.css">
+
+
+
 	<!-- jQuery library -->
 		<script src="http://community.dur.ac.uk/cs.seg04/jquery-3.1.1.js"></script>
 
@@ -15,16 +18,34 @@
 		<link rel="stylesheet" type="text/css" href="print.css" media="print">
 		
 		<style>
-			.thick {
-					font-weight: bold;
-			}
-			body { padding-top: 80px }
-			.jumbotron {
 
-				text-align: center;
-				padding-top: 50px;
-				padding-bottom: 50px;
+			.center {
+			        float: none;
+     				margin-left: auto;
+     				margin-right: auto;
 			}
+			.thick {
+				font-weight: bold;
+			}
+			body {
+				padding-top: 30px;
+			}
+			.jumbotron {
+				color: black;
+				text-align: center;
+				height: 625px;
+				background-image: url('https://community.dur.ac.uk/change-ringers.society/images/ringing/localringing/durhamfull.jpg');
+				background-repeat: norepeat;
+				background-size: cover;			
+}
+
+		canvas{
+        		width: 100% !important;
+      		        max-width: 800px;
+        		height: auto !important;
+			}
+
+
 		</style>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
 		
@@ -50,17 +71,17 @@ href="admin_services.php?route=printing">Print Student Forms</a></li>
 		</div>
 	</div>
 
-	<div class="panel panel-default">	
+	<div class="panel panel-primary">	
 			<div class="panel-heading">
 				Statistics
 			</div>
 			<div class="panel-body">
-				<canvas id="initial-forms-chart" width="300px" height="300px"></canvas>
+			<div><canvas id="initial-forms-chart" style="height: 10px"></canvas></div>
 			</div>
 	</div>
 
 	<script>
-		var formsChart = document.getElementById('initial-forms-chart');
+		var formsChart = document.getElementById('initial-forms-chart').getContext("2d");
 		var submittedFormNum = parseInt("{{ submittedFormCount }}");
 		var unsubmittedFormNum = parseInt("{{ unSubmittedFormCount }}");
 		if(!submittedFormNum) {
@@ -95,7 +116,5 @@ var chart = new Chart(formsChart, {
 
 });
 	</script>
-
-
 	</body>
 </html>

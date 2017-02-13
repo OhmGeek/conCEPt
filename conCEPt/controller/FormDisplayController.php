@@ -147,7 +147,7 @@ Class FormDisplayController
                         $sectionOrder = $Model->getSectionOrderFromID($sectionID);
                         array_push($conflictSections, $sectionOrder); // Check the Param name
                     }
-                    return $this->displaySubmitted($formID, $twig, $Model, $formTitle, $conflictSections);
+                    return $this->displaySubmitted($formID, $twig, $Model, $formTitle, $conflictSections, 0, 1);
                     return;
                 }
 
@@ -307,7 +307,9 @@ Class FormDisplayController
     {
         $markerID = $this->getCurrentMarker();
         $result = $Model->checkMarkerIndividual($formID, $markerID);
+console.log($result);
         $result2 = $Model->checkMarkerMerged($formID, $markerID);
+console.log($result2);
         return ($result || $result2);
     }
 
