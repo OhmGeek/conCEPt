@@ -66,14 +66,14 @@
 							<tr>
 								<td class = "padding">{{row.criteria|raw}}</td> {# Takes raw output of criteria.twig #}
 								<td class = "padding">{{row.mark}}</td>
-								<td class = "padding">{{row.rationale}}</td>
+								<td class = "padding">{{row.rationale|raw}}</td>
 							</tr>
 						{% endfor %}
 					</table>
 	            </div>
 	            <div class = "general-comments">
 					General comments<br>
-					<div class = "comments padding">{{generalComments}}</div>
+					<div class = "comments padding">{{generalComments|raw}}</div>
 				</div>
 			</div>
 		</div>
