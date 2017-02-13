@@ -1,35 +1,61 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8"> 
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+		<meta charset="UTF-8"> 
+		<link rel="stylesheet" href="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/css/bootstrap.min.css">
+
+
+
+		<title>ODR Admin</title>
 		<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="http://community.dur.ac.uk/cs.seg04/jquery-3.1.1.js"></script>
 
 		<!-- Latest compiled JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		
+		<script src="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/js/bootstrap.min.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<!-- Stylesheet for printing -->
-		<link rel="stylesheet" type="text/css" href="print.css" media="print">
-		
+		<link rel="stylesheet" type="text/css" href="./css/print.css" media="print">
 		<style>
-			.thick {
-					font-weight: bold;
+
+			.center {
+			        float: none;
+     				margin-left: auto;
+     				margin-right: auto;
 			}
-			body { padding-top: 80px }
+			.thick {
+				font-weight: bold;
+			}
+			body {
+				padding-top: 30px;
+			}
+			.jumbotron {
+				color: black;
+				text-align: center;
+				height: 625px;
+				background-image: url('https://community.dur.ac.uk/cs.seg04/public/img/durham_back.jpg');
+				background-repeat: norepeat;
+				background-size: cover;			
+}
+
+		canvas{
+        		width: 100% !important;
+      		        max-width: 800px;
+        		height: auto !important;
+			}
+
+
 		</style>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
+		<script src="https://community.dur.ac.uk/cs.seg04/public/js/Chart.bundle.min.js"></script>
 		
 	</head>
 	
 	<body>
 	{{navbar|raw}}
 	<div class="jumbotron">
-		<h1>Hello {{username}}</h1>
-		<p>There are currently {{numberOfStudents}} students, {{numberOfSupervisors}} supervisors, and {{numberOfMarkers}} markers.</p>
+		<h1>Hello, {{username}}.</h1>
+		<p>There are currently {{numberOfStudents}} students and {{numberOfMarkers}} markers.</p>
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
@@ -37,33 +63,43 @@
 		</div>
 		<div class="panel-body">
 			<ul class="nav nav-pills">
-					<li role="presentation"><a href="#">Assign supervisors and examiners</a></li>
-					<li role="presentation"><a href="#">Add Forms</a></li>
+					<li role="presentation"><a href="admin_services.php?route=adding">Assign supervisors and examiners</a></li>
+					<li role="presentation"><a href="admin_services.php?route=linking">Add Forms</a></li>
+					<li role="presentation"><a
+href="admin_services.php?route=printing">Print Student Forms</a></li>
 			</ul>
 		</div>
 	</div>
 
-	<div class="panel panel-default">	
+	<div class="panel panel-primary">	
 			<div class="panel-heading">
 				Statistics
 			</div>
 			<div class="panel-body">
-				<canvas id="initial-forms-chart" width=400 height=400></canvas>
+			<div><canvas id="initial-forms-chart" style="height: 10px"></canvas></div>
 			</div>
 	</div>
 
 	<script>
-		var formsChart = document.getElementById('initial-forms-chart');
-		var submittedFormNum = 100;
-		var unsubmittedFormNum = 10;
-		var formsData = {
+		var formsChart = document.getElementById('initial-forms-chart').getContext("2d");
+		var submittedFormNum = parseInt("{{ submittedFormCount }}");
+		var unsubmittedFormNum = parseInt("{{ unSubmittedFormCount }}");
+		if(!submittedFormNum) {
+			submittedFormNum = 0;
+		}
+		if(!unsubmittedFormNum) {
+			unsubmittedFormNum = 0;
+		}
+
+	var formsData = {
 			labels: [
 				"Submitted",
 				"Unsubmitted"
 				],
 				datasets: [
 				{
-					data: [submittedFormNum, unsubmittedFormNum],
+						data: [submittedFormNum,
+unsubmittedFormNum],
 					backgroundColor: [
 						'#FF6384',
 						'#36A2EB'
@@ -80,7 +116,5 @@ var chart = new Chart(formsChart, {
 
 });
 	</script>
-
-
 	</body>
 </html>

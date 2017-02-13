@@ -3,11 +3,6 @@ $(document).ready(function(){
 	$("input").keyup(function(){allowSubmit()});
 	$("textarea").keyup(function(){allowSubmit()});
 
-	// make everything not editable
-	$(".no-edit").attr('contenteditable','false');
-	$(".no-edit").children().each(function() {
-		attr('contenteditable','false');	
-	});
 
 	//Deal with expanding textareas in table
 	$('textarea').each(function () {
@@ -26,7 +21,7 @@ $(document).ready(function(){
 	//	});
 	});
 
-	$("form").submit(function(){
+	$("form").submit(function(event){
 		var sendData = true; //if this is false, don't send data
 		event.preventDefault();
 		console.log("Sending stopped to run a script");
@@ -101,7 +96,8 @@ $(document).ready(function(){
 	//If all inputs and textareas are filled, enable submit button
 	function allowSubmit(){
 		//Boolean value - true if no input fields are empty
-		var inputsFilled = $("input").filter(function(){
+		var inputsFilled = $("#submissionComment").filter(function(){
+			console.log($(this).val());
 			return $.trim($(this).val()).length == 0;
 		}).length==0;
 		
@@ -117,6 +113,11 @@ $(document).ready(function(){
 		var divsFilled = $(".diveditable").filter(function() {
 			return $.trim($(this).html()).length == 0;
 		}).length==0;
+
+		console.log(inputsFilled);
+		console.log(textareasFilled);
+		console.log(divsFilled);
+
 		//If inputsFilled and textareasFilled,
 		//remove disabled attribute from Submit input
 		if (inputsFilled && textareasFilled && divsFilled){

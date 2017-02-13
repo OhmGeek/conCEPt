@@ -5,11 +5,10 @@
 		<div class = "panel">
 			<div class = "panel-heading">
 				<h4 class = "panel-title">
-					<a class = ""
-		href="#{{student.studentName}}">{{student.studentName}}</a>
+					{{student.studentName}}
 				</h4>
 			</div>
-			<div id="{{student.studentName}}" class = "panel">
+			<div class = "panel">
 				<div class = "panel-body">
 					<table class ="table text-center">
 						<thead>
@@ -24,7 +23,7 @@
 							<tr class = "{{doc.type}}"> 
 								<td>{{doc.title}}</td>
 									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
-									<td><a href="{{doc.linkMerged}}">{% if doc.merged %} Merged {% endif %}</a></td>
+									<td><a href= "{% if doc.merged == 0 %}#{% else %} {{doc.linkMerged}} {% endif %}">{% if doc.merged == 0 %} Not Merged{% elseif doc.merged == 1 %} Merged {% elseif doc.merged == 2 %}Clashed {% endif %}</a></td>
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -44,11 +43,10 @@
 		<div class = "panel">
 			<div class = "panel-heading">
 				<h4 class = "panel-title">
-					<a class = ""
-		href="#{{student.studentName}}">{{student.studentName}}</a>
+					{{student.studentName}}
 				</h4>
 			</div>
-			<div id="{{student.studentName}}" class = "panel">
+			<div class = "panel">
 				<div class = "panel-body">
 					<table class ="table text-center">
 						<thead>

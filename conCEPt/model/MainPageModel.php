@@ -24,7 +24,8 @@ class MainPageModel
 				 JOIN Form ON Form.Form_ID=MS_Form.Form_ID
 				 JOIN BaseForm ON BaseForm.BForm_ID=Form.BForm_ID
 				 WHERE Marker.Marker_ID = :markerID
-				 ORDER BY Student.Student_ID, BaseForm.BForm_ID;");
+				 GROUP BY Student.Student_ID, BaseForm.BForm_ID
+				 ORDER BY Student.Student_ID, BaseForm.BForm_ID, Form.Time_Stamp DESC;");
 
         $statement->bindValue(':markerID', $marker, PDO::PARAM_STR);
         $statement->execute();
@@ -78,9 +79,9 @@ class MainPageModel
 	public function checkClashes($mergedFormID)
 	{
 		$db = DB::getDB();
-		$statement = $db->prepare("SELECT `Sec_ID` 
-									FROM `SectionConflict` 
-									WHERE `Form_ID` = :formID");
+		$statement = $db->prepare("SELECT * 
+						FROM `SectionConflict` 
+						WHERE `Form_ID` = :formID");
 								
 		$statement->bindValue(':formID',$mergedFormID, PDO::PARAM_INT);												
 

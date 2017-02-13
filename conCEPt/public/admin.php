@@ -19,43 +19,6 @@ $router->respond('GET', '/test', function () {
     echo 'Hello World';
 });
 
-$router->respond('POST', '/Staff_makeMarker', function(){	
-	if(!strcmp($_POST["Marker_ID"], "")){
-		return json_encode(array("error" => "Marker ID was not set"));
-	}
-	else if (!strcmp($_POST['Lname'], "")){
-		return json_encode(array("error" => "Forename was not set"));
-	}
-	else if (!strcmp($_POST["Fname"], "")){
-		return json_encode(array("error" => "Surname was not set"));
-	}
-	else{
-		$marker = $_POST['Marker_ID'];
-		$Fname = $_POST['Fname'];
-		$Lname = $_POST['Lname'];
-		$servername = "mysql.dur.ac.uk";
-		$username = "dcs8s04";
-		$password = "when58";
-		$dbname = 'Idcs8s04_conCEPt';
-		
-		$conn = new mysqli($servername, $username, $password, $dbname);
-		// Check connection
-		if ($conn->connect_error) {
-			return json_encode(array("error" => "Connection failed: " . $conn->connect_error));
-		}
-				 
-		$sql = "INSERT INTO `Idcs8s04_conCEPt`.`Marker` (`Marker_ID`, `Fname`, `Lname`) VALUES ('$marker', '$Fname', '$Lname');" ;
-		$result = $conn->query($sql);
-		if($result){
-			return json_encode(array("success" => "Marker has been created successfully (may have already existed)"));
-		}
-		else{
-			return json_encode(array("error" => "Marker was not created succssfully"));
-		}
-		$conn->close();
-		
-	}
-});
 
 $router->respond('POST', '/Staff_makeStudent', function(){
 		
@@ -89,9 +52,89 @@ $router->respond('POST', '/Staff_makeStudent', function(){
 			 
 	$sql = "INSERT INTO `Idcs8s04_conCEPt`.`Student` (`Student_ID`, `Fname`, `Lname`, `Year_Level`) VALUES ('$student', '$Fname', '$Lname', '$year');" ;
 	$result = $conn->query($sql);
+	if($result){
+			return json_encode(array("success" => "Student has been created successfully"));
+	}
+	else{
+		return json_encode(array("error" => "Student could not be created (username already exists)"));
+	}
 	$conn->close();
-	return json_encode(array("success" => "Student has been created sucessfully (may have already existed)"));
 	
+});
+
+
+$router->respond('POST', '/Staff_makeMarker', function(){	
+	if(!strcmp($_POST["Marker_ID"], "")){
+		return json_encode(array("error" => "Marker ID was not set"));
+	}
+	else if (!strcmp($_POST['Lname'], "")){
+		return json_encode(array("error" => "Forename was not set"));
+	}
+	else if (!strcmp($_POST["Fname"], "")){
+		return json_encode(array("error" => "Surname was not set"));
+	}
+	else{
+		$marker = $_POST['Marker_ID'];
+		$Fname = $_POST['Fname'];
+		$Lname = $_POST['Lname'];
+		$servername = "mysql.dur.ac.uk";
+		$username = "dcs8s04";
+		$password = "when58";
+		$dbname = 'Idcs8s04_conCEPt';
+		
+		$conn = new mysqli($servername, $username, $password, $dbname);
+		// Check connection
+		if ($conn->connect_error) {
+			return json_encode(array("error" => "Connection failed: " . $conn->connect_error));
+		}
+				 
+		$sql = "INSERT INTO `Idcs8s04_conCEPt`.`Marker` (`Marker_ID`, `Fname`, `Lname`) VALUES ('$marker', '$Fname', '$Lname');" ;
+		$result = $conn->query($sql);
+		if($result){
+			return json_encode(array("success" => "Marker has been created successfully"));
+		}
+		else{
+			return json_encode(array("error" => "Marker could not be created (username already exists)"));
+		}
+		$conn->close();
+		
+	}
+});
+
+$router->respond('POST', '/get_student', function(){
+	$link = mysqli_connect('mysql.dur.ac.uk', 'dcs8s04', 'when58', 'Idcs8s04_conCEPt');
+	if(!strcmp($_POST["student_id"], "")){
+		return json_encode(array("error"=>"Student ID was not set"));
+	}
+	else{
+		$sql = "SELECT Student_ID AS student_id, Fname AS forename, Lname as surname, Year_Level AS year_of_study FROM Student WHERE Student_ID LIKE '" . $_POST["student_id"] . "%'";
+		$result = mysqli_query($link, $sql);
+		if(mysqli_num_rows($result) == 1){
+			$record = mysqli_fetch_assoc($result);
+			return json_encode(array("success"=>array("student_id"=>$record["student_id"], "forename"=>$record["forename"], "surname"=>$record["surname"], "year_of_study"=>$record["year_of_study"])));
+		}
+		else{
+			return json_encode(array("error"=>"ID did not identify a student"));
+		}
+	}
+});
+
+$router->respond('POST', '/get_marker', function(){
+	$link = mysqli_connect('mysql.dur.ac.uk', 'dcs8s04', 'when58', 'Idcs8s04_conCEPt');
+	if(!strcmp($_POST["marker_id"], "")){
+		return json_encode(array("error"=>"Marker ID was not set"));
+	}
+	else{
+		$sql = "SELECT Marker_ID AS marker_id, Fname AS forename, Lname as surname FROM Marker WHERE Marker_ID LIKE '" . $_POST["marker_id"] . "%'";
+		$result = mysqli_query($link, $sql);
+		if(mysqli_num_rows($result) == 1){
+			$record = mysqli_fetch_assoc($result);
+			return json_encode(array("success"=>array("marker_id"=>$record["marker_id"], "forename"=>$record["forename"], "surname"=>$record["surname"])));
+		}
+		else{
+			return json_encode(array("error"=>"ID did not identify a marker"));
+		}
+	}
 });
 
 $router->respond('POST', '/Staff_makeRelationship', function(){
@@ -115,7 +158,7 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 	$sql_query = "SELECT Student_ID AS student_id, Fname as forename, Lname as surname, Year_Level as year_of_study FROM Student WHERE ";
 	if(isset($_POST["student_id"])){
 		$student_id = $_POST["student_id"];
-		$sql_query = $sql_query . "Student_ID = '" . $student_id . "' AND ";
+		$sql_query = $sql_query . "Student_ID LIKE '" . $student_id . "%' AND ";
 		$student_given = true;
 	}
 	if(isset($_POST["student_forename"])){
@@ -274,16 +317,16 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 						WHERE `MS`.`Marker_ID` = '" . $final_examiner_id . "' AND `MS`.`Student_ID` = '" . $final_student_id . "');";
 						# return $sql_query_link3_examiner;
 						if(!mysqli_query($link, $sql_query_link3)){
-							return json_encode(array("error" => "Forms could not be built after creation (this might be because they already exist)"));
+							return json_encode(array("error" => "Forms could not be built after creation"));
 						}
 					
 					}
 					else{
-						return json_encode(array("error" => "Forms could not be linked after creation (this might be because they already exist)"));
+						return json_encode(array("error" => "Forms could not be linked after creation"));
 					}
 				}
 				else{
-					return json_encode(array("error" => "Forms could not be created after creating relationship (this might be because they already exist)"));
+					return json_encode(array("error" => "Forms could not be created after creating relationship"));
 				}
 			}
 			
@@ -322,27 +365,27 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 						WHERE `MS`.`Marker_ID` = '" . $final_supervisor_id . "' AND `MS`.`Student_ID` = '" . $final_student_id . "');";
 						# return $sql_query_link3_supervisor;
 						if(!mysqli_query($link, $sql_query_link3)){
-							return json_encode(array("error" => "Forms could not be built after creation (this might be because they already exist)"));
+							return json_encode(array("error" => "Forms could not be built after creation"));
 						}
 					
 					}
 					else{
-						return json_encode(array("error" => "Forms could not be linked after creation (this might be because they already exist)"));
+						return json_encode(array("error" => "Forms could not be linked after creation"));
 					}
 				}
 				else{
-					return json_encode(array("error" => "Forms could not be created after creating relationship (this might be because they already exist)"));
+					return json_encode(array("error" => "Forms could not be created after creating relationship "));
 				}
 			}
 			
 			if($examiner_given && $supervisor_given){
-				return json_encode(array("success" => "Relationship created successfully between both markers and student(may have already existed)"));
+				return json_encode(array("success" => "Relationship created successfully between both markers and student"));
 			}
 			else if($supervisor_given){
-				return json_encode(array("success" => "Relationship created successfully between supervisor and student (may have already existed)"));
+				return json_encode(array("success" => "Relationship created successfully between supervisor and student"));
 			}
 			else if($examiner_given){
-				return json_encode(array("success" => "Relationship created successfully between examiner and student (may have already existed)"));
+				return json_encode(array("success" => "Relationship created successfully between examiner and student"));
 			}
 		}
 		else{

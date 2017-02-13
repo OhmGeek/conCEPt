@@ -17,8 +17,8 @@ class MainPageController
         $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
-		//Individual forms
-		$student_forms = $model->getStudentForms();
+	//Individual forms
+	$student_forms = $model->getStudentForms();
         $students = $model->getStudentInformation();
 	
 	
@@ -32,18 +32,14 @@ class MainPageController
 		$clashes = $merged["clashes"];
 		$normalMerged = $merged["normal"];
 		
-		//print_r($submitted);
+		print_r($separatedForms);
 		$studentTab = $this->generateStudentPane($twig, $model, $student_forms, $students);
 		$submittedTab = $this->generateStudentPane($twig, $model, $submitted, $students);
 		$pendingTab = $this->generateStudentPane($twig, $model, $pending, $students);
 		
-		print_r("Clashes");
-		print_r($clashes);
 		
 		$clashesTab = $this->generateStudentPane($twig, $model, $clashes, $students);
-		
-		print_r("Merged");
-		print_r($normalMerged);
+
 		$mergedTab = $this->generateMergedPane($twig, $model, $normalMerged, $students);
 		
 		
@@ -87,6 +83,9 @@ class MainPageController
 				$formID = $value["Form_ID"];
 				
 				$mergedForm = $model->getMergedFormFromIndividual($formID);
+				$mergedForm = $mergedForm[0];
+				$mergedForm = $mergedForm["MForm_ID"];
+
 				if(count($mergedForm) > 0){
 					$hasClashes = $model->checkClashes($mergedForm);
 					if($hasClashes > 0){
@@ -142,13 +141,31 @@ class MainPageController
 		    //Get merged form here
                     $merged_link = "forms.php?route=receive&formid=" . $merged_form_id;
                 }
+
+		$mergedTextValue = $value['IsMerged'];
+		
+		
+
+					
                 $form_id = $value['Form_ID'];
+		$mergedForm = $model->getMergedFormFromIndividual($formID);
+		print_r($mergedForm);
+		if(count($mergedForm) > 0){
+			$mergedForm = $model->getMergedFormFromIndividual($formID);
+			$mergedForm = $mergedForm[0];
+			$mergedForm = $mergedForm["MForm_ID"];
+			$hasClashes = $model->checkClashes($mergedForm);
+			//print_r($hasClashes);
+			if($hasClashes > 0){
+				$mergedTextValue = 2;
+			}
+		}
                 $form = array(
                     'title' => $value['Form_title'],
                     'submitted' => $value['IsSubmitted'],
                     'submitted_link' =>
                         "forms.php?route=receive&formid=$form_id",
-                    'merged' => $value['IsMerged'],
+                    'merged' => $mergedTextValue,
                     'linkMerged' => $merged_link,
                     'type' => 'submitted'
                 );

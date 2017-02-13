@@ -35,7 +35,7 @@ no-edit {% endif %}"><div class="{% if not commentsReadOnly
 {% if displaySubmissionComment %}
 	<div style="padding-top:10px;">
 			<label>Submission comment</label>
-			<input type = "text" form="{{formID}}"
+			<input id="submissionComment" type = "text" form="{{formID}}"
 id = "submitComment" name = "submitComment" Placeholder="Reason for change" style="width:100%;"></input>
 	</div>	
 {% endif %}
@@ -46,3 +46,4 @@ id = "submitComment" name = "submitComment" Placeholder="Reason for change" styl
 	<input type="submit" name = "action" value="Submit" disabled  />
 	<input type="submit" name = "action" value="Save"  />
 </form>
+

@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8"> 
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+		<link rel="stylesheet" href="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/css/bootstrap.min.css">
 		<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="http://community.dur.ac.uk/cs.seg04/jquery-3.1.1.js"></script>
 
 		<!-- Latest compiled JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<!-- Stylesheet for printing -->
-		<link rel="stylesheet" type="text/css" href="print.css" media="print">
-		
+		<script src="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/js/bootstrap.min.js"></script>
+		<link rel="stylesheet/less" type="text/css" href="styles.less" />
+		<script src="less.js" type="text/javascript"></script>
 		<style>
 			.thick {
 					font-weight: bold;
 			}
 			body { padding-top: 80px }
 		</style>
-
+		<title>ODR Admin</title>
 		
 	</head>
 	
@@ -191,6 +185,92 @@
 				}
 			});
 		}
+		
+		$('#box_student_id').on("keyup",function(e){
+			if(!(e.keyCode >= 8 && e.keyCode <= 46) && !(e.keyCode == 91 || e.keyCode == 93)){
+				var argument_set = {};
+				argument_set["student_id"] = $('#box_student_id').val();
+				console.log("student id: " + argument_set["student_id"]);
+				$.ajax({
+					url: "{{get_student|raw}}",
+					type:"POST",
+					data: argument_set,
+					success: function(resp){
+						console.log(resp);
+						js_resp = JSON.parse(resp);
+						if ("success" in js_resp){
+							$('#box_student_id').val(js_resp["success"]["student_id"]);
+							$('#box_student_forename').val(js_resp["success"]["forename"]);
+							$('#box_student_surname').val(js_resp["success"]["surname"]);
+							$('#box_student_year_of_study').val(js_resp["success"]["year_of_study"]);
+						}
+						else{
+							console.log("Didn't get proper stuff for things here");
+						}
+					},
+					complete: function(){
+						console.log("function thing is complete");
+					}
+				});
+			}
+		});
+		
+		$('#box_supervisor_id').on("keyup",function(e){
+			if(!(e.keyCode >= 8 && e.keyCode <= 46) && !(e.keyCode == 91 || e.keyCode == 93)){
+				var argument_set = {};
+				argument_set["marker_id"] = $('#box_supervisor_id').val();
+				$.ajax({
+					url: "{{get_marker|raw}}",
+					type:"POST",
+					data: argument_set,
+					success: function(resp){
+					console.log(this.url);
+						console.log(resp);
+						js_resp = JSON.parse(resp);
+						if ("success" in js_resp){
+							$('#box_supervisor_id').val(js_resp["success"]["marker_id"]);
+							$('#box_supervisor_forename').val(js_resp["success"]["forename"]);
+							$('#box_supervisor_surname').val(js_resp["success"]["surname"]);
+						}
+						else{
+							console.log("Didn't get proper stuff for things here or something maybe");
+						}
+					},
+					complete: function(){
+						console.log("function thing is complete here at this time");
+					}
+				});
+			}
+		});
+		
+		$('#box_examiner_id').on("keyup",function(e){
+			if(!(e.keyCode >= 8 && e.keyCode <= 46) && !(e.keyCode == 91 || e.keyCode == 93)){
+				var argument_set = {};
+				argument_set["marker_id"] = $('#box_examiner_id').val();
+				$.ajax({
+					url: "{{get_marker|raw}}",
+					type:"POST",
+					data: argument_set,
+					success: function(resp){
+					console.log(this.url);
+						console.log(resp);
+						js_resp = JSON.parse(resp);
+						if ("success" in js_resp){
+							$('#box_examiner_id').val(js_resp["success"]["marker_id"]);
+							$('#box_examiner_forename').val(js_resp["success"]["forename"]);
+							$('#box_examiner_surname').val(js_resp["success"]["surname"]);
+						}
+						else{
+							console.log("Didn't get proper stuff for things here or something maybe");
+						}
+					},
+					complete: function(){
+						console.log("function thing is complete here at this time");
+					}
+				});
+			}
+		})
+		
 		</script>
 		
 	</body>

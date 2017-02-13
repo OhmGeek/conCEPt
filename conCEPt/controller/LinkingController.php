@@ -33,7 +33,10 @@ class LinkingController
 		$navbar = $navbar->generateNavbarHtml();
 		
 		$template = $twig->loadTemplate("linker.twig");
-		return $template->render(array("navbar"=>$navbar, "link_marker_student_pair"=>substr("http://community.dur.ac.uk/cs.seg04/" . strstr(__DIR__, "password/"), 0, -11) . "/public/admin.php/Staff_makeRelationship"));
+		return $template->render(array("navbar"=>$navbar, 
+		"get_student"=>substr("http://community.dur.ac.uk/cs.seg04/" . strstr(__DIR__, "password/"), 0, -11) . "/public/admin.php/get_student", 
+		"get_marker"=>substr("http://community.dur.ac.uk/cs.seg04/" . strstr(__DIR__, "password/"), 0, -11) . "/public/admin.php/get_marker", 
+		"link_marker_student_pair"=>substr("http://community.dur.ac.uk/cs.seg04/" . strstr(__DIR__, "password/"), 0, -11) . "/public/admin.php/Staff_makeRelationship"));
 	}
 
 }
