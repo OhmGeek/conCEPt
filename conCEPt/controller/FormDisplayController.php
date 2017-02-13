@@ -409,7 +409,7 @@ Class FormDisplayController
             $totalMark = $Model->getTotalMark($formID);
             $totalMark = $totalMark[0];
             $totalMark = $totalMark["Total"];
-            $totalMark = round($totalMark, 2);
+            $totalMark = intval(round($totalMark));
         }
 
         //Determine the subtitle (based on the marker types and if the form is merged)
