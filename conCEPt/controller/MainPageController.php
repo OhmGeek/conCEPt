@@ -158,6 +158,14 @@ class MainPageController
 			if($hasClashes > 0){
 				$mergedTextValue = 2;
 			}
+			$isEdited = $model->isMergedFormEdited($mergedForm);
+			$isSubmitted = $model->isFormSubmitted($mergedForm);
+			if ($isEdited && !$isSubmitted){
+				$mergedTextValue = 3; //Needs confirming
+			}
+			if(!$isEdited && $!isSubmitted){
+				$mergedTextValue = 4; //Needs editing
+			}
 		}
                 $form = array(
                     'title' => $value['Form_title'],
@@ -211,13 +219,20 @@ class MainPageController
                 
 				//$merged_text = "Merged";
 				$mergedForm = $model->getMergedFormFromIndividual($value["Form_ID"]);
-
+				
 				//Form will be in Clashes or Merged tab
 				$mergedForm = $mergedForm[0];
 				$mergedFormID = $mergedForm["MForm_ID"];
 				$isEdited = $model->isMergedFormEdited($mergedFormID);
 				$isSubmitted = $model->isFormSubmitted($mergedFormID);
 				$hasClashes = $model->checkClashes($mergedFormID);
+		    		$mergedTextValue = $value['IsMerged'];
+		    		if ($isEdited && !$isSubmitted){
+					$mergedTextValue = 3; //Needs confirming
+				}
+				if(!$isEdited && $!isSubmitted){
+					$mergedTextValue = 4; //Needs editing
+				}
 		
 		    //Get merged form here
                 $merged_link = "forms.php?route=receive&formid=" . $mergedFormID;
@@ -228,7 +243,7 @@ class MainPageController
                     'submitted' => $value['IsSubmitted'],
                     'submitted_link' =>
                         "forms.php?route=receive&formid=$form_id",
-                    'merged' => $value['IsMerged'],
+                    'merged' => $mergedTextValue,
                     'linkMerged' => $merged_link,
                     'type' => 'submitted'
                 );
