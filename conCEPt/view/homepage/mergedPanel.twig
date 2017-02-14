@@ -1,42 +1,3 @@
-<div class = "complete">
-	<h4 class = "page-header">Completed</h4>
-	<div class = "panel-group">
-		{% for student in Complete %}
-		<div class = "panel">
-			<div class = "panel-heading">
-				<h4 class = "panel-title">
-					<a class = ""
-		href="#{{student.studentName}}">{{student.studentName}}</a>
-				</h4>
-			</div>
-			<div id="{{student.studentName}}" class = "panel">
-				<div class = "panel-body">
-					<table class ="table text-center">
-						<thead>
-							<tr>
-								<th class="text-center">Document</th>
-								<th class="text-center">Submitted</th>
-								<th class="text-center">Merged</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for doc in student.forms %}
-							<tr class = "{{doc.type}}"> 
-								<td>{{doc.title}}</td>
-									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
-									<td><a href="{{doc.linkMerged}}">{% if doc.merged %} Merged {% endif %}</a></td>
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-	</div>
-</div>
-
-
 <div class = "Needs-Editing">
 	<h4 class = "page-header">Needs Editing</h4>
 	<div class = "panel-group">
@@ -63,7 +24,8 @@
 							<tr class = "{{doc.type}}"> 
 								<td>{{doc.title}}</td>
 									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
-									<td><a href="{{doc.linkMerged}}">{% if doc.merged %} Merged {% endif %}</a></td>
+									<td><a href= "{% if doc.merged == 0 %}#{% else %} {{doc.linkMerged}} {% endif %}">{% if doc.merged == 0 %} Not Merged{% elseif doc.merged == 1 %} Merged {% elseif doc.merged == 2 %}Clashed{% elseif doc.merged == 3 %} Not Confirmed{% elseif doc.merged == 4 %} Not Edited{% endif %}</a></td>
+
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -101,7 +63,8 @@
 							<tr class = "{{doc.type}}"> 
 								<td>{{doc.title}}</td>
 									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
-									<td><a href="{{doc.linkMerged}}">{% if doc.merged %} Merged {% endif %}</a></td>
+									<td><a href= "{% if doc.merged == 0 %}#{% else %} {{doc.linkMerged}} {% endif %}">{% if doc.merged == 0 %} Not Merged{% elseif doc.merged == 1 %} Merged {% elseif doc.merged == 2 %}Clashed{% elseif doc.merged == 3 %} Not Confirmed{% elseif doc.merged == 4 %} Not Edited{% endif %}</a></td>
+
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -113,3 +76,41 @@
 	</div>
 </div>
 
+<div class = "complete">
+	<h4 class = "page-header">Completed</h4>
+	<div class = "panel-group">
+		{% for student in Complete %}
+		<div class = "panel">
+			<div class = "panel-heading">
+				<h4 class = "panel-title">
+					<a class = ""
+		href="#{{student.studentName}}">{{student.studentName}}</a>
+				</h4>
+			</div>
+			<div id="{{student.studentName}}" class = "panel">
+				<div class = "panel-body">
+					<table class ="table text-center">
+						<thead>
+							<tr>
+								<th class="text-center">Document</th>
+								<th class="text-center">Submitted</th>
+								<th class="text-center">Merged</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for doc in student.forms %}
+							<tr class = "{{doc.type}}"> 
+								<td>{{doc.title}}</td>
+									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
+									<td><a href= "{% if doc.merged == 0 %}#{% else %} {{doc.linkMerged}} {% endif %}">{% if doc.merged == 0 %} Not Merged{% elseif doc.merged == 1 %} Merged {% elseif doc.merged == 2 %}Clashed{% elseif doc.merged == 3 %} Not Confirmed{% elseif doc.merged == 4 %} Not Edited{% endif %}</a></td>
+
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
