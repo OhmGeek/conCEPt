@@ -45,13 +45,15 @@ class MainPageController
 		
 		// for now we shall just return the student pane
 		$template = $twig->loadTemplate('homepage/homePage.twig');
+		$markerName = $model->getMarkerName();
         return $template->render(array(
+	    'name' => $markerName['Fname'] . " " . $markerName['Lname'],
             'navbar' => $navbar->generateNavbarHtml(),
             'studentTab' => $studentTab,
             'pendingTab' => $pendingTab,
             'submittedTab' =>$submittedTab,
             'clashesTab' => $clashesTab,
-			'mergedTab' => $mergedTab
+	    'mergedTab' => $mergedTab
         ));
         
 
