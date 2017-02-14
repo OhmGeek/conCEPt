@@ -23,7 +23,7 @@
 							<tr class = "{{doc.type}}"> 
 								<td>{{doc.title}}</td>
 									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
-									<td><a href= "{% if doc.merged == 0 %}#{% else %} {{doc.linkMerged}} {% endif %}">{% if doc.merged == 0 %} Not Merged{% elseif doc.merged == 1 %} Merged {% elseif doc.merged == 2 %}Clashed {% endif %}</a></td>
+									<td><a href= "{% if doc.merged == 0 %}#{% else %} {{doc.linkMerged}} {% endif %}">{% if doc.merged == 0 %} Not Merged{% elseif doc.merged == 1 %} Merged {% elseif doc.merged == 2 %}Clashed {% endif %}{% elseif doc.merged == 3 %} Not Confirmed {% endif %}{% elseif doc.merged == 4 %} Not Edited{% endif %}</a></td>
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -61,7 +61,7 @@
 							<tr class = "{{doc.type}}"> 
 								<td>{{doc.title}}</td>
 									<td><a href="{{doc.submitted_link}}">{% if doc.submitted %} Submitted {% else %} Not Submitted {% endif %}</a></td>
-									<td><a href= "{% if doc.merged == 0 %}#{% else %} {{doc.linkMerged}} {% endif %}">{% if doc.merged == 0 %} Not Merged{% elseif doc.merged == 1 %} Merged {% elseif doc.merged == 2 %}Clashed {% endif %}</a></td>
+									<td><a href= "{% if doc.merged == 0 %}#{% else %} {{doc.linkMerged}} {% endif %}">{% if doc.merged == 0 %} Not Merged{% elseif doc.merged == 1 %} Merged {% elseif doc.merged == 2 %}Clashed {% endif %}{% elseif doc.merged == 3 %} Not Confirmed {% endif %}{% elseif doc.merged == 4 %} Not Edited{% endif %}</a></td>
 							</tr>
 							{% endfor %}
 						</tbody>
