@@ -32,7 +32,7 @@ class MainPageController
 		$clashes = $merged["clashes"];
 		$normalMerged = $merged["normal"];
 		
-		print_r($separatedForms);
+		
 		$studentTab = $this->generateStudentPane($twig, $model, $student_forms, $students);
 		$submittedTab = $this->generateStudentPane($twig, $model, $submitted, $students);
 		$pendingTab = $this->generateStudentPane($twig, $model, $pending, $students);
@@ -97,11 +97,10 @@ class MainPageController
 				}
 				else{
 					if ($value['IsSubmitted']){
-						//print_r("Is submitted");
 						array_push($studentSubmitted, $value);
 	
 					}else{
-						//print_r("Pending");
+						
 						array_push($studentPending, $value);
 					}
 				}
@@ -128,18 +127,21 @@ class MainPageController
     private function generateStudentPane($twig, $model, $student_forms, $students)
     {
         //Generate Student pane
-		//print_r($student_forms);
-		//print_r("\r\n");
+		
         $twig_data = array('ExaminedStudents' => array(), 'SupervisedStudents' => array());
         foreach ($student_forms as $studentID => $data) {
             $forms = array();
             foreach ($data as $value) {
                 $merged_link = "";
                 if ($value['IsMerged'] == 1) {
-                    //$merged_text = "Merged";
-		    $merged_form_id = 20; //Get merged form (I have a query for this in SaveSubmitController I think)
+                    $mergedForm = $model->getMergedFormFromIndividual($value["Form_ID"]);
+
+	           //Form will be in Clashes or Merged tab
+		   $mergedForm = $mergedForm[0];
+		   $mergedFormID = $mergedForm["MForm_ID"];
+
 		    //Get merged form here
-                    $merged_link = "forms.php?route=receive&formid=" . $merged_form_id;
+                    $merged_link = "forms.php?route=receive&formid=" . $mergedFormID;
                 }
 
 		$mergedTextValue = $value['IsMerged'];
@@ -148,14 +150,11 @@ class MainPageController
 
 					
                 $form_id = $value['Form_ID'];
-		$mergedForm = $model->getMergedFormFromIndividual($formID);
-		print_r($mergedForm);
+		$mergedForm = $model->getMergedFormFromIndividual($form_id);
 		if(count($mergedForm) > 0){
-			$mergedForm = $model->getMergedFormFromIndividual($formID);
 			$mergedForm = $mergedForm[0];
 			$mergedForm = $mergedForm["MForm_ID"];
 			$hasClashes = $model->checkClashes($mergedForm);
-			//print_r($hasClashes);
 			if($hasClashes > 0){
 				$mergedTextValue = 2;
 			}
@@ -201,8 +200,6 @@ class MainPageController
 	private function generateMergedPane($twig, $model, $student_forms, $students)
 	{
 		//Generate Student pane
-		//print_r($student_forms);
-		//print_r("\r\n");
         $twig_data = array('Complete' => array(), 'NeedsEditing' => array(), 'NeedsConfirming' => array());
         foreach ($student_forms as $studentID => $data) {
             $formsComplete = array();
@@ -214,16 +211,13 @@ class MainPageController
                 
 				//$merged_text = "Merged";
 				$mergedForm = $model->getMergedFormFromIndividual($value["Form_ID"]);
-				print_r($mergedForm);
+
 				//Form will be in Clashes or Merged tab
 				$mergedForm = $mergedForm[0];
 				$mergedFormID = $mergedForm["MForm_ID"];
 				$isEdited = $model->isMergedFormEdited($mergedFormID);
 				$isSubmitted = $model->isFormSubmitted($mergedFormID);
 				$hasClashes = $model->checkClashes($mergedFormID);
-				print_r("Edited-".$isEdited);
-				print_r("Submitted-".$isSubmitted);
-				print_r("Clashes-".$hasClashes);
 		
 		    //Get merged form here
                 $merged_link = "forms.php?route=receive&formid=" . $mergedFormID;

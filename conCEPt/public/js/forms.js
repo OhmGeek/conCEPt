@@ -103,7 +103,7 @@ $(document).ready(function(){
 		
 
 		//Boolean value - true if no textarea fields are empty
-		var textareasFilled = $("textarea").filter(function(){
+		var textareasFilled = $(".form-textarea textarea").filter(function(){
 			return $.trim($(this).val()).length == 0;
 		}).length==0;
 		

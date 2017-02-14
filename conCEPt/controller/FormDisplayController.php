@@ -168,16 +168,16 @@ Class FormDisplayController
                         //See form with editable rationales (could use displayIndividual??)
                         return $this->displayEditableForm($formID, $twig, $Model, $formTitle, array(), 1, 1);
                     } else {
-                        return $this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
+                        return $this->displaySubmitted($formID, $twig, $Model, $formTitle, array(), 0, 1);
                     }
                 } //If the current marker is the examiner
                 else {
                     //If the form has been edited, display submitted version of form with "Confirm" and "Reject" buttons
                     //Else display the submitted form without those buttons (waiting for supervisor to edit the comments)
                     if ($isEdited) {
-                        return $this->displaySubmitted($formID, $twig, $Model, $formTitle, 1, 1);
+                        return $this->displaySubmitted($formID, $twig, $Model, $formTitle, array(), 1, 1);
                     } else {
-                        return $this->displaySubmitted($formID, $twig, $Model, $formTitle, 0, 1);
+                        return $this->displaySubmitted($formID, $twig, $Model, $formTitle, array(), 0, 1);
                     }
                 }
             }
@@ -411,7 +411,7 @@ console.log($result2);
             $totalMark = $Model->getTotalMark($formID);
             $totalMark = $totalMark[0];
             $totalMark = $totalMark["Total"];
-            $totalMark = round($totalMark, 2);
+            $totalMark = intval(round($totalMark));
         }
 
         //Determine the subtitle (based on the marker types and if the form is merged)

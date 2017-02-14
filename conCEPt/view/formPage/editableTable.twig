@@ -11,7 +11,7 @@
 	{% for row in rows %}
 		<tr>
 			<td class = "padding">{{row.criteria|raw}}</td>
-			<td {% if row.markReadOnly %} class="no-edit" {% endif %}><textarea form="{{formID}}" name= "mark-{{row.markID}}" {% if row.markReadOnly %} readonly {% endif %}>{{row.mark}} </textarea></td>
+			<td class = "{% if row.markReadOnly %} no-edit {% endif %}form-textarea"><textarea form="{{formID}}" name= "mark-{{row.markID}}" {% if row.markReadOnly %} readonly {% endif %}>{{row.mark}} </textarea></td>
 			<td {% if row.rationaleReadOnly  %} class="no-edit" {% endif %}><div
 class="form-txt-area {% if not row.rationaleReadOnly %}editable {% else %} no-edit{% endif %}" form="{{formID}}" id = "rationale-{{row.rationaleID}}"> {{row.rationale | raw}} </div></td>
 		</tr>
