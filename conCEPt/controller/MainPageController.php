@@ -157,16 +157,18 @@ class MainPageController
 			$mergedForm = $mergedForm[0];
 			$mergedForm = $mergedForm["MForm_ID"];
 			$hasClashes = $model->checkClashes($mergedForm);
+			$isEdited = $model->isMergedFormEdited($mergedForm);
+			$isSubmitted = $model->isFormSubmitted($mergedForm);
 			if($hasClashes > 0){
 				$mergedTextValue = 2;
 			}
-			$isEdited = $model->isMergedFormEdited($mergedForm);
-			$isSubmitted = $model->isFormSubmitted($mergedForm);
-			if ($isEdited && !$isSubmitted){
-				$mergedTextValue = 3; //Needs confirming
-			}
-			if(!$isEdited && $!isSubmitted){
-				$mergedTextValue = 4; //Needs editing
+			else{
+				if ($isEdited && !$isSubmitted){
+					$mergedTextValue = 3; //Needs confirming
+				}
+				if(!$isEdited && !$isSubmitted){
+					$mergedTextValue = 4; //Needs editing
+				}
 			}
 		}
                 $form = array(
@@ -232,7 +234,7 @@ class MainPageController
 		    		if ($isEdited && !$isSubmitted){
 					$mergedTextValue = 3; //Needs confirming
 				}
-				if(!$isEdited && $!isSubmitted){
+				if(!$isEdited && !$isSubmitted){
 					$mergedTextValue = 4; //Needs editing
 				}
 		
