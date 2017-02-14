@@ -74,7 +74,7 @@ $(document).ready(function(){
 		jsonData["numberOfSections"] = (numberOfSections) + 1 //number of mark/rationale sections + the general comments section
 		
 		
-		jsonData["comments"] = $('.comments').html();
+		jsonData["comments"] = $('.comments div').html();
 		console.log("Comments: " + jsonData["comments"]);
 		console.log(jsonData);
 		console.log(jsonData["numberOfSections"]);
