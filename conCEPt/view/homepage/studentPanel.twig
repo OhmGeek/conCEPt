@@ -1,6 +1,9 @@
 <div class = "examined">
 	<h4 class = "page-header">Examined</h4>
 	<div class = "panel-group">
+		{% if  ExaminedStudents| length == 0 %}
+		<h5 align="center"> No documents to display </h5>
+		{% endif %}
 		{% for student in ExaminedStudents %}
 		<div class = "panel">
 			<div class = "panel-heading">
@@ -39,6 +42,9 @@
 <div class = "Supervised">
 	<h4 class = "page-header">Supervised</h4>
 	<div class = "panel-group">
+		{% if  SupervisedStudents | length == 0 %}
+		<h5 align="center"> No documents to display </h5>
+		{% endif %}
 		{% for student in SupervisedStudents %}
 		<div class = "panel">
 			<div class = "panel-heading">
