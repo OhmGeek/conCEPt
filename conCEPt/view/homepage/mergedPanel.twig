@@ -1,6 +1,9 @@
 <div class = "Needs-Editing">
 	<h4 class = "page-header">Needs Editing</h4>
 	<div class = "panel-group">
+		{% if NeedsEditing | length == 0 %}
+		<h5 align="center"> No documents to display </h5>
+		{% endif %}
 		{% for student in NeedsEditing %}
 		<div class = "panel">
 			<div class = "panel-heading">
@@ -40,6 +43,9 @@
 <div class = "Needs-Confirming">
 	<h4 class = "page-header">Needs Confirming</h4>
 	<div class = "panel-group">
+		{% if NeedsConfirming | length == 0 %}
+		<h5 align="center"> No documents to display </h5>
+		{% endif %}
 		{% for student in NeedsConfirming %}
 		<div class = "panel">
 			<div class = "panel-heading">
@@ -79,6 +85,9 @@
 <div class = "complete">
 	<h4 class = "page-header">Completed</h4>
 	<div class = "panel-group">
+		{% if Complete | length == 0 %}
+		<h5 align="center"> No documents to display </h5>
+		{% endif %}
 		{% for student in Complete %}
 		<div class = "panel">
 			<div class = "panel-heading">
@@ -114,3 +123,4 @@
 		{% endfor %}
 	</div>
 </div>
+
