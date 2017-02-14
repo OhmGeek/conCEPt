@@ -34,12 +34,12 @@ $(document).ready(function(){
 		console.log("Go through each section");
 		$.each(data, function(){
 			console.log("Name: "+this.name);
-			numberOfSections += 1;
 			console.log("section " + numberOfSections);
 			var name = this.name;
 			var name = this.name.split("-");
 			var type = name[0];
 			if (type == "mark"){
+				numberOfSections += 1;
 				var valid = checkMark(this.value);
 				if (!valid){
 					sendData = false;
