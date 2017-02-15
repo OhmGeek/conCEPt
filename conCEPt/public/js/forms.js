@@ -110,7 +110,7 @@ $(document).ready(function(){
 	
 		//todo same again for DIVS
 		
-		var divsFilled = $(".diveditable").filter(function() {
+		var divsFilled = $(".editable p").filter(function() {
 			return $.trim($(this).html()).length == 0;
 		}).length==0;
 
