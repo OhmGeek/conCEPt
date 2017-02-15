@@ -6,15 +6,29 @@ Class EditCriteriaController
 {
     function __construct()
     {
-        if(isset($_GET['form']))
+
+    }
+
+    function displayFormList()
+    {
+
+    }
+    function baseFormPage($bFormID)
+    {
+        if(empty($_POST))
         {
-            $form = $_GET['form'];
-            $this->editCritria($form);
+            $this->displayBaseForm($bFormID);
         }
         else
         {
-            $this->displayFormList();
+            $this->editCriteria($bFormID);
+            $this->displayBaseForm($bFormID);
         }
+    }
+
+    function displayBaseForm($bFormID)
+    {
+
     }
 
     function editCriteria($form)
@@ -22,6 +36,6 @@ Class EditCriteriaController
         $model = new EditCriteriaModel();
         $criteria = $model->getFormCriteria($form);
 
-        
+
     }
 }
