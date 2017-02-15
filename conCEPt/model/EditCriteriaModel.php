@@ -9,32 +9,9 @@ class EditCriteriaModel
 
     }
 
-    function getFormCriteria($form)
+    function getFormCriteria($bFormID)
     {
 
-        /*IDs for each base form. 1 design 2 presentation 3 project paper 4 project poster 5 oral*/
-        switch ($form) {
-            case 'Design':
-                $bFormID = 1;
-                break;
-            case 'Presentation':
-                $bFormID = 2;
-                break;
-            case 'Project Paper':
-                $bFormID = 3;
-                break;
-            case 'Project Poster':
-                $bFormID = 4;
-                break;
-            case 'Oral':
-                $bFormID = 5;
-                break;
-
-            default:
-                /*if an invalid form is asked for do nothing*/
-                /*maybe add a 404 for this?*/
-                exit;
-        }
         $db = DB::getDB();
         $statement = $db->prepare("SELECT * 
                                    FROM `Section`
