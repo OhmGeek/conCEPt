@@ -34,6 +34,19 @@ WHERE Admin_ID=:user");
         return $this->statementHasResults($statement);
     }
 
+    public function isSuperAdmin()
+    {
+        //todo tidy this up
+
+        $statement = $this->db->prepare("SELECT *
+FROM SuperAdmin
+WHERE SuperAdmin_ID=:user");
+
+        $statement->bindValue(':user', $this->username, PDO::PARAM_STR);
+        $statement->execute();
+
+        return $this->statementHasResults($statement);
+    }
     private function statementHasResults($statement)
     {
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
