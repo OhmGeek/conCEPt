@@ -41,18 +41,6 @@ class MainPageModel
         return $_SERVER['REMOTE_USER'];
     }
 
-    public function getMarkerName() {
-	$markerID = $this->getMarkerID();
-        $statement = $this->db->prepare(
-	    "SELECT Fname, Lname
-             FROM Marker
-             WHERE Marker_ID = :mID");
-	$statement->bindValue(':mID', $markerID, PDO::PARAM_INT);
-	$statement->execute();
-	$data = $statement->fetchAll(PDO::FETCH_ASSOC);
-	return $data[0];
-
-    }
     public function getStudentInformation()
     {
         $marker = $this->getMarkerID();

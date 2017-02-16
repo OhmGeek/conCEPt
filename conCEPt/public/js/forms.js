@@ -34,12 +34,12 @@ $(document).ready(function(){
 		console.log("Go through each section");
 		$.each(data, function(){
 			console.log("Name: "+this.name);
+			numberOfSections += 1;
 			console.log("section " + numberOfSections);
 			var name = this.name;
 			var name = this.name.split("-");
 			var type = name[0];
 			if (type == "mark"){
-				numberOfSections += 1;
 				var valid = checkMark(this.value);
 				if (!valid){
 					sendData = false;
@@ -74,7 +74,7 @@ $(document).ready(function(){
 		jsonData["numberOfSections"] = (numberOfSections) + 1 //number of mark/rationale sections + the general comments section
 		
 		
-		jsonData["comments"] = $('.comments div').html();
+		jsonData["comments"] = $('.comments').html();
 		console.log("Comments: " + jsonData["comments"]);
 		console.log(jsonData);
 		console.log(jsonData["numberOfSections"]);
@@ -110,7 +110,7 @@ $(document).ready(function(){
 	
 		//todo same again for DIVS
 		
-		var divsFilled = $(".editable p").filter(function() {
+		var divsFilled = $(".diveditable").filter(function() {
 			return $.trim($(this).html()).length == 0;
 		}).length==0;
 

@@ -18,15 +18,13 @@ class FormSelectionModel
 
         //$db = DB::getDB();
         $statement = $db->prepare("SELECT `Form`.`Form_ID`, `Student`.`Fname` , `Student`.`Lname` , `Student`.`Year_Level`
-                                    FROM  `MS_Form`
-                                    JOIN  `MS` ON  `MS`.`MS_ID` =  `MS_Form`.`MS_ID` 
-                                    JOIN  `Marker` ON  `Marker`.`Marker_ID` =  `MS`.`Marker_ID` 
-                                    JOIN  `Student` ON  `Student`.`Student_ID` =  `MS`.`Student_ID`
-                                    JOIN `Form` ON `Form`.`Form_ID` = `MS_Form`.`Form_ID`
-                                    JOIN `BaseForm` ON `BaseForm`.`BForm_ID` = `Form`.`BForm_ID`
-                                    WHERE  `Marker`.`Marker_ID` = 'mmgw12' AND `BaseForm`.`BForm_ID` = 1
-                                    GROUP BY `Student`.`Student_ID`
-                                    ORDER BY `Student`.`Student_ID`, `Form`.`Time_Stamp` DESC;");
+									FROM  `MS_Form`
+									JOIN  `MS` ON  `MS`.`MS_ID` =  `MS_Form`.`MS_ID` 
+									JOIN  `Marker` ON  `Marker`.`Marker_ID` =  `MS`.`Marker_ID` 
+									JOIN  `Student` ON  `Student`.`Student_ID` =  `MS`.`Student_ID`
+									JOIN `Form` ON `Form`.`Form_ID` = `MS_Form`.`Form_ID`
+									JOIN `BaseForm` ON `BaseForm`.`BForm_ID` = `Form`.`BForm_ID`
+									WHERE  `Marker`.`Marker_ID` = :markerID AND `BaseForm`.`BForm_ID` = :formTypeID");
 
         $statement->bindValue(':markerID', $markerID, PDO::PARAM_STR);
         $statement->bindValue(':formTypeID', $formTypeID, PDO::PARAM_INT);

@@ -45,15 +45,13 @@ class MainPageController
 		
 		// for now we shall just return the student pane
 		$template = $twig->loadTemplate('homepage/homePage.twig');
-		$markerName = $model->getMarkerName();
         return $template->render(array(
-	    'name' => $markerName['Fname'] . " " . $markerName['Lname'],
             'navbar' => $navbar->generateNavbarHtml(),
             'studentTab' => $studentTab,
             'pendingTab' => $pendingTab,
             'submittedTab' =>$submittedTab,
             'clashesTab' => $clashesTab,
-	    'mergedTab' => $mergedTab
+			'mergedTab' => $mergedTab
         ));
         
 
@@ -157,18 +155,8 @@ class MainPageController
 			$mergedForm = $mergedForm[0];
 			$mergedForm = $mergedForm["MForm_ID"];
 			$hasClashes = $model->checkClashes($mergedForm);
-			$isEdited = $model->isMergedFormEdited($mergedForm);
-			$isSubmitted = $model->isFormSubmitted($mergedForm);
 			if($hasClashes > 0){
 				$mergedTextValue = 2;
-			}
-			else{
-				if ($isEdited && !$isSubmitted){
-					$mergedTextValue = 3; //Needs confirming
-				}
-				if(!$isEdited && !$isSubmitted){
-					$mergedTextValue = 4; //Needs editing
-				}
 			}
 		}
                 $form = array(
@@ -223,20 +211,13 @@ class MainPageController
                 
 				//$merged_text = "Merged";
 				$mergedForm = $model->getMergedFormFromIndividual($value["Form_ID"]);
-				
+
 				//Form will be in Clashes or Merged tab
 				$mergedForm = $mergedForm[0];
 				$mergedFormID = $mergedForm["MForm_ID"];
 				$isEdited = $model->isMergedFormEdited($mergedFormID);
 				$isSubmitted = $model->isFormSubmitted($mergedFormID);
 				$hasClashes = $model->checkClashes($mergedFormID);
-		    		$mergedTextValue = $value['IsMerged'];
-		    		if ($isEdited && !$isSubmitted){
-					$mergedTextValue = 3; //Needs confirming
-				}
-				if(!$isEdited && !$isSubmitted){
-					$mergedTextValue = 4; //Needs editing
-				}
 		
 		    //Get merged form here
                 $merged_link = "forms.php?route=receive&formid=" . $mergedFormID;
@@ -247,7 +228,7 @@ class MainPageController
                     'submitted' => $value['IsSubmitted'],
                     'submitted_link' =>
                         "forms.php?route=receive&formid=$form_id",
-                    'merged' => $mergedTextValue,
+                    'merged' => $value['IsMerged'],
                     'linkMerged' => $merged_link,
                     'type' => 'submitted'
                 );
