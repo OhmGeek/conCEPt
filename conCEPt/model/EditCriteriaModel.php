@@ -1,5 +1,5 @@
 <?php
-
+namespace Concept\Model;
 use Concept/Model/DB;
 
 class EditCriteriaModel

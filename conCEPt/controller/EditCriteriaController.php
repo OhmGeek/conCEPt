@@ -1,6 +1,6 @@
 <?php
-
-use Concept/Model/EditCriteriaModel;
+namespace Concept\Controller;
+use Concept\Model\EditCriteriaModel;
 
 Class EditCriteriaController
 {
@@ -28,6 +28,12 @@ Class EditCriteriaController
 
     function displayBaseForm($bFormID)
     {
+        $criteria = $model->getFormCriteria($form);
+
+
+        $loader = new Twig_Loader_Filesystem('../view/');
+        $twig = new Twig_Environment($loader);
+
 
     }
 
