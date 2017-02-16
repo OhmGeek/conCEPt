@@ -5,6 +5,7 @@ use PDO;
 
 class AdminPageModel
 {
+	//a model to server the admin page
 	public function __construct() {
 		$this->db = DB::getDB();
 	}
