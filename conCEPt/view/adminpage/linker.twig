@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/css/bootstrap.min.css">
+		
 		<!-- jQuery library -->
 		<script src="http://community.dur.ac.uk/cs.seg04/jquery-3.1.1.js"></script>
-
-		<!-- Latest compiled JavaScript -->
+		<!-- bootstrap -->
 		<script src="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/css/bootstrap.min.css">
+		
+		
+		<!-- alert-danger and alert-success must be defined here as the color field is not properly collected from the theme -->
 		<style>
 			.thick {
 					font-weight: bold;
 			}
 			body { padding-top: 80px }
+		
 			.alert-danger{
 				color:#ffffff
-			}
+			}	
 			.alert-success{
 				color:#ffffff
 			}
+		</style>
 		</style>
 		<title>ODR Admin</title>
 		
@@ -95,11 +100,14 @@
 		
 		
 		<script>
+		// make sure that submit button does not submit the form and reload the page
+		// use custom functionality instead
 		$('#form_staff_linker_submit').click(function(e){
 			e.preventDefault();
 			makeRelationship();
 		});
 		
+		// make a relationship
 		function makeRelationship(){
 			var argument_set = {};
 			var examiner_id = $('#box_examiner_id').val();
@@ -186,6 +194,8 @@
 			});
 		}
 		
+		// Autocomplete functionality 
+		// if the id uniquely identifies the student, autocomplete
 		$('#box_student_id').on("keyup",function(e){
 			if(!(e.keyCode >= 8 && e.keyCode <= 46) && !(e.keyCode == 91 || e.keyCode == 93)){
 				var argument_set = {};
@@ -215,6 +225,8 @@
 			}
 		});
 		
+		//autocomplete functionality
+		// if the id uniquely identifies the supervisor, autocomplete
 		$('#box_supervisor_id').on("keyup",function(e){
 			if(!(e.keyCode >= 8 && e.keyCode <= 46) && !(e.keyCode == 91 || e.keyCode == 93)){
 				var argument_set = {};
@@ -243,6 +255,9 @@
 			}
 		});
 		
+		
+		//autocomplete functionality
+		// if the id uniquely identifies the examiner, autocomplete
 		$('#box_examiner_id').on("keyup",function(e){
 			if(!(e.keyCode >= 8 && e.keyCode <= 46) && !(e.keyCode == 91 || e.keyCode == 93)){
 				var argument_set = {};
