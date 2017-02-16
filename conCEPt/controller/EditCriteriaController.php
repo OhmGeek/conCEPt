@@ -1,5 +1,6 @@
 <?php
 namespace Concept\Controller;
+
 use Concept\Model\EditCriteriaModel;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
@@ -39,7 +40,8 @@ Class EditCriteriaController
 
     function displayBaseForm($bFormID)
     {
-        $criteria = $model->getFormCriteria($form);
+        $model = new EditCriteriaModel();
+        $criteria = $model->getFormCriteria($bFormID);
 
 
         $loader = new Twig_Loader_Filesystem('../view/');
