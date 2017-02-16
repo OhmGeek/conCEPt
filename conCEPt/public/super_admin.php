@@ -2,9 +2,9 @@
     
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-use Concept/Controller/EditCritriaController;
-use Concept/Controller/ViewSuperController;
-use Concept/Model/UserAuthModel;
+use Concept\Controller\EditCriteriaController;
+use Concept\Controller\ViewSuperController;
+use Concept\Model\UserAuthModel;
 
 $username = $_SERVER['REMOTE_USER'];
 $auth = new UserAuthModel($username);
