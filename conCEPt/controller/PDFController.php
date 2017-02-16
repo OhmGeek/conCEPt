@@ -35,9 +35,9 @@ class PDFController
         $formDetails = $this->model->getFormTitleFromID($formID);
         $totalMark = $this->model->getTotalFormMarkByID($formID);
 
-        if ($formDetails['IsSubmitted'] && $formDetails['IsMerged'])
+        /*Check form is */
+        if (($formDetails[0]['IsSubmitted'] === "1") && ($formDetails[0]['IsMerged'] === "-1"))
         {
-            continue;
         }
         else
         {

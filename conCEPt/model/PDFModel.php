@@ -88,7 +88,9 @@ class PDFModel
                                    FROM  `SectionMarking`
                                    JOIN `Section` 
                                    ON `Section`.`Sec_ID` = `SectionMarking`.`Sec_ID`
-                                   WHERE  `SectionMarking`.`Form_ID` =  :formID");
+                                   WHERE  `SectionMarking`.`Form_ID` =  :formID
+                                   ORDER BY `Section`.`Sec_Order`");
+        
         $statement->bindValue(":formID", $formID,PDO::PARAM_STR);
 
         $statement->execute();
