@@ -1,6 +1,8 @@
 <?php
 namespace Concept\Controller;
 use Concept\Model\EditCriteriaModel;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 Class EditCriteriaController
 {
@@ -11,7 +13,13 @@ Class EditCriteriaController
 
     function displayFormList()
     {
+        $loader = new Twig_Loader_Filesystem('../view/');
+        $twig = new Twig_Environment($loader);
 
+        $template = $twig->loadTemplate('criteriaListPage.twig');
+        $output = $template->render(array());
+
+        print($output);
     }
     function baseFormPage($bFormID)
     {
