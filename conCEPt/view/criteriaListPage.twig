@@ -19,7 +19,7 @@
 		</style>
 	</head>
 	<body>
-        
+
 	<!-- Navigation bar -->
         {{navbar|raw}}
     <!-- Navigation bar -->
@@ -27,9 +27,11 @@
         <h3>The page lists all the base forms contained in the system</h3>
         <div class="alert alert-danger">Warning! Editing criteria can be dangerous! Please do no edit while the system is in production. Edits to criteria can have destructive effects on existing forms</div>
         <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action">Presentation Criteria</a>
-            <a href="#" class="list-group-item list-group-item-action">Oral Criteria</a>
-            <a href="#" class="list-group-item list-group-item-action">Poster Criteria</a>
+            <a href="super_admin.php?route=edit&form=Design" class="list-group-item list-group-item-action">Design Report Criteria</a>
+            <a href="super_admin.php?route=edit&form=Presentation" class="list-group-item list-group-item-action">Presentation Criteria</a>
+            <a href="super_admin.php?route=edit&form=Project Paper" class="list-group-item list-group-item-action">Project Paper Criteria</a>
+            <a href="super_admin.php?route=edit&form=Project Poster" class="list-group-item list-group-item-action">Project Poster Criteria</a>
+            <a href="super_admin.php?route=edit&form=Oral" class="list-group-item list-group-item-action">Oral Criteria</a>
         </div>
     </body>
 </html>

@@ -16,8 +16,11 @@ Class EditCriteriaController
         $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
+        $navbarTemplate = $twig->loadTemplate('superAdminNavbar.twig');
+        $navbar = $navbarTemplate->render(array());
+
         $template = $twig->loadTemplate('criteriaListPage.twig');
-        $output = $template->render(array());
+        $output = $template->render(array('navbar' => $navbar));
 
         print($output);
     }
