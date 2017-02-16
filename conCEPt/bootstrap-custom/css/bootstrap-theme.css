@@ -428,7 +428,6 @@ fieldset[disabled] .btn-danger.active {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff9fa161', endColorstr='#ff888a52', GradientType=0);
   border-color: #707244;
-  color: #ffffff
 }
 .alert-info {
   background-image: -webkit-linear-gradient(top, #d8ace0 0%, #cb90d6 100%);
@@ -456,7 +455,6 @@ fieldset[disabled] .btn-danger.active {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffaa2b4a', endColorstr='#ff8b233d', GradientType=0);
   border-color: #6d1c2f;
-  color: #ffffff
 }
 .progress {
   background-image: -webkit-linear-gradient(top, #ebebeb 0%, #f5f5f5 100%);
