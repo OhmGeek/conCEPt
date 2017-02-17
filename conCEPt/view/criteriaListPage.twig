@@ -1,0 +1,35 @@
+<html>
+	<head>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Stylesheet for printing -->
+		<link rel="stylesheet" type="text/css" href="print.css" media="print">
+		
+		<style>
+			body { padding-top: 60px;}
+			.notify{background-color:red;}
+		</style>
+	</head>
+	<body>
+        
+	<!-- Navigation bar -->
+        {{navbar|raw}}
+    <!-- Navigation bar -->
+
+        <h3>The page lists all the base forms contained in the system</h3>
+        <div class="alert alert-danger">Warning! Editing criteria can be dangerous! Please do no edit while the system is in production. Edits to criteria can have destructive effects on existing forms</div>
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action">Presentation Criteria</a>
+            <a href="#" class="list-group-item list-group-item-action">Oral Criteria</a>
+            <a href="#" class="list-group-item list-group-item-action">Poster Criteria</a>
+        </div>
+    </body>
+</html>

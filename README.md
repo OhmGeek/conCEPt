@@ -1,4 +1,6 @@
 # conCEPt
+[![codebeat badge](https://codebeat.co/badges/c02753d8-0610-451f-b668-b1b45ee33e75)](https://codebeat.co/a/ryan-collins/projects/concept-master)
+
 This is the CEP project for Steve McGough. It's an Online Document repository for marking group project work.
 
 ## Project Structure
