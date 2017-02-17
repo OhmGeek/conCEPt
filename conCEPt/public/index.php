@@ -25,6 +25,10 @@ elseif($user_model->isMarker()) {
 	$main_page = new MainPageController();
 	echo $main_page->generatePage();
 }
+
+elseif($user_model->isSuperAdmin()) {
+    header('Location: http://community.dur.ac.uk/cs.seg04/conCEPt/conCEPt/public/super_admin.php?route=view');
+}
 else {
 	// 403 Error: Not Authorised
 	$error_template = $twig->loadTemplate('403.twig');

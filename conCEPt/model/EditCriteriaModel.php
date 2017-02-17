@@ -1,6 +1,8 @@
 <?php
 namespace Concept\Model;
-use Concept/Model/DB;
+
+use Concept\Model\DB;
+use PDO;
 
 class EditCriteriaModel
 {
@@ -15,7 +17,7 @@ class EditCriteriaModel
         $db = DB::getDB();
         $statement = $db->prepare("SELECT * 
                                    FROM `Section`
-                                   WHERE `BForm_ID` = :BformID
+                                   WHERE `BForm_ID` = :BFormID
                                    ORDER BY `Sec_Order`");
 
 

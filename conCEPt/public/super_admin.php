@@ -29,7 +29,7 @@ if ($route === 'edit')
     if(isset($_GET['form']))
     {
         /*IDs for each base form. 1 design 2 presentation 3 project paper 4 project poster 5 oral*/
-        switch ($form)
+        switch ($_GET['form'])
         {
             case 'Design':
                 $bFormID = 1;
