@@ -13,6 +13,7 @@ if (ltrim($base, '/')) {
 	
 	
 // main routing
+// this will respond to requests sent to it by various webpage elements and functions
 $router = new \Klein\Klein();
 
 $router->respond('GET', '/test', function () {
@@ -21,7 +22,9 @@ $router->respond('GET', '/test', function () {
 
 
 $router->respond('POST', '/Staff_makeStudent', function(){
-		
+	//make a new student, return the result state of the request
+	
+	//ensure that the given data is valid
 	if(!strcmp($_POST["Student_ID"], "")){
 		return json_encode(array("error" => "Student ID was not set"));
 	} 
@@ -49,7 +52,7 @@ $router->respond('POST', '/Staff_makeStudent', function(){
 	if ($conn->connect_error) {
 		return json_encode(array("error" => "Connection failed: " . $conn->connect_error));
 	}
-			 
+	//perform the sql query		 
 	$sql = "INSERT INTO `Idcs8s04_conCEPt`.`Student` (`Student_ID`, `Fname`, `Lname`, `Year_Level`) VALUES ('$student', '$Fname', '$Lname', '$year');" ;
 	$result = $conn->query($sql);
 	if($result){

@@ -1,6 +1,6 @@
 <?php
 
-
+//controller for adder.twig
 namespace Concept\Controller;
 
 use Concept\Controller\NavbarAdminController;
@@ -19,7 +19,7 @@ class AddingController
 	{
 		return $_SERVER['REMOTE_USER'];
 	}
-
+	//generates the admin adding page, same for every user
 	function generatePage()
 	{
 		$Model = new addingModel();

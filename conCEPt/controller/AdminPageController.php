@@ -1,5 +1,5 @@
 <?php
-
+//controller for adminPage.twig
 namespace Concept\Controller;
 
 use Concept\Controller\AddingController;
@@ -22,6 +22,7 @@ class AdminPageController
 		$content = $content->generatePage();
 		return $content;
 	}
+	//generate the admin page
 	function generatePage()
 	{
 		$model = new AdminPageModel();
