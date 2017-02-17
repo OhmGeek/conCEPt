@@ -1,5 +1,5 @@
 <?php
-
+//offers various php database-related services for the admin pages
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 // deal with the odd installation we have going on
@@ -140,6 +140,40 @@ $router->respond('POST', '/get_marker', function(){
 	}
 });
 
+function MS_exists($marker_id, $student_id, $link){
+	$sql_query = "SELECT MS_ID FROM MS WHERE Marker_ID = '" . marker_id . "' AND Student_ID = '" . student_id . "';";
+	$result = mysqli_query($link, $sql_query);
+	if(mysqli_num_rows($result) >= 1){
+		return True;
+	}
+	else{
+		return False;
+	}
+}
+
+function can_add_supervisor($marker_id, $student_id, $link){
+	$sql_query = "SELECT MS_ID FROM MS WHERE Student_ID = '" . student_id . "' AND IsSupervisor = '1';";
+	$result = mysqli_query($link, $sql_query);
+	if(mysqli_num_rows($result) >= 1){
+		return False;
+	}
+	else{
+		return True;
+	}
+}
+
+function can_add_examiner($marker_id, $student_id, $link){
+	$sql_query = "SELECT MS_ID FROM MS WHERE Student_ID = '" . student_id . "' AND IsSupervisor = '0';";
+	$result = mysqli_query($link, $sql_query);
+	if(mysqli_num_rows($result) >= 1){
+		return False;
+	}
+	else{
+		return True;
+	}
+}
+
+
 $router->respond('POST', '/Staff_makeRelationship', function(){
 	$link = mysqli_connect('mysql.dur.ac.uk', 'dcs8s04', 'when58', 'Idcs8s04_conCEPt');
 	$student_given = false;
@@ -268,6 +302,22 @@ $router->respond('POST', '/Staff_makeRelationship', function(){
 		return json_encode(array("error" => "No information was supplied for markers' information"));
 	}
 	else{
+		if($supervisor_given){
+			if(!can_add_supervisor($final_supervisor_id, $final_student_id, $link)){
+				return json_encode(array("error" => "Student already has a supervisor"));
+			}
+			else if(MS_exists($final_supervisor_id, $final_student_id, $link)){
+				return json_encode(array("error" => "Given supervisor is already assigned as a marker for the given student"));
+			}
+		}
+		else if($examiner_given){
+			if(!can_add_examiner($final_examiner_id, $final_student_id, $link)){
+				return json_encode(array("error" => "Student already has an examiner"));
+			}
+			else if(MS_exists($final_examiner_id, $final_student_id, $link)){
+				return json_encode(array("error" => "Given examiner is already assigned as a marker for the given student"));
+			}
+		}
 		$sql_query_marker = "INSERT INTO `MS`(`Marker_ID`, `Student_ID`, `IsSupervisor`) VALUES";
 		if($examiner_given){
 			$sql_query_marker = $sql_query_marker . "('" .$final_examiner_id . "','" . $final_student_id . "',0)";

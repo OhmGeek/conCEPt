@@ -1,5 +1,5 @@
 <?php
-	
+//handler of admin page navigation
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use Concept\Controller\AddingController;
