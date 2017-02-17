@@ -46,6 +46,7 @@ class EditCriteriaModel
 
 
     }
+
     function createFormCriteria($secName, $secCrit, $secPerc, $bFormID, $secOrder)
     {
         $db = DB::getDB();
@@ -61,6 +62,7 @@ class EditCriteriaModel
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
     function deleteFormCriteria($bFormID, $secOrder)
     {
         $db = DB::getDB();
@@ -82,5 +84,49 @@ class EditCriteriaModel
                                    WHERE `BForm_ID` = :BFormID");
 
         $statement->bindValue(':BFormID', $bFormID, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /*
+    deleteBaseForm - delete a base form that in turn would remove all sections and forms that are related to it from all the tables in the database. Once the forms are deleted, there is no way of getting them back unless a backup of the database is made.
+    */
+    function deleteBaseForm($bFormID){
+        $db = DB::getDB();
+        $statement = $db->prepare("DELETE FROM `BaseForm` WHERE `BForm_ID` = :BFormID");
+
+        $statement->bindValue(':BFormID', $bFormID, PDO::PARAM_INT);
+        $statement->execute();
+    }
+
+    /*
+    linkAllMSToBaseForm - link all marker-student pairs to the new base form. The base form and its sections must be created before running this function
+    */
+    function linkAllMSToBaseForm($bFormID){
+        $db = DB::getDB();
+        $statement = $db->prepare("INSERT INTO Form(BForm_ID) 
+                                    SELECT :BFormID
+                                    FROM MS;
+
+                                    SET @row_numberM = 0;
+                                    SET @row_numberF = 0;
+
+                                    INSERT MS_Form (MS_ID, Form_ID)
+                                    SELECT MS_ID, Form_ID
+                                    FROM (SELECT MS_ID, (@row_numberM:=@row_numberM + 1) AS num
+                                    FROM MS) m 
+                                    JOIN (SELECT Form_ID, (@row_numberF:=@row_numberF + 1) AS num
+                                    FROM Form WHERE BForm_Id = :BFormID) f ON f.num = m.num;
+
+                                    INSERT INTO SectionMarking(Sec_ID, Form_ID)
+                                    SELECT Section.Sec_ID, MS_Form.Form_ID
+                                    FROM Form
+                                    JOIN Section ON Section.BForm_ID = Form.BForm_ID
+                                    JOIN MS_Form ON MS_Form.Form_ID = Form.Form_ID
+                                    WHERE Form.BForm_ID = :BFormID;
+                                    ");
+
+        $statement->bindValue(':BFormID', $bFormID, PDO::PARAM_INT);
+        $statement->execute();
     }
 }
