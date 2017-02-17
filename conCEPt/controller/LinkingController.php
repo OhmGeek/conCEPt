@@ -1,6 +1,6 @@
 <?php
 
-
+// controller for linker.twig
 namespace Concept\Controller;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
@@ -21,11 +21,11 @@ class LinkingController
 		return $_SERVER['REMOTE_USER'];
 	}
 
-	//Displays the History page for the current marker
+	//Displays the linking page, same page for every user
 	function generatePage()
 	{
 		$Model = new LinkingModel();
-		
+		//don't do anything with the model
 		$loader = new Twig_Loader_Filesystem('../view/adminpage');
 	        $twig = new Twig_Environment($loader);
 		
