@@ -155,25 +155,25 @@
 			if(student_year_of_study != ""){
 				argument_set["student_year_of_study"] = student_year_of_study;
 			}
-			console.log(argument_set);
+			////console.log(argument_set);
 			
 			$.ajax({
 				url: "{{link_marker_student_pair|raw}}",
 				type:"POST",
 				data: argument_set,
 				complete: function(){
-					console.log(this.url);
+					////console.log(this.url);
 				},
 				success: function(resp){
-					console.log("success stuff here");
-					console.log(this.url);
-					console.log(resp);
-					console.log("about to json parse");
+					////console.log("success stuff here");
+					////console.log(this.url);
+					//console.log(resp);
+					//console.log("about to json parse");
 					js_resp = JSON.parse(resp);
-					console.log("just json parsed theoretically");
+					//console.log("just json parsed theoretically");
 					if("success" in js_resp){
 						$('#box_alert_success').html('<strong>Success: </strong>' + js_resp["success"]);
-						console.log($('#box_alert').html());
+						//console.log($('#box_alert').html());
 						$("#box_alert_success").fadeTo(10000, 500).slideUp(500, function(){
 							$("#box_alert_success").slideUp(500);
 						});
@@ -186,8 +186,8 @@
 					}
 				},
 				error: function(resp){
-					console.log("Failed to complete collection of data from the database")
-					console.log(resp);
+					//console.log("Failed to complete collection of data from the database")
+					//console.log(resp);
 					$('#box_alert_failure').html('<strong>Failure: </strong> Something went wrong');
 					$("#box_alert_failure").fadeTo(10000, 500).slideUp(500, function(){
 						$("#box_alert_failure").slideUp(500);
@@ -202,13 +202,13 @@
 			if(!(e.keyCode >= 8 && e.keyCode <= 46) && !(e.keyCode == 91 || e.keyCode == 93)){
 				var argument_set = {};
 				argument_set["student_id"] = $('#box_student_id').val();
-				console.log("student id: " + argument_set["student_id"]);
+				//console.log("student id: " + argument_set["student_id"]);
 				$.ajax({
 					url: "{{get_student|raw}}",
 					type:"POST",
 					data: argument_set,
 					success: function(resp){
-						console.log(resp);
+						//console.log(resp);
 						js_resp = JSON.parse(resp);
 						if ("success" in js_resp){
 							$('#box_student_id').val(js_resp["success"]["student_id"]);
@@ -217,11 +217,11 @@
 							$('#box_student_year_of_study').val(js_resp["success"]["year_of_study"]);
 						}
 						else{
-							console.log("Didn't get proper stuff for things here");
+							//console.log("Didn't get proper stuff for things here");
 						}
 					},
 					complete: function(){
-						console.log("function thing is complete");
+						//console.log("function thing is complete");
 					}
 				});
 			}
@@ -238,8 +238,8 @@
 					type:"POST",
 					data: argument_set,
 					success: function(resp){
-					console.log(this.url);
-						console.log(resp);
+					//console.log(this.url);
+						//console.log(resp);
 						js_resp = JSON.parse(resp);
 						if ("success" in js_resp){
 							$('#box_supervisor_id').val(js_resp["success"]["marker_id"]);
@@ -247,11 +247,11 @@
 							$('#box_supervisor_surname').val(js_resp["success"]["surname"]);
 						}
 						else{
-							console.log("Didn't get proper stuff for things here or something maybe");
+							//console.log("Didn't get proper stuff for things here or something maybe");
 						}
 					},
 					complete: function(){
-						console.log("function thing is complete here at this time");
+						//console.log("function thing is complete here at this time");
 					}
 				});
 			}
@@ -269,8 +269,8 @@
 					type:"POST",
 					data: argument_set,
 					success: function(resp){
-					console.log(this.url);
-						console.log(resp);
+					//console.log(this.url);
+						//console.log(resp);
 						js_resp = JSON.parse(resp);
 						if ("success" in js_resp){
 							$('#box_examiner_id').val(js_resp["success"]["marker_id"]);
@@ -278,11 +278,11 @@
 							$('#box_examiner_surname').val(js_resp["success"]["surname"]);
 						}
 						else{
-							console.log("Didn't get proper stuff for things here or something maybe");
+							//console.log("Didn't get proper stuff for things here or something maybe");
 						}
 					},
 					complete: function(){
-						console.log("function thing is complete here at this time");
+						//console.log("function thing is complete here at this time");
 					}
 				});
 			}
