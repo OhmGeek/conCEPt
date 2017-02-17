@@ -43,10 +43,18 @@ Class EditCriteriaController
         $model = new EditCriteriaModel();
         $criteria = $model->getFormCriteria($bFormID);
 
+        var_dump($criteria);
+
 
         $loader = new Twig_Loader_Filesystem('../view/');
         $twig = new Twig_Environment($loader);
 
+        $navbarTemplate = $twig->loadTemplate('superAdminNavbar.twig');
+        $navbar = $navbarTemplate->render(array());
+
+        $template = $twig->loadTemplate('baseFormCriteria.twig');
+        $output = $template->render(array('navbar' => $navbar));
+        print($output);
 
     }
 
