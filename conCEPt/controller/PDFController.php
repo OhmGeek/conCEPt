@@ -34,10 +34,8 @@ class PDFController
         $markerDetails = $this->model->getMarkersFromID($formID);
         $formDetails = $this->model->getFormTitleFromID($formID);
         $totalMark = $this->model->getTotalFormMarkByID($formID);
-
-        if ($formDetails['IsSubmitted'] && $formDetails['IsMerged'])
+        if (($formDetails[0]['IsSubmitted'] === "1") && ($formDetails[0]['IsMerged'] === "-1"))
         {
-            continue;
         }
         else
         {
