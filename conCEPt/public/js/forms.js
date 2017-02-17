@@ -24,18 +24,18 @@ $(document).ready(function(){
 	$("form").submit(function(event){
 		var sendData = true; //if this is false, don't send data
 		event.preventDefault();
-		console.log("Sending stopped to run a script");
+		//console.log("Sending stopped to run a script");
 		var data = $(this).serializeArray(); 
-		console.log("Array serialised");
-		console.log(data);
+		//console.log("Array serialised");
+		//console.log(data);
 
 		var jsonData = {};
 		var numberOfSections = 0;
-		console.log("Go through each section");
+		//console.log("Go through each section");
 		$.each(data, function(){
-			console.log("Name: "+this.name);
+			//console.log("Name: "+this.name);
 			numberOfSections += 1;
-			console.log("section " + numberOfSections);
+			//console.log("section " + numberOfSections);
 			var name = this.name;
 			var name = this.name.split("-");
 			var type = name[0];
@@ -45,11 +45,11 @@ $(document).ready(function(){
 					sendData = false;
 					return;
 				}else{
-					console.log("Now add the rationale");
+					//console.log("Now add the rationale");
 					jsonData[this.name]=this.value;  //Sets mark-n value
 					var rationaleName = "rationale-" + name[1]; //Gets rationale name
 					//also add the rationale
-					console.log(rationaleName);
+					//console.log(rationaleName);
 					var rationale = $('#' + rationaleName).html(); //Get rationale div
 					// we need to go through the rationale, to make everything
 					// non-editable. go through each p
@@ -70,23 +70,23 @@ $(document).ready(function(){
 		}
 		// now add the general comments	
 		jsonData["documentID"] = $("form").attr("id");
-		console.log(numberOfSections);
+		//console.log(numberOfSections);
 		jsonData["numberOfSections"] = (numberOfSections) + 1 //number of mark/rationale sections + the general comments section
 		
 		
 		jsonData["comments"] = $('.comments').html();
-		console.log("Comments: " + jsonData["comments"]);
-		console.log(jsonData);
-		console.log(jsonData["numberOfSections"]);
+		//console.log("Comments: " + jsonData["comments"]);
+		//console.log(jsonData);
+		//console.log(jsonData["numberOfSections"]);
  		$.post("forms.php?route=send", jsonData, function(response){
-			console.log("Retrieved");
+			//console.log("Retrieved");
 			response = $.trim(response);
 			var response = $.parseJSON(response);
 			if (response.hasOwnProperty("error")){
 				displayError(response["error"]);
-				console.log(response["error"]);
+				//console.log(response["error"]);
 			}else{
-				console.log("Success");
+				//console.log("Success");
 				displaySuccess(response["success"]);
 				location.reload();
 			}
@@ -97,7 +97,7 @@ $(document).ready(function(){
 	function allowSubmit(){
 		//Boolean value - true if no input fields are empty
 		var inputsFilled = $("#submissionComment").filter(function(){
-			console.log($(this).val());
+			//console.log($(this).val());
 			return $.trim($(this).val()).length == 0;
 		}).length==0;
 		
@@ -114,14 +114,14 @@ $(document).ready(function(){
 			return $.trim($(this).html()).length == 0;
 		}).length==0;
 
-		console.log(inputsFilled);
-		console.log(textareasFilled);
-		console.log(divsFilled);
+		//console.log(inputsFilled);
+		//console.log(textareasFilled);
+		//console.log(divsFilled);
 
 		//If inputsFilled and textareasFilled,
 		//remove disabled attribute from Submit input
 		if (inputsFilled && textareasFilled && divsFilled){
-			console.log("Allowing submit");
+			//console.log("Allowing submit");
 			$("input[name='action'][value='Submit']").removeAttr("disabled");
 		}else{
 			$("input[name='action'][value='Submit']").attr("disabled","disabled");
@@ -134,7 +134,7 @@ $(document).ready(function(){
 	
 	function displayError(e)
 	{
-		console.log(e);
+		//console.log(e);
 		var alertDiv = $("#alerts");
 		alertDiv.removeClass("alert alert-success alert-dismissable");
 		alertDiv.attr("class", "alert alert-danger alert-dismissable");
@@ -142,9 +142,10 @@ $(document).ready(function(){
 		return;
 	}
 	
+	//This function may be useless as the page reloads after a successful submission
 	function displaySuccess(s)
 	{
-		console.log(s);
+		//console.log(s);
 		var alertDiv = $("#alerts");
 		alertDiv.removeClass("alert alert-success alert-dismissable");
 		alertDiv.attr("class", "alert alert-success alert-dismissable");
