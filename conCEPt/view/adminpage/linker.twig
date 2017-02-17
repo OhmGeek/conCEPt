@@ -155,18 +155,18 @@
 			if(student_year_of_study != ""){
 				argument_set["student_year_of_study"] = student_year_of_study;
 			}
-			////console.log(argument_set);
+			//console.log(argument_set);
 			
 			$.ajax({
 				url: "{{link_marker_student_pair|raw}}",
 				type:"POST",
 				data: argument_set,
 				complete: function(){
-					////console.log(this.url);
+					//console.log(this.url);
 				},
 				success: function(resp){
-					////console.log("success stuff here");
-					////console.log(this.url);
+					//console.log("success stuff here");
+					//console.log(this.url);
 					//console.log(resp);
 					//console.log("about to json parse");
 					js_resp = JSON.parse(resp);

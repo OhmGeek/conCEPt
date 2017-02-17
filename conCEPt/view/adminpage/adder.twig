@@ -114,12 +114,12 @@
 				type:"POST",
 				data: data,
 				complete: function(){
-					////console.log("Student request: complete");
+					//console.log("Student request: complete");
 				},
 				success: function(resp){
 					//console.log("Student request: successful");
-					////console.log(this.url);
-					////console.log(resp);
+					//console.log(this.url);
+					//console.log(resp);
 					var js_resp = JSON.parse(resp);
 					//console.log("Student request: Success!");
 					if("success" in js_resp){
