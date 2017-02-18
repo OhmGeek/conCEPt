@@ -7,14 +7,16 @@ use PDO;
 
 class MainPageModel
 {
+	private $marker;
+	
     public function __construct()
     {
         $this->db = DB::getDB();
+        $this->marker = $_SERVER['REMOTE_USER'];
     }
 
     public function getStudentForms()
     {
-        $marker = $this->getMarkerID();
         $statement = $this->db->prepare(
             "SELECT Student.Student_ID, Form.Form_ID, BaseForm.Form_title, Form.IsSubmitted, Form.IsMerged
 				 FROM MS_Form
@@ -27,7 +29,7 @@ class MainPageModel
 				 GROUP BY Student.Student_ID, BaseForm.BForm_ID
 				 ORDER BY Student.Student_ID, BaseForm.BForm_ID, Form.Time_Stamp DESC;");
 
-        $statement->bindValue(':markerID', $marker, PDO::PARAM_STR);
+        $statement->bindValue(':markerID', $this->marker, PDO::PARAM_STR);
         $statement->execute();
 
         //fetch all forms, grouped by student ID
@@ -36,14 +38,13 @@ class MainPageModel
 
     //Generates a list of students separated by examined and supervised
 
-    public function getMarkerID()
+    public function setMarkerID($marker)
     {
-        return $_SERVER['REMOTE_USER'];
+        $this->marker = $marker;
     }
 
     public function getStudentInformation()
     {
-        $marker = $this->getMarkerID();
         $statement = $this->db->prepare(
             "SELECT Student.Student_ID, Student.Fname, Student.Lname, MS.IsSupervisor
 				 FROM MS_Form
@@ -54,7 +55,7 @@ class MainPageModel
 				 GROUP BY Student.Student_ID
 		");
 
-        $statement->bindValue(':markerID', $marker, PDO::PARAM_STR);
+        $statement->bindValue(':markerID', $this->marker, PDO::PARAM_STR);
         $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
@@ -62,7 +63,6 @@ class MainPageModel
 	
 	public function getMergedFormFromIndividual($formID)
 	{
-		$marker = $this->getMarkerID();
 		$statement = $this->db->prepare("SELECT MForm_ID
 										FROM MergedForm
 										WHERE EForm_ID = :formID OR SForm_ID = :formID2;");
