@@ -95,7 +95,8 @@ href="admin_services.php?route=printing">Print Student Forms</a></li>
 		if(!unsubmittedFormNum) {
 			unsubmittedFormNum = 0;
 		}
-
+	
+	//for the pie chart
 	var formsData = {
 			labels: [
 				"Submitted",
@@ -106,11 +107,15 @@ href="admin_services.php?route=printing">Print Student Forms</a></li>
 						data: [submittedFormNum,
 unsubmittedFormNum],
 					backgroundColor: [
+						//green
 						'#9FA161',
+						//red
 						'#AA2B4A'
 					],
 					hoverBackgroundColor: [
+						//green
 						'#9FA161',
+						//red
 						'#AA2B4A'
 					]
 				}]
@@ -119,7 +124,6 @@ unsubmittedFormNum],
 var chart = new Chart(formsChart, {
 	type: 'pie',
 	data: formsData,
-
 });
 	</script>
 	</body>

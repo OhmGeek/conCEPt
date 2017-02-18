@@ -6,11 +6,17 @@
 		<title>ODR Admin</title>
 		<!-- jQuery library -->
 		<script src="http://community.dur.ac.uk/cs.seg04/jquery-3.1.1.js"></script>
-
-		<!-- Latest compiled JavaScript -->
+		<!-- bootstrap -->
 		<script src="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/js/bootstrap.min.js"></script>
 		
+	
+		
 		<style>
+		<!-- alert-danger and alert-success must be defined here as the color field is not properly collected from the theme -->
+		<style>
+			.thick {
+					font-weight: bold;
+			}
 			body { padding-top: 80px }
 			.alert-danger{
 				color: #ffffff
@@ -18,8 +24,12 @@
 			.alert-success{
 				color: #ffffff
 			}
-		</style>
+			</style>
 	</head>
+	
+	<!-- 
+		very little is needed here, it needs to load in the data from one of the admin pages
+	-->
 	
 	<body>
 	{{content|raw}}

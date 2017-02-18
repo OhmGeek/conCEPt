@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/css/bootstrap.min.css">
-		<title>ODR Admin</title>
 		<!-- jQuery library -->
 		<script src="http://community.dur.ac.uk/cs.seg04/jquery-3.1.1.js"></script>
-
-		<!-- Latest compiled JavaScript -->
+		<!-- bootstrap -->
 		<script src="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/js/bootstrap.min.js"></script>
-		<script src="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/js/bootstrap-theme.min.js"></script>
+		<link rel="stylesheet" href="http://community.dur.ac.uk/cs.seg04/bootstrap-custom/css/bootstrap.min.css">
 		
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
+		<!-- alert-danger and alert-success must be defined here as the color field is not properly collected from the theme -->
 		<style>
 			.thick {
 					font-weight: bold;
 			}
 			body { padding-top: 80px }
-			.alert-danger{
-				color: #ffffff
-			}
-			.alert-success{
-				color: #ffffff
-			}
+		
+		.alert-danger{
+			color:#ffffff
+		}
+		.alert-success{
+			color:#ffffff
+		}
 		</style>
 	</head>
 
@@ -102,9 +100,13 @@
 	</body>
 	
 	<script type="text/javascript">
+		// make sure that submit button does not submit the form and reload the page
+		// use custom functionality instead
 		$("#mainform").submit(function(){
 			return false;
 		});
+		
+		// on submission of student, send the data to php service and get back whether the addition was successful
 		$("#submit_student").click(function(){
 			var data = ($("#mainform").serialize());
 			$.ajax({
@@ -144,9 +146,12 @@
 				}
 			})
 		});
+		// make sure that submit button does not submit the form and reload the page
+		// use custom functionality instead
 		$("#secondform").submit(function(){
 			return false;
 		});
+		// on submission of marker, send the data to php service and get back whether the addition was successful
 		$("#submit_marker").click(function(){
 			var data = ($("#secondform").serialize());
 			
