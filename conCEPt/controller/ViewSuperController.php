@@ -2,14 +2,15 @@
 namespace Concept\Controller;
 
 use Concept\Model\MainPageModel;
+use Concept\Model\SuperAdminPageModel;
 use Concept\Controller\NavbarController;
-use Twig_Loader_FileSystem;
 use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 class ViewSuperController
 {
 	
-	function __construct(argument)
+	function __construct()
 	{
 		$this->generatePage();
 	}
@@ -25,30 +26,30 @@ class ViewSuperController
         //Get info
 
 		$loader = new Twig_Loader_Filesystem('../view/');
-		$twig = new Twig_Environment($loader);
+        $twig = new Twig_Environment($loader);
 
 		//markers
 		$markers = $markersModel->getAllMarkers();
-		$markersPanel = $this->generateMarkersPanels($twig)
+		$markersPanel = $this->generateMarkersPanels($twig,$studentsModel,$markers);
 		
-		
+		$navbarTemplate = $twig->loadTemplate('superAdminNavbar.twig');
+        $navbar = $navbarTemplate->render(array());
 		
 		// for now we shall just return the student pane
-		$template = $twig->loadTemplate('homepage/homePage.twig');
-		return $template->render(array(
-			'navbar' => $navbar->generateNavbarHtml(),
-			'markers' => $markersPanel,
+		$template = $twig->loadTemplate('ViewSuper.twig');
+		$output = $template->render(array(
+			'navbar' => $navbar,
+			'markerList' => $markersPanel,
+			'isEmpty' => empty($markersPanel)
 			));
-
-
-		return $template;
+		print($output);
 	}
 
 	private function generateMarkersPanels($twig, $model, $markers){
 		$twig_data = array();
-		print_r($markers)
+		
 		foreach ($markers as $marker => $value) {
-			$model->setMarkerID($value['Marker_ID'])
+			$model->setMarkerID($value['Marker_ID']);
 
 			//Individual forms
 			$student_forms = $model->getStudentForms();
@@ -64,7 +65,7 @@ class ViewSuperController
 
 			array_push($twig_data, $markerForms);
 		}
-		
+		return $twig_data;
 	}
 
 	/* 
