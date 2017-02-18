@@ -11,7 +11,7 @@ class ViewSuperController
 	
 	function __construct(argument)
 	{
-		# code...
+		$this->generatePage();
 	}
 
 	function generatePage()
